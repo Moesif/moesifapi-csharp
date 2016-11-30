@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+MoesifAPI.PCL
+
+-->
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Moesif.Api</id>
+    <version>1.0.1</version>
+    <title>MoesifApi</title>
+    <authors>Moesif</authors>
+	<owners>Moesif</owners>
+	<licenseUrl>https://github.com/moesif/moesifapi-csharp/blob/master/LICENSE</licenseUrl>
+	<projectUrl>https://www.moesif.com</projectUrl>
+    <iconUrl>https://moesif-marketing.azureedge.net/logos/icon.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Injest API Calls into Moesif for Root Cause Analysis</description>
+    <summary />
+    <releaseNotes />
+    <copyright>Copyright 2016</copyright>
+    <language>en-US</language>
+	<tags>moesif restful api log error debugm logging</tags>
+	<dependencies>
+	    <dependency id="Newtonsoft.Json" version="9.0.1" />
+		<dependency id="Unirest-APIMATIC" version="1.0.1.26" />
+	</dependencies>
+  </metadata>
+  <files>
+    <file src="bin\Release\Moesif.Api.dll" target="lib\Moesif.Api.dll" />
+    <file src="..\README.md" target="readme.txt" />
+    <file src="..\LICENSE" target="LICENSE" />
+  </files>
+</package>
