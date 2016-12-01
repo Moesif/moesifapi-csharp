@@ -6,7 +6,7 @@ MoesifAPI.PCL
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>Moesif.Api</id>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <title>MoesifApi</title>
     <authors>Moesif</authors>
 	<owners>Moesif</owners>
@@ -21,8 +21,12 @@ MoesifAPI.PCL
     <language>en-US</language>
 	<tags>moesif restful api log error debugm logging</tags>
 	<dependencies>
-	    <dependency id="Newtonsoft.Json" version="9.0.1" />
-		<dependency id="Unirest-APIMATIC" version="1.0.1.26" />
+    <dependency id="Microsoft.Bcl" version="1.1.10" />
+    <dependency id="Microsoft.Bcl.Async" version="1.0.168" />
+    <dependency id="Microsoft.Bcl.Build" version="1.0.21" />
+    <dependency id="Microsoft.Net.Http" version="2.2.29" />
+    <dependency id="Newtonsoft.Json" version="9.0.1" />
+    <dependency id="Unirest-APIMATIC" version="1.0.1.26" />
 	</dependencies>
   </metadata>
   <files>
