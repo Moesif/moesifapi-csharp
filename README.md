@@ -36,18 +36,18 @@ reqHeaders.Add("Content-Type", "application/json");
 reqHeaders.Add("Content-Length", "126");
 reqHeaders.Add("Accept-Encoding", "gzip");
 
-var reqBody = APIHelper.JsonDeserialize<object>(@" {
-		""items"": [
-			{
-				""type"": 1,
-				""id"": ""fwfrf""
-			},
-			{
-				""type"": 2,
-				""id"": ""d43d3f""
-			}
-		]
-	}");
+var reqBody = ApiHelper.JsonDeserialize<object>(@" {
+	    ""items"": [
+		    {
+			    ""type"": 1,
+			    ""id"": ""fwfrf""
+	},
+		    {
+			    ""type"": 2,
+			    ""id"": ""d43d3f""
+		    }
+	    ]
+    }");
 
 var rspHeaders = new Dictionary<string, string>();
 rspHeaders.Add("Date", "Tue, 23 Nov 2016 23:46:49 GMT");
@@ -57,44 +57,44 @@ rspHeaders.Add("Expires", "-1");
 rspHeaders.Add("Content-Type", "application/json; charset=utf-8");
 rspHeaders.Add("Cache-Control", "no-cache");
 
-var rspBody = APIHelper.JsonDeserialize<object>(@" {
-		""Error"": ""InvalidArgumentException"",
-		""Message"": ""Missing field field_a""
-	}");
+var rspBody = ApiHelper.JsonDeserialize<object>(@" {
+	    ""Error"": ""InvalidArgumentException"",
+	    ""Message"": ""Missing field field_a""
+    }");
 
 
 var eventReq = new EventRequestModel()
 {
-	Time = DateTime.Now.AddSeconds(-1),
-	Uri = "https://api.acmeinc.com/items/reviews/",
-	Verb = "PATCH",
-	ApiVersion = "1.1.0",
-	IpAddress = "61.48.220.123",
-	Headers = reqHeaders,
-	Body = reqBody
+Time = DateTime.Now.AddSeconds(-1),
+Uri = "https://api.acmeinc.com/items/reviews/",
+Verb = "PATCH",
+ApiVersion = "1.1.0",
+IpAddress = "61.48.220.123",
+Headers = reqHeaders,
+Body = reqBody
 };
 
 var eventRsp = new EventResponseModel()
 {
-	Time = DateTime.Now,
-	Status = 500,
-	Headers = rspHeaders,
-	Body = rspBody
+Time = DateTime.Now,
+Status = 500,
+Headers = rspHeaders,
+Body = rspBody
 };
 
 var eventModel = new EventModel()
 {
-	Request = eventReq,
-	Response = eventRsp,
-	UserId = "my_user_id",
-	SessionToken = "23jdf0owekfmcn4u3qypxg09w4d8ayrcdx8nu2ng]s98y18cx98q3yhwmnhcfx43f"
+Request = eventReq,
+Response = eventRsp,
+UserId = "my_user_id",
+SessionToken = "23jdf0owekfmcn4u3qypxg09w4d8ayrcdx8nu2ng]s98y18cx98q3yhwmnhcfx43f"
 };
 
 // Perform API call
 
 try
 {
-	await controller.CreateEventAsync(eventModel);
+await controller.CreateEventAsync(eventModel);
 }
 catch(APIException) {};
 ```
