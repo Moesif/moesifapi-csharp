@@ -4,9 +4,7 @@ MoesifApi Lib for C#
 [Source Code on GitHub](https://github.com/moesif/moesifapi-csharp)
 
 __Check out Moesif's
-[C# developer documentation](https://www.moesif.com/developer-documentation) to learn more__
-
-(Documentation access requires an active account)
+[C# developer documentation](https://www.moesif.com/developer-documentation/?csharp) to learn more__
 
 How to Install:
 ===============
