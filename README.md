@@ -1,21 +1,23 @@
-MoesifApi Lib for C#
-====================
+# MoesifApi Lib for C#
+
 
 [Source Code on GitHub](https://github.com/moesif/moesifapi-csharp)
 
-__Check out Moesif's
-[C# developer documentation](https://www.moesif.com/developer-documentation/?csharp) to learn more__
+[Nuget Package](https://www.nuget.org/packages/Moesif.Api/)
 
-How to Install:
-===============
+__Check out Moesif's [Developer Documentation](https://www.moesif.com/docs) and [C# API Reference](https://www.moesif.com/docs/api?csharp) to learn more__
+
+
+## How to Install:
+
 Install the Nuget Package:
 
 ```bash
 	Install-Package Moesif.Api
 ```
 
-How to Use:
-==========
+## How to Use:
+
 ```csharp
 using Moesif.Api;
 using Moesif.Api.Helpers;
@@ -98,15 +100,15 @@ catch(APIException) {};
 ```
 
 
-How To Test:
-=============
+## How To Test:
+
 The SDK also contain tests, which are contained in the Moesif.Api.Tests project.
 In order to invoke these test cases, you will need *NUnit 3.0 Test Adapter Extension for Visual Studio*.
 Once the SDK is complied, the test cases should appear in the Test Explorer window.
 Here, you can click *Run All* to execute these test cases.
 
-Compatibility:
-==============
+## Compatibility:
+
 The build process generates a portable class library, which can be used like
 a normal class library. The generated library is compatible with Windows Forms,
 Windows RT, Windows Phone 8, Silverlight 5, Xamarin iOS, Xamarin Android and
