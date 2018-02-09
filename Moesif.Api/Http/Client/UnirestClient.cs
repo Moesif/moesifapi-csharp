@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
 using Moesif.Api.Http.Request;
@@ -8,6 +9,8 @@ using Moesif.Api.Http.Response;
 using unirest_net.http;
 using UniHttpRequest = unirest_net.request.HttpRequest;
 using UniHttpMethod = System.Net.Http.HttpMethod;
+using System.Reflection;
+using System.Text;
 
 namespace Moesif.Api.Http.Client
 {
@@ -15,8 +18,11 @@ namespace Moesif.Api.Http.Client
     {
         public static IHttpClient SharedClient { get; set; }
 
+        private static string Version;
+
         static UnirestClient() {
             SharedClient = new UnirestClient();
+            Version = Assembly.GetExecutingAssembly().FullName;
         }
 
         #region Execute methods
@@ -183,6 +189,7 @@ namespace Moesif.Api.Http.Client
             
             //instantiate unirest request object
             UniHttpRequest uniRequest = new UniHttpRequest(uniMethod,queryUrl);
+            uniRequest.TimeOut = TimeSpan.FromSeconds(10);
 
             //set request payload
             if (request.Body != null)
@@ -218,6 +225,7 @@ namespace Moesif.Api.Http.Client
             //set request headers
             Dictionary<string, Object> headers = request.Headers.ToDictionary(item=> item.Key,item=> (Object) item.Value);
             uniRequest.headers(headers);
+            uniRequest.header("user-agent", "moesifapi-csharp/" + Version);
 
             //Set basic auth credentials if any
             if (!string.IsNullOrWhiteSpace(request.Username))

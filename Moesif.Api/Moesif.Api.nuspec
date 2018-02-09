@@ -6,18 +6,18 @@ MoesifAPI.PCL
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>Moesif.Api</id>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
     <title>MoesifApi</title>
     <authors>Moesif</authors>
 	<owners>Moesif</owners>
 	<licenseUrl>https://github.com/moesif/moesifapi-csharp/blob/master/LICENSE</licenseUrl>
 	<projectUrl>https://www.moesif.com</projectUrl>
-    <iconUrl>https://moesif-marketing.azureedge.net/logos/icon.png</iconUrl>
+    <iconUrl>https://cdn.moesif.com/images/icon.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Injest API Calls into Moesif for Root Cause Analysis</description>
     <summary />
     <releaseNotes />
-    <copyright>Copyright 2016</copyright>
+    <copyright>Copyright 2018</copyright>
     <language>en-US</language>
 	<tags>moesif restful api log error debugm logging</tags>
 	<dependencies>

@@ -24,6 +24,7 @@ namespace Moesif.Api.Models
         private Dictionary<string, string> headers;
         private object body;
         private string ipAddress;
+        private string transferEncoding;
 
         /// <summary>
         /// Time when response received
@@ -107,6 +108,23 @@ namespace Moesif.Api.Models
             {
                 this.ipAddress = value;
                 onPropertyChanged("IpAddress");
+            }
+        }
+
+        /// <summary>
+        /// Transfer Encoding of the body such as "base64", null value implies "json" transfer encoding.
+        /// </summary>
+        [JsonProperty("transfer_encoding")]
+        public string TransferEncoding
+        {
+            get
+            {
+                return this.transferEncoding;
+            }
+            set
+            {
+                this.transferEncoding = value;
+                onPropertyChanged("TransferEncoding");
             }
         }
 
