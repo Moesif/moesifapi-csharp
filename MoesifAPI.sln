@@ -4,7 +4,7 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moesif.Api", "Moesif.Api\Moesif.Api.csproj", "{20962015-F6CA-43BC-9D33-897C6648B556}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moesif.Api.Tests", "Moesif.Api.Tests\Moesif.Api.Tests.csproj", "{852841EB-EEC3-4EB3-B6E6-2FC368F38458}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moesif.Api.Test", "Moesif.Api.Test\Moesif.Api.Test.csproj", "{4FD84FF0-0F3D-49A6-9AB7-5B9A9E2C0F4E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -16,10 +16,10 @@ Global
 		{20962015-F6CA-43BC-9D33-897C6648B556}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20962015-F6CA-43BC-9D33-897C6648B556}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20962015-F6CA-43BC-9D33-897C6648B556}.Release|Any CPU.Build.0 = Release|Any CPU
-		{852841EB-EEC3-4EB3-B6E6-2FC368F38458}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{852841EB-EEC3-4EB3-B6E6-2FC368F38458}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{852841EB-EEC3-4EB3-B6E6-2FC368F38458}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{852841EB-EEC3-4EB3-B6E6-2FC368F38458}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4FD84FF0-0F3D-49A6-9AB7-5B9A9E2C0F4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FD84FF0-0F3D-49A6-9AB7-5B9A9E2C0F4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FD84FF0-0F3D-49A6-9AB7-5B9A9E2C0F4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FD84FF0-0F3D-49A6-9AB7-5B9A9E2C0F4E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

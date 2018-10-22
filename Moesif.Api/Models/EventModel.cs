@@ -24,6 +24,7 @@ namespace Moesif.Api.Models
         private string sessionToken;
         private string tags;
         private string userId;
+        private object metadata;
 
         /// <summary>
         /// API request object
@@ -107,6 +108,23 @@ namespace Moesif.Api.Models
             {
                 this.userId = value;
                 onPropertyChanged("UserId");
+            }
+        }
+
+        /// <summary>
+        /// Metadata from your app, see documentation
+        /// </summary>
+        [JsonProperty("metadata")]
+        public object Metadata
+        {
+            get 
+            {
+                return this.metadata;
+            }
+            set
+            {
+                this.metadata = value;
+                onPropertyChanged("Metadata");
             }
         }
 
