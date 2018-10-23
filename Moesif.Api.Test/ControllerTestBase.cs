@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using Moesif.Api;
-using Moesif.Api.Helpers;
+using Moesif.Api.Test.Helpers;
 
-namespace Moesif.Api
+namespace Moesif.Api.Test
 {
     [TestFixture]
     public class ControllerTestBase

@@ -6,7 +6,7 @@ MoesifAPI.PCL
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>Moesif.Api</id>
-    <version>1.0.6</version>
+    <version>1.1.0</version>
     <title>MoesifApi</title>
     <authors>Moesif</authors>
 	<owners>Moesif</owners>
@@ -19,7 +19,7 @@ MoesifAPI.PCL
     <releaseNotes />
     <copyright>Copyright 2018</copyright>
     <language>en-US</language>
-	<tags>moesif restful api log error debugm logging</tags>
+	<tags>moesif restful api log error debug logging</tags>
 	<dependencies>
     <dependency id="Microsoft.Bcl" version="1.1.10" />
     <dependency id="Microsoft.Bcl.Async" version="1.0.168" />

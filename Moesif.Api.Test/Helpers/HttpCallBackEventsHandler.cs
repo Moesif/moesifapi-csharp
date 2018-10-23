@@ -7,7 +7,7 @@ using Moesif.Api.Http.Client;
 using Moesif.Api.Http.Request;
 using Moesif.Api.Http.Response;
 
-namespace Moesif.Api.Helpers
+namespace Moesif.Api.Test.Helpers
 {
     public class HttpCallBackEventsHandler
     {

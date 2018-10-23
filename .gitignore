@@ -2,7 +2,7 @@
 # Created by https://www.gitignore.io/api/visualstudio,visualstudiocode,windows,osx
 
 ### VisualStudioCode ###
-.vscode/*
+.vscode/
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json

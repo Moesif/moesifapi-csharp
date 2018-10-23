@@ -15,7 +15,7 @@ using Moesif.Api.Http.Response;
 using System.Security.Cryptography;
 using Newtonsoft.Json.Linq;
 
-namespace Moesif.Api.Helpers
+namespace Moesif.Api.Test.Helpers
 {
     static class TestHelper
     {

@@ -19,12 +19,17 @@ Install the Nuget Package:
 ## How to Use:
 
 ```csharp
+using System;
+using System.Collections.Generic;
 using Moesif.Api;
-using Moesif.Api.Helpers;
+using Moesif.Api.Models;
+using Moesif.Api.Exceptions;
+using Moesif.Api.Controllers;
+using System.Threading.Tasks;
 
 // Create client instance using your ApplicationId
 var client = new MoesifApiClient("my_application_id");
-var apiClient = GetClient().Api;
+var apiClient = client.Api;
 
 // Parameters for the API call
 var reqHeaders = new Dictionary<string, string>();
@@ -82,19 +87,27 @@ Headers = rspHeaders,
 Body = rspBody
 };
 
+Dictionary<string, string> metadata = new Dictionary<string, string>
+	{
+		{ "email", "abc@email.com" },
+		{ "name", "abcdef" },
+		{ "image", "123" }
+	};
+
 var eventModel = new EventModel()
 {
 Request = eventReq,
 Response = eventRsp,
 UserId = "my_user_id",
-SessionToken = "23jdf0owekfmcn4u3qypxg09w4d8ayrcdx8nu2ng]s98y18cx98q3yhwmnhcfx43f"
+SessionToken = "23jdf0owekfmcn4u3qypxg09w4d8ayrcdx8nu2ng]s98y18cx98q3yhwmnhcfx43f",
+Metadata = metadata
 };
 
 // Perform API call
 
 try
 {
-await controller.CreateEventAsync(eventModel);
+await apiClient.CreateEventAsync(eventModel);
 }
 catch(APIException) {};
 ```
