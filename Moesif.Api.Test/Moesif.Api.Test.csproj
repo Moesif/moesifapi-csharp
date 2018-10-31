@@ -14,10 +14,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Moesif.Api\Moesif.Api.csproj" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Remove="ApiControllerTest_old.cs" />
     <Compile Remove="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Moesif.Api\Moesif.Api.csproj" />
   </ItemGroup>
 </Project>
