@@ -112,6 +112,41 @@ await apiClient.CreateEventAsync(eventModel);
 catch(APIException) {};
 ```
 
+## Update User:
+
+The api also let you update a user profile with custom metadata. The `UserId` is a required field, all other fields are optional.
+
+```csharp
+Dictionary<string, object> metadata = new Dictionary<string, object>
+{
+	{"email", "johndoe@acmeinc.com"},
+	{"string_field", "value_1"},
+	{"number_field", 0},
+	{"object_field", new Dictionary<string, string> {
+		{"field_a", "value_a"},
+		{"field_b", "value_b"}
+		}
+	}
+};
+
+var userModel = new UserModel()
+{
+	UserAgentString = "Dalvik/2.1.0 (Linux; U; Android 5.0.2; C6906 Build/14.5.A.0.242)",
+	UserId = "my_user_id",
+	Metadata = metadata,
+	ModifiedTime = DateTime.UtcNow
+};
+
+// Perform API call
+try
+{
+	// Create client instance using your ApplicationId
+	var client = new MoesifApiClient("my_application_id");
+	var apiClient = client.Api;
+	apiClient.UpdateUserAsync(userModel);
+}
+catch (APIException) { };
+```
 
 ## How To Test:
 
