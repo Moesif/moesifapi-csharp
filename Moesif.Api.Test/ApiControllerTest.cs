@@ -92,16 +92,17 @@ namespace Moesif.Api.Test
                 Metadata = metadata
             };
 
+            Dictionary<string, string> rsp;
             // Perform API call
             try
             {
                 controller = ControllerTestBase.GetClient().Api;
-                await controller.CreateEventAsync(eventModel);
+                rsp = await controller.CreateEventAsync(eventModel);
             }
-            catch (APIException) { };
+            catch (APIException) { rsp = null; };
 
             // Test response code
-            Assert.Equal(201, httpCallBackHandler.Response.StatusCode);
+            Assert.NotEqual(null, rsp);
         }
 
         /// <summary>
@@ -113,16 +114,36 @@ namespace Moesif.Api.Test
             // Parameters for the API call
             List<EventModel> body = ApiHelper.JsonDeserialize<List<EventModel>>("[{\"request\":{\"time\":\"2018-10-21T04:45:42.914\",\"uri\":\"https://api.acmeinc.com/items/reviews/testb\",\"verb\":\"PATCH\",\"api_version\":\"1.1.0\",\"ip_address\":\"61.48.220.123\",\"headers\":{\"Host\":\"api.acmeinc.com\",\"Accept\":\"*/*\",\"Connection\":\"Keep-Alive\",\"User-Agent\":\"Dalvik/2.1.0(Linux;U;Android5.0.2;C6906Build/14.5.A.0.242)\",\"Content-Type\":\"application/json\",\"Content-Length\":\"126\",\"Accept-Encoding\":\"gzip\"},\"body\":{\"items\":[{\"direction_type\":1,\"discovery_id\":\"fwfrf\",\"liked\":false},{\"direction_type\":2,\"discovery_id\":\"d43d3f\",\"liked\":true}]}},\"response\":{\"time\":\"2018-10-21T04:45:43.914\",\"status\":200,\"headers\":{\"Date\":\"Tue,23Aug201623:46:49GMT\",\"Vary\":\"Accept-Encoding\",\"Pragma\":\"no-cache\",\"Expires\":\"-1\",\"Content-Type\":\"application/json;charset=utf-8\",\"X-Powered-By\":\"ARR/3.0\",\"Cache-Control\":\"no-cache\",\"Arr-Disable-Session-Affinity\":\"true\"},\"body\":{\"Error\":\"InvalidArgumentException\",\"Message\":\"Missingfieldfield_a\"}},\"user_id\":\"mndug437f43\",\"session_token\":\"23jdf0owekfmcn4u3qypxg09w4d8ayrcdx8nu2ng]s98y18cx98q3yhwmnhcfx43f\"},{\"request\":{\"time\":\"2018-10-21T04:46:42.914\",\"uri\":\"https://api.acmeinc.com/items/reviews/testc\",\"verb\":\"PATCH\",\"api_version\":\"1.1.0\",\"ip_address\":\"61.48.220.123\",\"headers\":{\"Host\":\"api.acmeinc.com\",\"Accept\":\"*/*\",\"Connection\":\"Keep-Alive\",\"User-Agent\":\"Dalvik/2.1.0(Linux;U;Android5.0.2;C6906Build/14.5.A.0.242)\",\"Content-Type\":\"application/json\",\"Content-Length\":\"126\",\"Accept-Encoding\":\"gzip\"},\"body\":{\"items\":[{\"direction_type\":1,\"discovery_id\":\"fwfrf\",\"liked\":false},{\"direction_type\":2,\"discovery_id\":\"d43d3f\",\"liked\":true}]}},\"response\":{\"time\":\"2018-10-21T04:46:43.914\",\"status\":200,\"headers\":{\"Date\":\"Tue,23Aug201623:46:49GMT\",\"Vary\":\"Accept-Encoding\",\"Pragma\":\"no-cache\",\"Expires\":\"-1\",\"Content-Type\":\"application/json;charset=utf-8\",\"X-Powered-By\":\"ARR/3.0\",\"Cache-Control\":\"no-cache\",\"Arr-Disable-Session-Affinity\":\"true\"},\"body\":{\"Error\":\"InvalidArgumentException\",\"Message\":\"Missingfieldfield_a\"}},\"user_id\":\"mndug437f43\",\"session_token\":\"23jdf0owekfmcn4u3qypxg09w4d8ayrcdx8nu2ng]s98y18cx98q3yhwmnhcfx43f\"}]");
 
+            Dictionary<string, string> rsp;
             // Perform API call
             try
             {
                 controller = ControllerTestBase.GetClient().Api;
-                await controller.CreateEventsBatchAsync(body);
+                rsp = await controller.CreateEventsBatchAsync(body);
             }
-            catch (APIException) { };
+            catch (APIException) { rsp = null; };
 
             // Test response code
-            Assert.Equal(201, httpCallBackHandler.Response.StatusCode);
+            Assert.NotEqual(null, rsp);
+        }
+
+        /// <summary>
+        /// Get Application Config
+        /// </summary>
+        [Fact]
+        public async Task TestGetAppConfig()
+        {
+            Http.Response.HttpStringResponse rsp;
+            // Perform API call
+            try
+            {
+                controller = ControllerTestBase.GetClient().Api;
+                rsp = await controller.GetAppConfigAsync();
+            }
+            catch (APIException) { rsp = null; };
+
+            // Test response code
+            Assert.NotEqual(null, rsp);
         }
 
         [Fact]
