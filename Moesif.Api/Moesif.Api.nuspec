@@ -1,33 +1,29 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-MoesifAPI.PCL
-
--->
-<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+<?xml version="1.0"?>
+<package >
   <metadata>
     <id>Moesif.Api</id>
     <version>1.1.2</version>
     <title>MoesifApi</title>
     <authors>Moesif</authors>
-	<owners>Moesif</owners>
-	<licenseUrl>https://github.com/moesif/moesifapi-csharp/blob/master/LICENSE</licenseUrl>
-	<projectUrl>https://www.moesif.com</projectUrl>
+    <owners>Moesif</owners>
+    <license type="expression">Apache-2.0</license>
+    <projectUrl>https://www.moesif.com</projectUrl>
     <iconUrl>https://cdn.moesif.com/images/icon.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Injest API Calls into Moesif for Root Cause Analysis</description>
+    <description>Log API Calls to Moesif API Analytics</description>
     <summary />
     <releaseNotes />
-    <copyright>Copyright 2018</copyright>
+    <copyright>Copyright 2019</copyright>
     <language>en-US</language>
-	<tags>moesif restful api log error debug logging</tags>
-	<dependencies>
+    <tags>moesif restful rest graphql web3 api analytics log logging error debug</tags>
+    <dependencies>
     <dependency id="Microsoft.Bcl" version="1.1.10" />
     <dependency id="Microsoft.Bcl.Async" version="1.0.168" />
     <dependency id="Microsoft.Bcl.Build" version="1.0.21" />
     <dependency id="Microsoft.Net.Http" version="2.2.29" />
     <dependency id="Newtonsoft.Json" version="9.0.1" />
     <dependency id="Unirest-APIMATIC" version="1.0.1.26" />
-	</dependencies>
+    </dependencies>
   </metadata>
   <files>
     <file src="bin\Release\Moesif.Api.dll" target="lib\Moesif.Api.dll" />
