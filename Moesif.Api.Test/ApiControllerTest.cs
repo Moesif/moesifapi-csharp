@@ -149,6 +149,7 @@ namespace Moesif.Api.Test
         [Fact]
         public async Task TestUpdateUser()
         {
+            Boolean isUpdated = false;
             Dictionary<string, object> metadata = new Dictionary<string, object>
             {
                 {"email", "johndoe@acmeinc.com"},
@@ -174,17 +175,19 @@ namespace Moesif.Api.Test
             {
                 controller = ControllerTestBase.GetClient().Api;
                 await controller.UpdateUserAsync(userModel);
+                isUpdated = true;
             }
             catch (APIException) { };
 
             // Test response code
-            Assert.Equal(201, httpCallBackHandler.Response.StatusCode);
+            Assert.Equal(true, isUpdated);
 
         }
 
         [Fact]
         public async Task TestUpdateUsersBatch() 
         {
+            Boolean isUpdated = false;
             // Parameters for the API call
             List<UserModel> body = ApiHelper.JsonDeserialize<List<UserModel>>("[{\"modified_time\":\"2018-10-30T21:35:06.432\",\"ip_address\":\"0:0:0:0:0:0:0:1\",\"session_token\":\"23jdf0oszfexfqe[lwjfiefovprewv4d8ayrcdx8nu2ng]zfeeadedefx43f\",\"user_id\":\"my_user_id\",\"user_agent_string\":\"\",\"metadata\":{\"email\":\"johndoe@acmeinc.com\",\"string_field\":\"value_1\",\"number_field\":0,\"object_field\":{\"field_a\":\"value_a\",\"field_b\":\"value_b\"}},\"org_id\":\"86:5\",\"app_id\":\"46:8\"},{\"modified_time\":\"2018-10-30T21:35:06.432\",\"ip_address\":\"0:0:0:0:0:0:0:1\",\"session_token\":\"23jdf0oszfexfqe[lwjfiefovprewv4d8ayrcdx8nu2ng]zfeeadedefx43f\",\"user_id\":\"abc_user\",\"user_agent_string\":\"\",\"metadata\":{\"email\":\"johndoe@acmeinc.com\",\"string_field\":\"value_1\",\"number_field\":0,\"object_field\":{\"field_a\":\"value_a\",\"field_b\":\"value_b\"}},\"org_id\":\"86:5\",\"app_id\":\"46:8\"}]");
 
@@ -193,11 +196,100 @@ namespace Moesif.Api.Test
             {
                 controller = ControllerTestBase.GetClient().Api;
                 await controller.UpdateUsersBatchAsync(body);
+                isUpdated = true;
             }
             catch (APIException) { };
 
             // Test response code
-            Assert.Equal(201, httpCallBackHandler.Response.StatusCode);
+            Assert.Equal(true, isUpdated);
+        }
+
+        [Fact]
+        public async Task TestAddCompany()
+        {
+            Boolean isAdded = false;
+            Dictionary<string, object> metadata = new Dictionary<string, object>
+            {
+                {"email", "johndoe@acmeinc.com"},
+                {"string_field", "value_1"},
+                {"number_field", 0},
+                {"object_field", new Dictionary<string, string> {
+                    {"field_a", "value_a"},
+                    {"field_b", "value_b"}
+                    }
+                }
+            };
+
+            var companyModel = new CompanyModel()
+            {
+                CompanyId = "1",
+                Metadata = metadata,
+                ModifiedTime = DateTime.UtcNow
+            };
+
+            // Perform API call
+            try
+            {
+                controller = ControllerTestBase.GetClient().Api;
+                await controller.AddCompanyAsync(companyModel);
+                isAdded = true;
+            }
+            catch (APIException) { };
+
+            // Test response code
+            Assert.Equal(true, isAdded);
+        }
+
+        [Fact]
+        public async Task TestAddCompanies()
+        {
+            Boolean isAdded = false;
+
+            List<CompanyModel> body = new List<CompanyModel>();
+
+            Dictionary<string, object> metadata = new Dictionary<string, object>
+            {
+                {"email", "johndoe@acmeinc.com"},
+                {"string_field", "value_1"},
+                {"number_field", 0},
+                {"object_field", new Dictionary<string, string> {
+                    {"field_a", "value_a"},
+                    {"field_b", "value_b"}
+                    }
+                }
+            };
+
+            var companyModelA = new CompanyModel()
+            {
+                CompanyId = "1",
+                Metadata = metadata,
+                ModifiedTime = DateTime.UtcNow
+            };
+
+
+            var companyModelB = new CompanyModel()
+            {
+                CompanyId = "2",
+                Metadata = metadata,
+                CompanyDomain = "CompanyDomain",
+                ModifiedTime = DateTime.UtcNow
+            };
+
+            body.Add(companyModelA);
+            body.Add(companyModelB);
+
+            // Perform API call
+            try
+            {
+                controller = ControllerTestBase.GetClient().Api;
+                await controller.AddCompaniesBatchAsync(body);
+                isAdded = true;
+            }
+            catch (APIException) { };
+
+            // Test response code
+            Assert.Equal(true, isAdded);
+
         }
     }
 }

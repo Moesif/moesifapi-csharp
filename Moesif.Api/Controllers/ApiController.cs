@@ -296,5 +296,103 @@ namespace Moesif.Api.Controllers
             //return response
             return _response;
         }
+
+        /// <summary>
+        /// Add Single Company API Call
+        /// </summary>
+        /// <param name="body">Required parameter: Example: </param>
+        /// <return>Returns the void response from the API call</return>
+        public void AddCompany(CompanyModel body)
+        {
+            Task t = AddCompanyAsync(body);
+            Task.WaitAll(t);
+        }
+
+        /// <summary>
+        /// Add Single Company API Call
+        /// </summary>
+        /// <param name="body">Required parameter: Example: </param>
+        /// <return>Returns the void response from the API call</return>
+        public async Task AddCompanyAsync(CompanyModel body)
+        {
+            //the base uri for api requestss
+            string _baseUri = Configuration.BaseUri;
+
+            //prepare query string for API call
+            StringBuilder _queryBuilder = new StringBuilder(_baseUri);
+            _queryBuilder.Append("/v1/companies");
+
+            //validate and preprocess url
+            string _queryUrl = ApiHelper.CleanUrl(_queryBuilder);
+
+            //append request with appropriate headers and parameters
+            var _headers = new Dictionary<string, string>()
+            {
+                { "content-type", "application/json; charset=utf-8" }
+            };
+            _headers.Add("X-Moesif-Application-Id", Configuration.ApplicationId);
+
+            //append body params
+            var _body = ApiHelper.JsonSerialize(body);
+
+            //prepare the API call request to fetch the response
+            HttpRequest _request = ClientInstance.PostBody(_queryUrl, _headers, _body);
+
+            //invoke request and get response
+            HttpStringResponse _response = (HttpStringResponse)await ClientInstance.ExecuteAsStringAsync(_request);
+            HttpContext _context = new HttpContext(_request, _response);
+            //handle errors defined at the API level
+            base.ValidateResponse(_response, _context);
+
+        }
+
+        /// <summary>
+        /// Add multiple companies in a single batch (batch size must be less than 250kb)
+        /// </summary>
+        /// <param name="body">Required parameter: Example: </param>
+        /// <return>Returns the void response from the API call</return>
+        public void AddCompaniesBatch(List<CompanyModel> body)
+        {
+            Task t = AddCompaniesBatchAsync(body);
+            Task.WaitAll(t);
+        }
+
+        /// <summary>
+        /// Update multiple Users in a single batch (batch size must be less than 250kb)
+        /// </summary>
+        /// <param name="body">Required parameter: Example: </param>
+        /// <return>Returns the void response from the API call</return>
+        public async Task AddCompaniesBatchAsync(List<CompanyModel> body)
+        {
+            //the base uri for api requestss
+            string _baseUri = Configuration.BaseUri;
+
+            //prepare query string for API call
+            StringBuilder _queryBuilder = new StringBuilder(_baseUri);
+            _queryBuilder.Append("/v1/companies/batch");
+
+            //validate and preprocess url
+            string _queryUrl = ApiHelper.CleanUrl(_queryBuilder);
+
+            //append request with appropriate headers and parameters
+            var _headers = new Dictionary<string, string>()
+            {
+                { "content-type", "application/json; charset=utf-8" }
+            };
+            _headers.Add("X-Moesif-Application-Id", Configuration.ApplicationId);
+
+            //append body params
+            var _body = ApiHelper.JsonSerialize(body);
+
+            //prepare the API call request to fetch the response
+            HttpRequest _request = ClientInstance.PostBody(_queryUrl, _headers, _body);
+
+            //invoke request and get response
+            HttpStringResponse _response = (HttpStringResponse)await ClientInstance.ExecuteAsStringAsync(_request);
+            HttpContext _context = new HttpContext(_request, _response);
+            //handle errors defined at the API level
+            base.ValidateResponse(_response, _context);
+
+        }
     }
 } 
