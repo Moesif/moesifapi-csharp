@@ -205,9 +205,9 @@ namespace Moesif.Api.Test
         }
 
         [Fact]
-        public async Task TestAddCompany()
+        public async Task TestUpdateCompany()
         {
-            Boolean isAdded = false;
+            Boolean isUpdated = false;
             Dictionary<string, object> metadata = new Dictionary<string, object>
             {
                 {"email", "johndoe@acmeinc.com"},
@@ -231,19 +231,19 @@ namespace Moesif.Api.Test
             try
             {
                 controller = ControllerTestBase.GetClient().Api;
-                await controller.AddCompanyAsync(companyModel);
-                isAdded = true;
+                await controller.UpdateCompanyAsync(companyModel);
+                isUpdated = true;
             }
             catch (APIException) { };
 
             // Test response code
-            Assert.Equal(true, isAdded);
+            Assert.Equal(true, isUpdated);
         }
 
         [Fact]
-        public async Task TestAddCompanies()
+        public async Task TestUpdateCompanies()
         {
-            Boolean isAdded = false;
+            Boolean isUpdated = false;
 
             List<CompanyModel> body = new List<CompanyModel>();
 
@@ -282,13 +282,13 @@ namespace Moesif.Api.Test
             try
             {
                 controller = ControllerTestBase.GetClient().Api;
-                await controller.AddCompaniesBatchAsync(body);
-                isAdded = true;
+                await controller.UpdateCompaniesBatchAsync(body);
+                isUpdated = true;
             }
             catch (APIException) { };
 
             // Test response code
-            Assert.Equal(true, isAdded);
+            Assert.Equal(true, isUpdated);
 
         }
     }

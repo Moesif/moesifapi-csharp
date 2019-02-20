@@ -148,6 +148,41 @@ try
 catch (APIException) { };
 ```
 
+## Update Company:
+
+The api also let you update a company profile with custom metadata. The `CompanyId` is a required field, all other fields are optional.
+
+```csharp
+Dictionary<string, object> metadata = new Dictionary<string, object>
+{
+	{"email", "johndoe@acmeinc.com"},
+	{"string_field", "value_1"},
+	{"number_field", 0},
+	{"object_field", new Dictionary<string, string> {
+		{"field_a", "value_a"},
+		{"field_b", "value_b"}
+		}
+	}
+};
+
+var companyModel = new CompanyModel()
+{
+	CompanyId = "1",
+	Metadata = metadata,
+	ModifiedTime = DateTime.UtcNow
+};
+
+// Perform API call
+try
+{
+	// Create client instance using your ApplicationId
+	var client = new MoesifApiClient("my_application_id");
+	var apiClient = client.Api;
+	apiClient.UpdateCompanyAsync(companyModel);
+}
+catch (APIException) { };
+```
+
 ## How To Test:
 
 The SDK also contain tests, which are contained in the Moesif.Api.Tests project.
