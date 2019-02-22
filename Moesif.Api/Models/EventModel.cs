@@ -24,6 +24,7 @@ namespace Moesif.Api.Models
         private string sessionToken;
         private string tags;
         private string userId;
+        private string companyId;
         private object metadata;
 
         /// <summary>
@@ -108,6 +109,23 @@ namespace Moesif.Api.Models
             {
                 this.userId = value;
                 onPropertyChanged("UserId");
+            }
+        }
+
+        /// <summary>
+        /// company_id string
+        /// </summary>
+        [JsonProperty("company_id")]
+        public string CompanyId
+        {
+            get
+            {
+                return this.companyId;
+            }
+            set
+            {
+                this.companyId = value;
+                onPropertyChanged("CompanyId");
             }
         }
 

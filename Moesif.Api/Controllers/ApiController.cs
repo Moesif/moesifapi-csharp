@@ -298,22 +298,22 @@ namespace Moesif.Api.Controllers
         }
 
         /// <summary>
-        /// Add Single Company API Call
+        /// Update Single Company API Call
         /// </summary>
         /// <param name="body">Required parameter: Example: </param>
         /// <return>Returns the void response from the API call</return>
-        public void AddCompany(CompanyModel body)
+        public void UpdateCompany(CompanyModel body)
         {
-            Task t = AddCompanyAsync(body);
+            Task t = UpdateCompanyAsync(body);
             Task.WaitAll(t);
         }
 
         /// <summary>
-        /// Add Single Company API Call
+        /// Update Single Company API Call
         /// </summary>
         /// <param name="body">Required parameter: Example: </param>
         /// <return>Returns the void response from the API call</return>
-        public async Task AddCompanyAsync(CompanyModel body)
+        public async Task UpdateCompanyAsync(CompanyModel body)
         {
             //the base uri for api requestss
             string _baseUri = Configuration.BaseUri;
@@ -347,13 +347,13 @@ namespace Moesif.Api.Controllers
         }
 
         /// <summary>
-        /// Add multiple companies in a single batch (batch size must be less than 250kb)
+        /// Update multiple companies in a single batch (batch size must be less than 250kb)
         /// </summary>
         /// <param name="body">Required parameter: Example: </param>
         /// <return>Returns the void response from the API call</return>
-        public void AddCompaniesBatch(List<CompanyModel> body)
+        public void UpdateCompaniesBatch(List<CompanyModel> body)
         {
-            Task t = AddCompaniesBatchAsync(body);
+            Task t = UpdateCompaniesBatchAsync(body);
             Task.WaitAll(t);
         }
 
@@ -362,7 +362,7 @@ namespace Moesif.Api.Controllers
         /// </summary>
         /// <param name="body">Required parameter: Example: </param>
         /// <return>Returns the void response from the API call</return>
-        public async Task AddCompaniesBatchAsync(List<CompanyModel> body)
+        public async Task UpdateCompaniesBatchAsync(List<CompanyModel> body)
         {
             //the base uri for api requestss
             string _baseUri = Configuration.BaseUri;
