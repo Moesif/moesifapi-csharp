@@ -23,6 +23,7 @@ namespace Moesif.Api.Models
         private string sessionToken;
         private string ipAddress;
         private string userId;
+        private string companyId;
         private string userAgentString;
         private object metadata;
 
@@ -91,6 +92,23 @@ namespace Moesif.Api.Models
             {
                 this.userId = value;
                 onPropertyChanged("UserId");
+            }
+        }
+
+        /// <summary>
+        /// End user's company_id string from your app
+        /// </summary>
+        [JsonProperty("company_id")]
+        public string CompanyId
+        {
+            get
+            {
+                return this.companyId;
+            }
+            set
+            {
+                this.companyId = value;
+                onPropertyChanged("CompanyId");
             }
         }
 

@@ -99,6 +99,7 @@ var eventModel = new EventModel()
 Request = eventReq,
 Response = eventRsp,
 UserId = "my_user_id",
+CompanyId = "my_company_id",
 SessionToken = "23jdf0owekfmcn4u3qypxg09w4d8ayrcdx8nu2ng]s98y18cx98q3yhwmnhcfx43f",
 Metadata = metadata
 };
@@ -132,7 +133,7 @@ Dictionary<string, object> metadata = new Dictionary<string, object>
 var userModel = new UserModel()
 {
 	UserAgentString = "Dalvik/2.1.0 (Linux; U; Android 5.0.2; C6906 Build/14.5.A.0.242)",
-	UserId = "my_user_id",
+	UserId = "12345",
 	Metadata = metadata,
 	ModifiedTime = DateTime.UtcNow
 };
@@ -167,7 +168,7 @@ Dictionary<string, object> metadata = new Dictionary<string, object>
 
 var companyModel = new CompanyModel()
 {
-	CompanyId = "1",
+	CompanyId = "12345",
 	Metadata = metadata,
 	ModifiedTime = DateTime.UtcNow
 };
