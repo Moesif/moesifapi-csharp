@@ -18,6 +18,15 @@ Install the Nuget Package:
 
 ## How to Use:
 
+Your Moesif Application Id can be found in the [_Moesif Portal_](https://www.moesif.com/).
+After signing up for a Moesif account, your Moesif Application Id will be displayed during the onboarding steps. 
+
+You can always find your Moesif Application Id at any time by logging 
+into the [_Moesif Portal_](https://www.moesif.com/), click on the top right menu,
+ and then clicking _Installation_.
+
+### Create Event
+
 ```csharp
 using System;
 using System.Collections.Generic;
@@ -28,7 +37,7 @@ using Moesif.Api.Controllers;
 using System.Threading.Tasks;
 
 // Create client instance using your ApplicationId
-var client = new MoesifApiClient("my_application_id");
+var client = new MoesifApiClient("My Application Id");
 var apiClient = client.Api;
 
 // Parameters for the API call
@@ -55,7 +64,7 @@ var reqBody = ApiHelper.JsonDeserialize<object>(@" {
     }");
 
 var rspHeaders = new Dictionary<string, string>();
-rspHeaders.Add("Date", "Tue, 23 Nov 2016 23:46:49 GMT");
+rspHeaders.Add("Date", "Tue, 23 Nov 2019 23:46:49 GMT");
 rspHeaders.Add("Vary", "Accept-Encoding");
 rspHeaders.Add("Pragma", "no-cache");
 rspHeaders.Add("Expires", "-1");
@@ -63,8 +72,8 @@ rspHeaders.Add("Content-Type", "application/json; charset=utf-8");
 rspHeaders.Add("Cache-Control", "no-cache");
 
 var rspBody = ApiHelper.JsonDeserialize<object>(@" {
-	    ""Error"": ""InvalidArgumentException"",
-	    ""Message"": ""Missing field field_a""
+	    ""Title"": ""Hello"",
+	    ""Message"": ""Hello World""
     }");
 
 
@@ -89,8 +98,8 @@ Body = rspBody
 
 Dictionary<string, string> metadata = new Dictionary<string, string>
 	{
-		{ "email", "abc@email.com" },
-		{ "name", "abcdef" },
+		{ "id", "123456789" },
+		{ "datacenter", "West US" },
 		{ "image", "123" }
 	};
 
@@ -98,8 +107,8 @@ var eventModel = new EventModel()
 {
 Request = eventReq,
 Response = eventRsp,
-UserId = "my_user_id",
-CompanyId = "my_company_id",
+UserId = "12345",
+CompanyId = "67890",
 SessionToken = "23jdf0owekfmcn4u3qypxg09w4d8ayrcdx8nu2ng]s98y18cx98q3yhwmnhcfx43f",
 Metadata = metadata
 };
@@ -113,7 +122,7 @@ await apiClient.CreateEventAsync(eventModel);
 catch(APIException) {};
 ```
 
-## Update User:
+### Update User:
 
 The api also let you update a user profile with custom metadata. The `UserId` is a required field, all other fields are optional.
 
@@ -142,14 +151,14 @@ var userModel = new UserModel()
 try
 {
 	// Create client instance using your ApplicationId
-	var client = new MoesifApiClient("my_application_id");
+	var client = new MoesifApiClient("your_moesif_application_id");
 	var apiClient = client.Api;
 	apiClient.UpdateUserAsync(userModel);
 }
 catch (APIException) { };
 ```
 
-## Update Company:
+### Update Company:
 
 The api also let you update a company profile with custom metadata. The `CompanyId` is a required field, all other fields are optional.
 
@@ -168,7 +177,7 @@ Dictionary<string, object> metadata = new Dictionary<string, object>
 
 var companyModel = new CompanyModel()
 {
-	CompanyId = "12345",
+	CompanyId = "67890",
 	Metadata = metadata,
 	ModifiedTime = DateTime.UtcNow
 };
@@ -177,12 +186,15 @@ var companyModel = new CompanyModel()
 try
 {
 	// Create client instance using your ApplicationId
-	var client = new MoesifApiClient("my_application_id");
+	var client = new MoesifApiClient("your_moesif_application_id");
 	var apiClient = client.Api;
 	apiClient.UpdateCompanyAsync(companyModel);
 }
 catch (APIException) { };
 ```
+
+Your Moesif Application Id can be found in the [_Moesif Portal_](https://www.moesif.com/).
+After signing up for a Moesif account, your Moesif Application Id will be displayed during the onboarding steps. 
 
 ## How To Test:
 
