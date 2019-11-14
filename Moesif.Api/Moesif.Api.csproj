@@ -100,6 +100,7 @@
     <None Include="packages.config" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\CompanyModel.cs" />
+    <Compile Include="Models\CampaignModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="$(SolutionDir)\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('$(SolutionDir)\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
