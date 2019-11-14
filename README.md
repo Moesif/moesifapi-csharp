@@ -139,12 +139,19 @@ Dictionary<string, object> metadata = new Dictionary<string, object>
 	}
 };
 
+var campaign = new CampaignModel()
+{
+	UtmSource = "Newsletter",
+	UtmMedium = "Email"
+};
+
 var userModel = new UserModel()
 {
 	UserAgentString = "Dalvik/2.1.0 (Linux; U; Android 5.0.2; C6906 Build/14.5.A.0.242)",
 	UserId = "12345",
 	Metadata = metadata,
-	ModifiedTime = DateTime.UtcNow
+	ModifiedTime = DateTime.UtcNow,
+	Campaign = campaign
 };
 
 // Perform API call
@@ -175,11 +182,18 @@ Dictionary<string, object> metadata = new Dictionary<string, object>
 	}
 };
 
+var campaign = new CampaignModel()
+{
+	UtmSource = "Adwords",
+	UtmMedium = "Twitter"
+};
+
 var companyModel = new CompanyModel()
 {
 	CompanyId = "67890",
 	Metadata = metadata,
-	ModifiedTime = DateTime.UtcNow
+	ModifiedTime = DateTime.UtcNow,
+	Campaign = campaign
 };
 
 // Perform API call

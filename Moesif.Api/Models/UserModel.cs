@@ -26,6 +26,7 @@ namespace Moesif.Api.Models
         private string companyId;
         private string userAgentString;
         private object metadata;
+        private CampaignModel campaign;
 
         /// <summary>
         /// Time when request was made
@@ -143,6 +144,23 @@ namespace Moesif.Api.Models
             {
                 this.metadata = value;
                 onPropertyChanged("Metadata");
+            }
+        }
+
+        /// <summary>
+        /// Campaign object
+        /// </summary>
+        [JsonProperty("campaign")]
+        public CampaignModel Campaign 
+        { 
+            get 
+            {
+                return this.campaign; 
+            } 
+            set 
+            {
+                this.campaign = value;
+                onPropertyChanged("Campaign");
             }
         }
 
