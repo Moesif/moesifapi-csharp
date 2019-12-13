@@ -26,6 +26,7 @@ namespace Moesif.Api.Models
         private string userId;
         private string companyId;
         private object metadata;
+        private string direction;
 
         /// <summary>
         /// API request object
@@ -143,6 +144,23 @@ namespace Moesif.Api.Models
             {
                 this.metadata = value;
                 onPropertyChanged("Metadata");
+            }
+        }
+
+        /// <summary>
+        /// direction string
+        /// </summary>
+        [JsonProperty("direction")]
+        public string Direction
+        {
+            get
+            {
+                return this.direction;
+            }
+            set
+            {
+                this.direction = value;
+                onPropertyChanged("Direction");
             }
         }
 
