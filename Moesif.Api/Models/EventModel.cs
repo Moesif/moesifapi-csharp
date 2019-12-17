@@ -27,6 +27,7 @@ namespace Moesif.Api.Models
         private string companyId;
         private object metadata;
         private string direction;
+        private int weight;
 
         /// <summary>
         /// API request object
@@ -161,6 +162,23 @@ namespace Moesif.Api.Models
             {
                 this.direction = value;
                 onPropertyChanged("Direction");
+            }
+        }
+
+        /// <summary>
+        /// Weight of an API call
+        /// </summary>
+        [JsonProperty("weight")]
+        public int Weight
+        {
+            get
+            {
+                return this.weight;
+            }
+            set
+            {
+                this.weight = value;
+                onPropertyChanged("Weight");
             }
         }
 
