@@ -126,7 +126,7 @@ catch(APIException) {};
 
 Create or update a user profile in Moesif.
 The metadata field can be any customer demographic or other info you want to store.
-Only the `userId` field is required.
+Only the `UserId` field is required.
 For details, visit the [C# API Reference](https://www.moesif.com/docs/api?csharp#update-a-user).
 
 ```csharp
@@ -221,7 +221,7 @@ var metadataB = new Dictionary<string, object>
 var userB = new UserModel()
 {
     UserId = "54321",
-  CompanyId = "67890",
+    CompanyId = "67890",
     Metadata = metadataA
 };
 
@@ -240,7 +240,7 @@ apiClient.UpdateUsersBatch(users);
 
 Create or update a company profile in Moesif.
 The metadata field can be any company demographic or other info you want to store.
-Only the `company_id` field is required.
+Only the `CompanyId` field is required.
 For details, visit the [C# API Reference](https://www.moesif.com/docs/api?csharp#update-a-company).
 
 ```csharp
@@ -289,7 +289,7 @@ apiClient.UpdateCompany(company);
 ## Update Companies in Batch
 
 Similar to updateCompany, but used to update a list of companies in one batch. 
-Only the `company_id` field is required.
+Only the `CompanyId` field is required.
 For details, visit the [C# API Reference](https://www.moesif.com/docs/api?csharp#update-companies-in-batch).
 
 ```csharp
@@ -303,7 +303,7 @@ var campaignA = new CampaignModel()
 {
     UtmSource = "google",
     UtmMedium = "cpc"
-  UtmCampaign = "adwords"
+    UtmCampaign = "adwords"
     UtmTerm = "api+tooling"
     UtmContent = "landing"
 };
