@@ -122,93 +122,246 @@ await apiClient.CreateEventAsync(eventModel);
 catch(APIException) {};
 ```
 
-### Update User:
+## Update a Single User
 
-The api also let you update a user profile with custom metadata. The `UserId` is a required field, all other fields are optional.
-
-```csharp
-Dictionary<string, object> metadata = new Dictionary<string, object>
-{
-	{"email", "johndoe@acmeinc.com"},
-	{"string_field", "value_1"},
-	{"number_field", 0},
-	{"object_field", new Dictionary<string, string> {
-		{"field_a", "value_a"},
-		{"field_b", "value_b"}
-		}
-	}
-};
-
-var campaign = new CampaignModel()
-{
-	UtmSource = "Newsletter",
-	UtmMedium = "Email"
-};
-
-var userModel = new UserModel()
-{
-	UserAgentString = "Dalvik/2.1.0 (Linux; U; Android 5.0.2; C6906 Build/14.5.A.0.242)",
-	UserId = "12345",
-	Metadata = metadata,
-	ModifiedTime = DateTime.UtcNow,
-	Campaign = campaign
-};
-
-// Perform API call
-try
-{
-	// Create client instance using your ApplicationId
-	var client = new MoesifApiClient("your_moesif_application_id");
-	var apiClient = client.Api;
-	apiClient.UpdateUserAsync(userModel);
-}
-catch (APIException) { };
-```
-
-### Update Company:
-
-The api also let you update a company profile with custom metadata. The `CompanyId` is a required field, all other fields are optional.
+Create or update a user profile in Moesif.
+The metadata field can be any customer demographic or other info you want to store.
+Only the `userId` field is required.
+For details, visit the [C# API Reference](https://www.moesif.com/docs/api?csharp#update-a-user).
 
 ```csharp
-Dictionary<string, object> metadata = new Dictionary<string, object>
-{
-	{"email", "johndoe@acmeinc.com"},
-	{"string_field", "value_1"},
-	{"number_field", 0},
-	{"object_field", new Dictionary<string, string> {
-		{"field_a", "value_a"},
-		{"field_b", "value_b"}
-		}
-	}
-};
+var apiClient = new MoesifApiClient("YOUR_COLLECTOR_APPLICATION_ID").Api;;
 
+// Campaign object is optional, but useful if you want to track ROI of acquisition channels
+// See https://www.moesif.com/docs/api#users for campaign schema
 var campaign = new CampaignModel()
 {
-	UtmSource = "Adwords",
-	UtmMedium = "Twitter"
+    UtmSource = "google",
+    UtmMedium = "cpc"
+  UtmCampaign = "adwords"
+    UtmTerm = "api+tooling"
+    UtmContent = "landing"
 };
 
-var companyModel = new CompanyModel()
+// metadata can be any custom dictionary
+var metadata = new Dictionary<string, object>
 {
-	CompanyId = "67890",
-	Metadata = metadata,
-	ModifiedTime = DateTime.UtcNow,
-	Campaign = campaign
+    {"email", "john@acmeinc.com"},
+    {"first_name", "John"},
+    {"last_name", "Doe"},
+    {"title", "Software Engineer"},
+    {"sales_info", new Dictionary<string, string> {
+        {"stage", "Customer"},
+        {"lifetime_value", 24000},
+        {"account_owner", "mary@contoso.com"}
+    }
 };
 
-// Perform API call
-try
+// Only user_id is required
+var user = new UserModel()
 {
-	// Create client instance using your ApplicationId
-	var client = new MoesifApiClient("your_moesif_application_id");
-	var apiClient = client.Api;
-	apiClient.UpdateCompanyAsync(companyModel);
-}
-catch (APIException) { };
+    UserId = "12345",
+  CompanyId = "67890",
+  Campaign = campaign,
+    Metadata = metadata
+};
+
+// Update the user asynchronously
+await apiClient.UpdateUserAsync(user);
+
+// Update the user synchronously
+apiClient.UpdateUser(user);
 ```
 
-Your Moesif Application Id can be found in the [_Moesif Portal_](https://www.moesif.com/).
-After signing up for a Moesif account, your Moesif Application Id will be displayed during the onboarding steps. 
+## Update Users in Batch
+Similar to UpdateUser, but used to update a list of users in one batch. 
+Only the `UserId` field is required.
+For details, visit the [C# API Reference](https://www.moesif.com/docs/api?csharp#update-users-in-batch).
+
+```csharp
+var apiClient = new MoesifApiClient("YOUR_COLLECTOR_APPLICATION_ID").Api;;
+
+var users = new List<UserModel>();
+
+var metadataA = new Dictionary<string, object>
+{
+    {"email", "john@acmeinc.com"},
+    {"first_name", "John"},
+    {"last_name", "Doe"},
+    {"title", "Software Engineer"},
+    {"sales_info", new Dictionary<string, string> {
+        {"stage", "Customer"},
+        {"lifetime_value", 24000},
+        {"account_owner", "mary@contoso.com"}
+    }
+};
+
+// Only user_id is required
+var userA = new UserModel()
+{
+    UserId = "12345",
+  CompanyId = "67890", // If set, associate user with a company object
+    Metadata = metadataA
+};
+
+var metadataB = new Dictionary<string, object>
+{
+    {"email", "mary@acmeinc.com"},
+    {"first_name", "Mary"},
+    {"last_name", "Jane"},
+    {"title", "Software Engineer"},
+    {"sales_info", new Dictionary<string, string> {
+        {"stage", "Customer"},
+        {"lifetime_value", 24000},
+        {"account_owner", "mary@contoso.com"}
+    }
+};
+
+// Only user_id is required
+var userB = new UserModel()
+{
+    UserId = "54321",
+  CompanyId = "67890",
+    Metadata = metadataA
+};
+
+
+users.Add(userA);
+users.Add(userB);
+
+// Update the users asynchronously
+await apiClient.UpdateUsersBatchAsync(users);
+
+// Update the users synchronously
+apiClient.UpdateUsersBatch(users);
+```
+
+## Update a Single Company
+
+Create or update a company profile in Moesif.
+The metadata field can be any company demographic or other info you want to store.
+Only the `company_id` field is required.
+For details, visit the [C# API Reference](https://www.moesif.com/docs/api?csharp#update-a-company).
+
+```csharp
+var apiClient = new MoesifApiClient("YOUR_COLLECTOR_APPLICATION_ID").Api;;
+
+// Campaign object is optional, but useful if you want to track ROI of acquisition channels
+// See https://www.moesif.com/docs/api#companies for campaign schema
+var campaign = new CampaignModel()
+{
+    UtmSource = "google",
+    UtmMedium = "cpc"
+  UtmCampaign = "adwords"
+    UtmTerm = "api+tooling"
+    UtmContent = "landing"
+};
+
+// metadata can be any custom dictionary
+var metadata = new Dictionary<string, object>
+{
+    {"org_name", "Acme, Inc"},
+    {"plan_name", "Free"},
+    {"deal_stage", "Lead"},
+    {"mrr", 24000},
+    {"demographics", new Dictionary<string, string> {
+        {"alexa_ranking", 500000},
+        {"employee_count", 47}
+    }
+};
+
+// Only company id is required
+var company = new CompanyModel()
+{
+  CompanyId = "67890",
+  CompanyDomain = "acmeinc.com", // If domain is set, Moesif will enrich your profiles with publicly available info 
+  Campaign = campaign,
+    Metadata = metadata
+};
+
+// Update the company asynchronously
+await apiClient.UpdateCompanyAsync(company);
+
+// Update the company synchronously
+apiClient.UpdateCompany(company);
+```
+
+## Update Companies in Batch
+
+Similar to updateCompany, but used to update a list of companies in one batch. 
+Only the `company_id` field is required.
+For details, visit the [C# API Reference](https://www.moesif.com/docs/api?csharp#update-companies-in-batch).
+
+```csharp
+var apiClient = new MoesifApiClient("YOUR_COLLECTOR_APPLICATION_ID").Api;;
+
+var companies = new List<CompanyModel>();
+
+// Campaign object is optional, but useful if you want to track ROI of acquisition channels
+// See https://www.moesif.com/docs/api#companies for campaign schema
+var campaignA = new CampaignModel()
+{
+    UtmSource = "google",
+    UtmMedium = "cpc"
+  UtmCampaign = "adwords"
+    UtmTerm = "api+tooling"
+    UtmContent = "landing"
+};
+
+// metadata can be any custom dictionary
+var metadataA = new Dictionary<string, object>
+{
+    {"org_name", "Acme, Inc"},
+    {"plan_name", "Free"},
+    {"deal_stage", "Lead"},
+    {"mrr", 24000},
+    {"demographics", new Dictionary<string, string> {
+        {"alexa_ranking", 500000},
+        {"employee_count", 47}
+    }
+};
+
+// Only company id is required
+var companyA = new CompanyModel()
+{
+  CompanyId = "67890",
+  CompanyDomain = "acmeinc.com", // If domain is set, Moesif will enrich your profiles with publicly available info 
+  Campaign = campaign,
+    Metadata = metadata
+};
+
+// metadata can be any custom dictionary
+var metadataB = new Dictionary<string, object>
+{
+    {"org_name", "Contoso, Inc"},
+    {"plan_name", "Paid"},
+    {"deal_stage", "Lead"},
+    {"mrr", 48000},
+    {"demographics", new Dictionary<string, string> {
+        {"alexa_ranking", 500000},
+        {"employee_count", 53}
+    }
+};
+
+// Only company id is required
+var companyB = new CompanyModel()
+{
+  CompanyId = "09876",
+  CompanyDomain = "contoso.com", // If domain is set, Moesif will enrich your profiles with publicly available info 
+  Campaign = campaign,
+    Metadata = metadata
+};
+
+
+companies.Add(companyA);
+companies.Add(companyB);
+
+// Update the companies asynchronously
+await apiClient.UpdateCompaniesBatchAsync(companies);
+
+// Update the companies synchronously
+apiClient.UpdateCompaniesBatch(companies);
+```
 
 ## How To Test:
 
