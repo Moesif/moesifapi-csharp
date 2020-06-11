@@ -25,9 +25,7 @@ namespace Moesif.Api.Test
             reqHeaders.Add("Host", "api.acmeinc.com");
             reqHeaders.Add("Accept", "*/*");
             reqHeaders.Add("Connection", "Keep-Alive");
-            reqHeaders.Add("User-Agent", "Dalvik/2.1.0 (Linux; U; Android 5.0.2; C6906 Build/14.5.A.0.242)");
             reqHeaders.Add("Content-Type", "application/json");
-            reqHeaders.Add("Content-Length", "126");
             reqHeaders.Add("Accept-Encoding", "gzip");
 
             var reqBody = ApiHelper.JsonDeserialize<object>(@" {
@@ -44,7 +42,6 @@ namespace Moesif.Api.Test
                 }");
 
             var rspHeaders = new Dictionary<string, string>();
-            rspHeaders.Add("Date", "Tue, 20 Aug 2019 23:46:49 GMT");
             rspHeaders.Add("Vary", "Accept-Encoding");
             rspHeaders.Add("Pragma", "no-cache");
             rspHeaders.Add("Expires", "-1");
@@ -86,9 +83,9 @@ namespace Moesif.Api.Test
             {
                 Request = eventReq,
                 Response = eventRsp,
-                UserId = "my_user_id",
-                CompanyId = "my_company_id",
-                SessionToken = "23jdf0owekfmcn4u3qypxg09w4d8ayrcdx8nu2ng]s98y18cx98q3yhwmnhcfx43f",
+                UserId = "123456",
+                CompanyId = "67890",
+                SessionToken = "XXXXXXXXX",
                 Metadata = metadata
             };
 
@@ -238,7 +235,7 @@ namespace Moesif.Api.Test
                 UserId = "1234",
                 CompanyId = "6789",
                 Metadata = metadata,
-                SessionToken = "23jdf0owekfmcn4u3qypxg09w4d8ayrcdx8nu2ng]s98y18cx98q3yhwmnhcfx43f",
+                SessionToken = "XXXXXXXXX",
                 ModifiedTime = DateTime.UtcNow
             };
 
