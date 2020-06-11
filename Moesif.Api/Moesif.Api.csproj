@@ -1,38 +1,7 @@
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <RootNamespace>Moesif.Api</RootNamespace>
-    <AssemblyName>Moesif.Api</AssemblyName>
-    <OutputType>Library</OutputType>
-    <OutputPath>bin/DEBUG/</OutputPath>
-    <ProjectGuid>{20962015-F6CA-43BC-9D33-897C6648B556}</ProjectGuid>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
-    <NuGetPackageImportStamp>ee2bb91c</NuGetPackageImportStamp>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Profile328</TargetFrameworkProfile>
-    <FileAlignment>512</FileAlignment>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+	<TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
+	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -40,74 +9,27 @@
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>Moesif.Api.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="Microsoft.Threading.Tasks">
-      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\portable-net40+sl4+win8+wp71+wpa81\Microsoft.Threading.Tasks.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Threading.Tasks.Extensions">
-      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\portable-net40+sl4+win8+wp71+wpa81\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="System.IO">
-      <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\portable-net40+win8+wp8+wpa81\System.IO.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net.Http">
-      <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\portable-net40+sl4+win8+wp71+wpa81\System.Net.Http.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net.Http.Extensions">
-      <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\portable-net40+sl4+win8+wp71+wpa81\System.Net.Http.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net.Http.Primitives">
-      <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\portable-net40+sl4+win8+wp71+wpa81\System.Net.Http.Primitives.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime">
-      <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\portable-net40+win8+wp8+wpa81\System.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Threading.Tasks">
-      <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\portable-net40+win8+wp8+wpa81\System.Threading.Tasks.dll</HintPath>
-    </Reference>
-    <Reference Include="unirest-net">
-      <HintPath>..\packages\Unirest-APIMATIC.1.0.1.26\lib\portable-net40+sl5+wp80+win8+wpa81\unirest-net.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Models\EventRequestModel.cs" />
-    <Compile Include="Models\EventModel.cs" />
-    <Compile Include="Models\EventResponseModel.cs" />
-    <Compile Include="Models\StatusModel.cs" />
-    <Compile Include="Controllers\ApiController.cs" />
-    <Compile Include="Controllers\HealthController.cs" />
-    <Compile Include="Http\Client\IHTTPClient.cs" />
-    <Compile Include="Http\Client\UnirestClient.cs" />
-    <Compile Include="Http\Client\HttpEventHandlers.cs" />
-    <Compile Include="Http\Client\HttpContext.cs" />
-    <Compile Include="Http\Request\HttpRequest.cs" />
-    <Compile Include="Http\Request\HttpMethod.cs" />
-    <Compile Include="Http\Response\HttpResponse.cs" />
-    <Compile Include="Http\Response\HttpStringResponse.cs" />
-    <Compile Include="Http\Client\FileStreamInfo.cs" />
-    <Compile Include="Controllers\BaseController.cs" />
-    <Compile Include="Configuration.cs" />
-    <Compile Include="ApiHelper.cs" />
-    <Compile Include="Exceptions\APIException.cs" />
-    <Compile Include="MoesifApiClient.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+
+	<ItemGroup>
+		<PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
+		<PackageReference Include="Unirest-APIMATIC" Version="1.0.1.26" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net45'">
+		<Reference Include="System"/>
+		<Reference Include="System.Net.Http"/>
+	</ItemGroup>
+    <ItemGroup>
+	    <Folder Include="Models\" />
+	    <Folder Include="Controllers\" />
+	    <Folder Include="Http\Client\" />
+	    <Folder Include="Http\Request\" />
+	    <Folder Include="Http\Response" />
+		<Folder Include="Exceptions" />
+		<Folder Include="Properties" />
     <None Include="app.config" />
     <None Include="Moesif.Api.nuspec" />
     <None Include="Moesif.Api.snk" />
     <None Include="packages.config" />
-    <Compile Include="Models\UserModel.cs" />
-    <Compile Include="Models\CompanyModel.cs" />
-    <Compile Include="Models\CampaignModel.cs" />
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
-  <Import Project="$(SolutionDir)\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('$(SolutionDir)\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
-  </Target>
 </Project>
