@@ -350,5 +350,21 @@ namespace Moesif.Api.Test
             Assert.Equal(true, isUpdated);
 
         }
+
+        [Fact]
+        public async Task TestContextUserModel()
+        {
+            string jStr = @"{
+                'Id' : 'v1',
+                'Email' : 'v2',
+                'FirstName' : 'v3',
+                'LastName' : 'v4',
+            }";
+            ContextUserModel m = ContextUserModel.deserialize(jStr);
+            Assert.Equal("v1", m.Id);
+            Assert.Equal("v2", m.Email);
+            Assert.Equal("v3", m.FirstName);
+            Assert.Equal("v4", m.LastName);
+        }
     }
 }

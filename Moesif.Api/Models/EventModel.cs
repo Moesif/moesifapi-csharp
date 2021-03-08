@@ -21,6 +21,7 @@ namespace Moesif.Api.Models
         // These fields hold the values for the public properties.
         private EventRequestModel request;
         private EventResponseModel response;
+        private ContextModel context;
         private string sessionToken;
         private string tags;
         private string userId;
@@ -60,6 +61,23 @@ namespace Moesif.Api.Models
             {
                 this.response = value;
                 onPropertyChanged("Response");
+            }
+        }
+
+        /// <summary>
+        /// context.Request.User from Apim policy
+        /// </summary>
+        [JsonProperty("context")]
+        public ContextModel Context 
+        { 
+            get 
+            {
+                return this.context; 
+            } 
+            set 
+            {
+                this.context = value;
+                onPropertyChanged("Context");
             }
         }
 
