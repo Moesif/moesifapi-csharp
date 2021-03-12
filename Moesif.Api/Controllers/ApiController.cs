@@ -223,6 +223,24 @@ namespace Moesif.Api.Controllers
             StringBuilder _queryBuilder = new StringBuilder(_baseUri);
             _queryBuilder.Append("/v1/events/batch");
 
+            if (Configuration.Debug)
+            {
+                if (body == null)
+                {
+                    Console.WriteLine("Body before serialization is null");
+                } else
+                {
+                    foreach (EventModel eventData in body)
+                    {
+                        if (eventData == null)
+                        {
+                            Console.WriteLine("Body before serialization contains null elements");
+                            break;
+                        }
+                    }
+                }
+            }
+
 
             //validate and preprocess url
             string _queryUrl = ApiHelper.CleanUrl(_queryBuilder);
@@ -236,6 +254,11 @@ namespace Moesif.Api.Controllers
 
             //append body params
             var _body = ApiHelper.JsonSerialize(body);
+
+            if (Configuration.Debug)
+            {
+                Console.WriteLine("Serialized body before sending - " + _body);
+            }
 
             //prepare the API call request to fetch the response
             HttpRequest _request = ClientInstance.PostBody(_queryUrl, _headers, _body);
