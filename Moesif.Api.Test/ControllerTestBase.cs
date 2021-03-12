@@ -44,7 +44,7 @@ namespace Moesif.Api.Test
             {
                 if (client == null)
                 {
-                    client = new MoesifApiClient("Your Moesif Application Id");
+                    client = new MoesifApiClient("Your Moesif Application Id", null, false);
                 }
                 return client;
             }

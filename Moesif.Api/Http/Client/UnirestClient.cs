@@ -4,6 +4,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
+using Moesif.Api;
 using Moesif.Api.Http.Request;
 using Moesif.Api.Http.Response;
 using unirest_net.http;
@@ -225,7 +226,14 @@ namespace Moesif.Api.Http.Client
             //set request headers
             Dictionary<string, Object> headers = request.Headers.ToDictionary(item=> item.Key,item=> (Object) item.Value);
             uniRequest.headers(headers);
-            uniRequest.header("user-agent", "moesifapi-csharp/" + Version);
+            if (Configuration.UserAgentString != null)
+            {
+                uniRequest.header("user-agent", Configuration.UserAgentString);
+            }
+            else
+            {
+                uniRequest.header("user-agent", Version);
+            }
 
             //Set basic auth credentials if any
             if (!string.IsNullOrWhiteSpace(request.Username))

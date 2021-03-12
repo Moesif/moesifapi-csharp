@@ -16,5 +16,9 @@ namespace Moesif.Api
         //TODO: Replace the ApplicationId with your own
         public static string ApplicationId = "SET_ME";
 
+        public static string UserAgentString = null;
+
+        public static bool Debug = false;
+
     }
 }

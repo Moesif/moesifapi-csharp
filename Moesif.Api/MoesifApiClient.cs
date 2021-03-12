@@ -57,9 +57,11 @@ namespace Moesif.Api
         /// <summary>
         /// Client initialization constructor
         /// </summary>
-        public MoesifApiClient(string applicationId)
+        public MoesifApiClient(string applicationId, string userAgentString = null, bool debug = false)
         {
             Configuration.ApplicationId = applicationId;
+            Configuration.UserAgentString = userAgentString;
+            Configuration.Debug = debug;
         }
     }
 }
