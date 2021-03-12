@@ -232,7 +232,7 @@ namespace Moesif.Api.Http.Client
             }
             else
             {
-                uniRequest.header("user-agent", Version);
+                uniRequest.header("user-agent", "moesifapi-csharp/" + Version);
             }
 
             //Set basic auth credentials if any
