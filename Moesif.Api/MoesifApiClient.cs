@@ -59,9 +59,9 @@ namespace Moesif.Api
         /// </summary>
         public MoesifApiClient(
             string applicationId,
-            string userAgentString = Moesif.Api.Configuration.UserAgentString,
-            bool debug = Moesif.Api.Configuration.Debug,
-            string baseUri = Moesif.Api.Configuration.BaseUri
+            string userAgentString = null,
+            bool debug = false,
+            string baseUri = "https://api.moesif.net"
         ) {
             Configuration.ApplicationId = applicationId;
             Configuration.UserAgentString = userAgentString;
