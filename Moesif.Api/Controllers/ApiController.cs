@@ -321,6 +321,53 @@ namespace Moesif.Api.Controllers
         }
 
         /// <summary>
+        /// Get GovernanceRule
+        /// </summary>
+        /// <param name="">Required parameter: Example: </param>
+        /// <return>Returns the response from the API call</return>
+        public void GetGovernanceRule()
+        {
+            Task t = GetGovernanceRuleAsync();
+            Task.WaitAll(t);
+        }
+
+        /// <summary>
+        /// Get GoveranceRule
+        /// </summary>
+        /// <param name="">Required parameter: Example: </param>
+        /// <return>Returns the void response from the API call</return>
+        public async Task<HttpStringResponse> GetGovernanceRuleAsync()
+        {
+            //the base uri for api requestss
+            string _baseUri = Configuration.BaseUri;
+
+            //prepare query string for API call
+            StringBuilder _queryBuilder = new StringBuilder(_baseUri);
+            _queryBuilder.Append("/v1/rules");
+
+            //validate and preprocess url
+            string _queryUrl = ApiHelper.CleanUrl(_queryBuilder);
+
+            //append request with appropriate headers and parameters
+            var _headers = new Dictionary<string, string>()
+            {
+                { "x-moesif-application-id", Configuration.ApplicationId }
+            };
+
+            //prepare the API call request to fetch the response
+            HttpRequest _request = ClientInstance.Get(_queryUrl, _headers);
+
+            //invoke request and get response
+            HttpStringResponse _response = (HttpStringResponse)await ClientInstance.ExecuteAsStringAsync(_request);
+            HttpContext _context = new HttpContext(_request, _response);
+            //handle errors defined at the API level
+            base.ValidateResponse(_response, _context);
+
+            //return response
+            return _response;
+        }
+
+        /// <summary>
         /// Update Single Company API Call
         /// </summary>
         /// <param name="body">Required parameter: Example: </param>

@@ -29,6 +29,7 @@ namespace Moesif.Api.Models
         private object metadata;
         private string direction;
         private int weight;
+        private string blockedBy;
 
         /// <summary>
         /// API request object
@@ -197,6 +198,20 @@ namespace Moesif.Api.Models
             {
                 this.weight = value;
                 onPropertyChanged("Weight");
+            }
+        }
+
+        [JsonProperty("blocked_by")]
+        public string BlockedBy
+        {
+            get
+            {
+                return this.blockedBy;
+            }
+            set
+            {
+                this.blockedBy = value;
+                onPropertyChanged("BlockedBy");
             }
         }
 
