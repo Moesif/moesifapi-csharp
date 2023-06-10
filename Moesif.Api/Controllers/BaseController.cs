@@ -51,7 +51,7 @@ namespace Moesif.Api.Controllers
         internal void ValidateResponse(HttpResponse _response, HttpContext _context)
         {
             if ((_response.StatusCode < 200) || (_response.StatusCode > 206)) //[200,206] = HTTP OK
-                throw new APIException($"HTTP Response Not OK [status: {_response.StatusCode}, error:{_response.RawBody}, context:{_context}]"));
+                throw new APIException($"HTTP Response Not OK [status: {_response.StatusCode}, error:{_response.RawBody}]", _context);
         }
     }
 } 
