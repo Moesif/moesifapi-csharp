@@ -4,11 +4,11 @@
 
  */
 using System;
-using Moesif.Api;
 using Moesif.Api.Http.Client;
 using Moesif.Api.Http.Response;
 using Moesif.Api.Exceptions;
-using Newtonsoft.Json;
+using System.IO;
+using System.Text;
 
 namespace Moesif.Api.Controllers
 {
@@ -53,8 +53,21 @@ namespace Moesif.Api.Controllers
         {
             if ((_response.StatusCode < 200) || (_response.StatusCode > 206)) //[200,206] = HTTP OK
             {
-                string rawBodyStr = JsonConvert.SerializeObject(_response.RawBody);
-                throw new APIException($"HTTP Response Not OK [status: {_response.StatusCode}, error:{rawBodyStr}]", _context);
+                // Load the raw body from stream
+                string bodyData = "";
+                try
+                {
+                    using (Stream body = _response.RawBody)
+                    {
+                        Byte[] bytes = new byte[body.Length];
+                        body.Position = 0;
+                        body.Read(bytes, 0, (int)body.Length);
+                        bodyData = Encoding.ASCII.GetString(bytes);
+                    }
+                }
+                catch (Exception) { };
+
+                throw new APIException($"HTTP Response Not OK [status: {_response.StatusCode}, error:{bodyData}]", _context);
             }
         }
     }
