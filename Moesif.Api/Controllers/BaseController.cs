@@ -8,6 +8,7 @@ using Moesif.Api;
 using Moesif.Api.Http.Client;
 using Moesif.Api.Http.Response;
 using Moesif.Api.Exceptions;
+using Newtonsoft.Json;
 
 namespace Moesif.Api.Controllers
 {
@@ -51,7 +52,10 @@ namespace Moesif.Api.Controllers
         internal void ValidateResponse(HttpResponse _response, HttpContext _context)
         {
             if ((_response.StatusCode < 200) || (_response.StatusCode > 206)) //[200,206] = HTTP OK
-                throw new APIException($"HTTP Response Not OK [status: {_response.StatusCode}, error:{_response.RawBody}]", _context);
+            {
+                string rawBodyStr = JsonConvert.SerializeObject(_response.RawBody);
+                throw new APIException($"HTTP Response Not OK [status: {_response.StatusCode}, error:{rawBodyStr}]", _context);
+            }
         }
     }
 } 
