@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Moesif.Api</id>
-    <version>2.0.6</version>
+    <version>2.0.7</version>
     <title>MoesifApi</title>
     <authors>Moesif</authors>
     <owners>Moesif</owners>
@@ -18,11 +18,11 @@
 	  <tags>azure web app moesif API analytics insights debug debugging log logging apm performance monitor monitoring restful rest graphql ethereum web3 json-rpc soap net microsoft</tags>
 	  <dependencies>
 		  <group targetFramework="netstandard2.0">
-			  <dependency id="Newtonsoft.Json" version="9.0.1" />
+			  <dependency id="Newtonsoft.Json" version="13.0.2" />
 			  <dependency id="Unirest-APIMATIC" version="1.0.1.26" />
 		  </group>
 		  <group targetFramework="net45">
-			  <dependency id="Newtonsoft.Json" version="9.0.1" />
+			  <dependency id="Newtonsoft.Json" version="13.0.2" />
 			  <dependency id="Unirest-APIMATIC" version="1.0.1.26" />
 		  </group>
 	  </dependencies>

@@ -9,6 +9,7 @@ using Moesif.Api.Http.Response;
 using Moesif.Api.Exceptions;
 using System.IO;
 using System.Text;
+using Newtonsoft.Json.Linq;
 
 namespace Moesif.Api.Controllers
 {
@@ -62,7 +63,9 @@ namespace Moesif.Api.Controllers
                         Byte[] bytes = new byte[body.Length];
                         body.Position = 0;
                         body.Read(bytes, 0, (int)body.Length);
-                        bodyData = Encoding.ASCII.GetString(bytes);
+                        string bodyStr = Encoding.UTF8.GetString(bytes);
+                        JObject jsonErr = JObject.Parse(bodyStr);
+                        bodyData = (string)jsonErr["moesif_error"]["msg"];
                     }
                 }
                 catch (Exception) { };
