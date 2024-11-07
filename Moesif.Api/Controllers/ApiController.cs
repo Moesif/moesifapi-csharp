@@ -63,8 +63,9 @@ namespace Moesif.Api.Controllers
         /// Add Single API Event Call
         /// </summary>
         /// <param name="body">Required parameter: Example: </param>
+        /// <param name="waitForResponse">Optional parameter: Default: true </param>
         /// <return>Returns the void response from the API call</return>
-        public async Task<Dictionary<string, string>> CreateEventAsync(EventModel body)
+        public async Task<Dictionary<string, string>> CreateEventAsync(EventModel body, bool waitForResponse = true)
         {
             //the base uri for api requestss
             string _baseUri = Configuration.BaseUri;
@@ -90,14 +91,22 @@ namespace Moesif.Api.Controllers
             //prepare the API call request to fetch the response
             HttpRequest _request = ClientInstance.PostBody(_queryUrl, _headers, _body);
 
-            //invoke request and get response
-            HttpStringResponse _response = (HttpStringResponse) await ClientInstance.ExecuteAsStringAsync(_request);
-            HttpContext _context = new HttpContext(_request,_response);
-            //handle errors defined at the API level
-            base.ValidateResponse(_response, _context);
+            //invoke request and get response if needed
+            if (!waitForResponse)
+            {
+                await ClientInstance.ExecuteAsStringAsync(_request);
+                return new Dictionary<string, string>();
+            }
+            else
+            {
+                HttpStringResponse _response = (HttpStringResponse)await ClientInstance.ExecuteAsStringAsync(_request);
+                HttpContext _context = new HttpContext(_request, _response);
+                //handle errors defined at the API level
+                base.ValidateResponse(_response, _context);
 
-            // Return response headers
-            return _response.Headers;
+                // Return response headers
+                return _response.Headers;
+            }
         }
 
         /// <summary>
@@ -395,12 +404,18 @@ namespace Moesif.Api.Controllers
             //validate and preprocess url
             string _queryUrl = ApiHelper.CleanUrl(_queryBuilder);
 
+            Console.WriteLine("_queryUrl");
+            Console.WriteLine(_queryUrl);
+
             //append request with appropriate headers and parameters
             var _headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json; charset=utf-8" }
             };
             _headers.Add("X-Moesif-Application-Id", Configuration.ApplicationId);
+
+            Console.WriteLine("_headers");
+            Console.WriteLine(_headers);
 
             //append body params
             var _body = ApiHelper.JsonSerialize(body);
@@ -412,7 +427,7 @@ namespace Moesif.Api.Controllers
             HttpStringResponse _response = (HttpStringResponse)await ClientInstance.ExecuteAsStringAsync(_request);
             HttpContext _context = new HttpContext(_request, _response);
             //handle errors defined at the API level
-            base.ValidateResponse(_response, _context);
+            //base.ValidateResponse(_response, _context);
 
         }
 

@@ -31,4 +31,7 @@
     <None Include="Moesif.Api.nuspec" />
     <None Include="Moesif.Api.snk" />
   </ItemGroup>
+    <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+      <PackageReference Include="System.Text.Json" Version="8.0.5" />
+    </ItemGroup>
 </Project>

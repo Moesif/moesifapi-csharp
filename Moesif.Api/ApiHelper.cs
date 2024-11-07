@@ -13,10 +13,14 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
+//using Newtonsoft.Json;
+//using Newtonsoft.Json.Converters;
+//using Newtonsoft.Json.Linq;
 using unirest_net.request;
+
+using System.Text.Json;
+using System.Text.Json.Serialization;
+
 
 namespace Moesif.Api
 {
@@ -30,13 +34,43 @@ namespace Moesif.Api
         /// </summary>
         /// <param name="obj">The object to serialize into JSON</param>
         /// <returns>The serialized Json string representation of the given object</returns>
+        /// 
+
+        public class DateTimeConverterUsingDateTimeFormat : JsonConverter<DateTime>
+        {
+            private readonly string _dateTimeFormat;
+
+            public DateTimeConverterUsingDateTimeFormat(string dateTimeFormat)
+            {
+                _dateTimeFormat = dateTimeFormat;
+            }
+
+            public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+            {
+                return DateTime.ParseExact(reader.GetString(), _dateTimeFormat, CultureInfo.InvariantCulture);
+            }
+
+            public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
+            {
+                writer.WriteStringValue(value.ToString(_dateTimeFormat));
+            }
+        }
+
         public static string JsonSerialize(object obj)
         {
             if (null == obj)
                 return null;
 
-            return JsonConvert.SerializeObject(obj, Formatting.None,
-                 new IsoDateTimeConverter() { DateTimeFormat = DateTimeFormat });
+            var options = new JsonSerializerOptions
+            {
+                WriteIndented = false, // Equivalent to Formatting.None
+                Converters = { new DateTimeConverterUsingDateTimeFormat(DateTimeFormat) }
+            };
+
+            return JsonSerializer.Serialize(obj, options);
+
+            // return JsonSerializer.Serialize(obj, Formatting.None,
+            //      new IsoDateTimeConverter() { DateTimeFormat = DateTimeFormat });
         }
 
         /// <summary>
@@ -50,8 +84,19 @@ namespace Moesif.Api
             if (string.IsNullOrWhiteSpace(json))
                 return default(T);
 
-            return JsonConvert.DeserializeObject<T>(json,
-                 new IsoDateTimeConverter() { DateTimeFormat = DateTimeFormat });
+            var options = new JsonSerializerOptions
+            {
+                Converters =
+                {
+                    new DateTimeConverterUsingDateTimeFormat(DateTimeFormat) // Pass your date time format here
+                }
+            };
+
+            T obj = JsonSerializer.Deserialize<T>(json, options);
+            return obj;    
+
+            // return JsonSerializer.Deserialize<T>(json,
+            //      new IsoDateTimeConverter() { DateTimeFormat = DateTimeFormat });
         }
 
         /// <summary>
@@ -256,7 +301,7 @@ namespace Moesif.Api
                 keys[name] = value;
                 return keys;
             }
-            else if (value is JObject)
+            else if (value is JsonDocument)
             {
                 var valueAccept = (value as Newtonsoft.Json.Linq.JObject);
                 foreach (var property in valueAccept.Properties())
@@ -280,7 +325,7 @@ namespace Moesif.Api
                     i++;
                 }
             }
-            else if (value is JToken)
+            else if (value is JsonDocument)
             {
                 keys[name] = value.ToString();
             }
@@ -319,15 +364,11 @@ namespace Moesif.Api
             else if (!(value.GetType().Namespace.StartsWith("System")))
             {
                 //Custom object Iterate through its properties
-                var enumerator = value.GetType().GetProperties().GetEnumerator();
-                PropertyInfo pInfo = null;
-                var t = new JsonPropertyAttribute().GetType();
-                while (enumerator.MoveNext())
+                var properties = value.GetType().GetProperties();
+                foreach (var pInfo in properties)
                 {
-                    pInfo = enumerator.Current as PropertyInfo;
-
-                    var jsonProperty = (JsonPropertyAttribute)pInfo.GetCustomAttributes(t, true).FirstOrDefault();
-                    var subName = (jsonProperty != null) ? jsonProperty.PropertyName : pInfo.Name;
+                    var jsonPropertyNameAttribute = pInfo.GetCustomAttribute<JsonPropertyNameAttribute>();
+                    var subName = jsonPropertyNameAttribute != null ? jsonPropertyNameAttribute.Name : pInfo.Name;
                     string fullSubName = string.IsNullOrWhiteSpace(name) ? subName : name + '[' + subName + ']';
                     var subValue = pInfo.GetValue(value, null);
                     PrepareFormFieldsFromObject(fullSubName, subValue, keys);
