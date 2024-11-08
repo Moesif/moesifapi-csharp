@@ -17,10 +17,11 @@ using Moesif.Api.Http.Response;
 using Moesif.Api.Http.Client;
 using Moesif.Api.Exceptions;
 using Moesif.Api.Models;
+using System.Diagnostics;
 
 namespace Moesif.Api.Controllers
 {
-    public partial class ApiController: BaseController
+    public partial class ApiController : BaseController
     {
         #region Singleton Pattern
 
@@ -63,9 +64,20 @@ namespace Moesif.Api.Controllers
         /// Add Single API Event Call
         /// </summary>
         /// <param name="body">Required parameter: Example: </param>
+        /// <param name="waitForResponse">Optional parameter: Default: true </param>
         /// <return>Returns the void response from the API call</return>
-        public async Task<Dictionary<string, string>> CreateEventAsync(EventModel body)
+        public async Task<Dictionary<string, string>> CreateEventAsync(EventModel body, bool waitForResponse = true)
         {
+
+            Stopwatch stopwatch = new Stopwatch();
+
+            stopwatch.Start();
+
+            long prepareReqUrlQueryHeaders = 0;
+            long prepareReqBody = 0;
+            long prepareReq = 0;
+            long executeReq = 0;
+
             //the base uri for api requestss
             string _baseUri = Configuration.BaseUri;
 
@@ -78,26 +90,65 @@ namespace Moesif.Api.Controllers
             string _queryUrl = ApiHelper.CleanUrl(_queryBuilder);
 
             //append request with appropriate headers and parameters
-            var _headers = new Dictionary<string,string>()
+            var _headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json; charset=utf-8" }
             };
             _headers.Add("X-Moesif-Application-Id", Configuration.ApplicationId);
 
+            prepareReqUrlQueryHeaders = stopwatch.ElapsedMilliseconds;
+
+            stopwatch.Restart();
+
             //append body params
             var _body = ApiHelper.JsonSerialize(body);
+
+            prepareReqBody = stopwatch.ElapsedMilliseconds;
+            stopwatch.Restart();
 
             //prepare the API call request to fetch the response
             HttpRequest _request = ClientInstance.PostBody(_queryUrl, _headers, _body);
 
-            //invoke request and get response
-            HttpStringResponse _response = (HttpStringResponse) await ClientInstance.ExecuteAsStringAsync(_request);
-            HttpContext _context = new HttpContext(_request,_response);
-            //handle errors defined at the API level
-            base.ValidateResponse(_response, _context);
+            prepareReq = stopwatch.ElapsedMilliseconds;
+            stopwatch.Restart();
 
-            // Return response headers
-            return _response.Headers;
+
+            //invoke request and get response if needed
+            if (!waitForResponse)
+            {
+                Console.WriteLine("Current UTC time BEFORE executeAsStringAsync: " + DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+
+                await ClientInstance.ExecuteAsStringAsync(_request);
+
+                //await Task.Run(async () => Task.Delay(2000));
+
+                Console.WriteLine("Current UTC time AFTER executeAsStringAsync: " + DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+
+
+                executeReq = stopwatch.ElapsedMilliseconds;
+                stopwatch.Stop();
+
+                Console.WriteLine("Current UTC time BEFORE CreateEventAsync return: " + DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+
+                Console.WriteLine($@"
+                            Exiting CreateEventAsync with time: {prepareReqUrlQueryHeaders + prepareReqBody + prepareReq + executeReq + stopwatch.ElapsedMilliseconds} ms
+                            prepareReqUrlQueryHeaders took: {prepareReqUrlQueryHeaders} ms
+                            prepareReqBody took: {prepareReqBody} ms
+                            prepareReq took: {prepareReq} ms
+                            executeReq took: {executeReq} ms");
+
+                return new Dictionary<string, string>();
+            }
+            else
+            {
+                HttpStringResponse _response = (HttpStringResponse)await ClientInstance.ExecuteAsStringAsync(_request);
+                HttpContext _context = new HttpContext(_request, _response);
+                //handle errors defined at the API level
+                base.ValidateResponse(_response, _context);
+
+                // Return response headers
+                return _response.Headers;
+            }
         }
 
         /// <summary>
@@ -142,7 +193,7 @@ namespace Moesif.Api.Controllers
             HttpRequest _request = ClientInstance.PostBody(_queryUrl, _headers, _body);
 
             //invoke request and get response
-            HttpStringResponse _response = (HttpStringResponse) await ClientInstance.ExecuteAsStringAsync(_request);
+            HttpStringResponse _response = (HttpStringResponse)await ClientInstance.ExecuteAsStringAsync(_request);
             HttpContext _context = new HttpContext(_request, _response);
             //handle errors defined at the API level
             base.ValidateResponse(_response, _context);
@@ -228,7 +279,8 @@ namespace Moesif.Api.Controllers
                 if (body == null)
                 {
                     Console.WriteLine("Body before serialization is null");
-                } else
+                }
+                else
                 {
                     foreach (EventModel eventData in body)
                     {
@@ -246,7 +298,7 @@ namespace Moesif.Api.Controllers
             string _queryUrl = ApiHelper.CleanUrl(_queryBuilder);
 
             //append request with appropriate headers and parameters
-            var _headers = new Dictionary<string,string>()
+            var _headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json; charset=utf-8" }
             };
@@ -264,8 +316,8 @@ namespace Moesif.Api.Controllers
             HttpRequest _request = ClientInstance.PostBody(_queryUrl, _headers, _body);
 
             //invoke request and get response
-            HttpStringResponse _response = (HttpStringResponse) await ClientInstance.ExecuteAsStringAsync(_request);
-            HttpContext _context = new HttpContext(_request,_response);
+            HttpStringResponse _response = (HttpStringResponse)await ClientInstance.ExecuteAsStringAsync(_request);
+            HttpContext _context = new HttpContext(_request, _response);
             //handle errors defined at the API level
             base.ValidateResponse(_response, _context);
 
@@ -465,4 +517,4 @@ namespace Moesif.Api.Controllers
 
         }
     }
-} 
+}
