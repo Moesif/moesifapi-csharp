@@ -3,21 +3,26 @@
  *
 
  */
+//  #define MOESIF_INSTRUMENT
+
 using System;
 using System.Collections.Generic;
-using System.Dynamic;
-using System.Globalization;
-using System.IO;
-using System.Linq;
+// using System.Dynamic;
+// using System.Globalization;
+// using System.IO;
+// using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Moesif.Api;
+// using Moesif.Api;
 using Moesif.Api.Http.Request;
 using Moesif.Api.Http.Response;
 using Moesif.Api.Http.Client;
-using Moesif.Api.Exceptions;
+// using Moesif.Api.Exceptions;
 using Moesif.Api.Models;
+
+#if MOESIF_INSTRUMENT
 using System.Diagnostics;
+#endif
 
 namespace Moesif.Api.Controllers
 {
@@ -68,16 +73,15 @@ namespace Moesif.Api.Controllers
         /// <return>Returns the void response from the API call</return>
         public async Task<Dictionary<string, string>> CreateEventAsync(EventModel body, bool waitForResponse = true)
         {
-
+#if MOESIF_INSTRUMENT
             Stopwatch stopwatch = new Stopwatch();
-
             stopwatch.Start();
 
             long prepareReqUrlQueryHeaders = 0;
             long prepareReqBody = 0;
             long prepareReq = 0;
             long executeReq = 0;
-
+#endif
             //the base uri for api requestss
             string _baseUri = Configuration.BaseUri;
 
@@ -95,48 +99,44 @@ namespace Moesif.Api.Controllers
                 { "content-type", "application/json; charset=utf-8" }
             };
             _headers.Add("X-Moesif-Application-Id", Configuration.ApplicationId);
-
+#if MOESIF_INSTRUMENT
             prepareReqUrlQueryHeaders = stopwatch.ElapsedMilliseconds;
-
             stopwatch.Restart();
+#endif
 
             //append body params
             var _body = ApiHelper.JsonSerialize(body);
-
+#if MOESIF_INSTRUMENT
             prepareReqBody = stopwatch.ElapsedMilliseconds;
             stopwatch.Restart();
-
+#endif
             //prepare the API call request to fetch the response
             HttpRequest _request = ClientInstance.PostBody(_queryUrl, _headers, _body);
-
+#if MOESIF_INSTRUMENT
             prepareReq = stopwatch.ElapsedMilliseconds;
             stopwatch.Restart();
-
+#endif
 
             //invoke request and get response if needed
             if (!waitForResponse)
             {
+#if MOESIF_INSTRUMENT
                 Console.WriteLine("Current UTC time BEFORE executeAsStringAsync: " + DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff"));
-
+#endif
                 await ClientInstance.ExecuteAsStringAsync(_request);
-
+#if MOESIF_INSTRUMENT
                 //await Task.Run(async () => Task.Delay(2000));
-
                 Console.WriteLine("Current UTC time AFTER executeAsStringAsync: " + DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff"));
-
-
                 executeReq = stopwatch.ElapsedMilliseconds;
                 stopwatch.Stop();
-
                 Console.WriteLine("Current UTC time BEFORE CreateEventAsync return: " + DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff"));
-
                 Console.WriteLine($@"
                             Exiting CreateEventAsync with time: {prepareReqUrlQueryHeaders + prepareReqBody + prepareReq + executeReq + stopwatch.ElapsedMilliseconds} ms
                             prepareReqUrlQueryHeaders took: {prepareReqUrlQueryHeaders} ms
                             prepareReqBody took: {prepareReqBody} ms
                             prepareReq took: {prepareReq} ms
                             executeReq took: {executeReq} ms");
-
+#endif
                 return new Dictionary<string, string>();
             }
             else
