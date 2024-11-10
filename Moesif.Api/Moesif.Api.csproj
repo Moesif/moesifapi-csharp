@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-	<TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
+	<TargetFrameworks>net462</TargetFrameworks>
 	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 	<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
@@ -10,25 +10,25 @@
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>Moesif.Api.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
-
-	<ItemGroup>
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
-		<PackageReference Include="Unirest-APIMATIC" Version="1.0.1.26" />
-	</ItemGroup>
-
-	<ItemGroup Condition="'$(TargetFramework)' == 'net45'">
-		<Reference Include="System" />
-		<Reference Include="System.Net.Http" />
-	</ItemGroup>
-    <ItemGroup>
-	    <Folder Include="Models\" />
-	    <Folder Include="Controllers\" />
-	    <Folder Include="Http\Client\" />
-	    <Folder Include="Http\Request\" />
-	    <Folder Include="Http\Response" />
-		<Folder Include="Exceptions" />
-		<Folder Include="Properties" />
-    <None Include="Moesif.Api.nuspec" />
-    <None Include="Moesif.Api.snk" />
+<ItemGroup>
+		<PackageReference Include="Unirest-APIMATIC" Version="1.0.1.27" />
+</ItemGroup>
+<ItemGroup Condition="'$(TargetFramework)' == 'net462'">
+	<Reference Include="System" />
+	<Reference Include="System.Net.Http" />
+</ItemGroup>
+<ItemGroup>
+	<Folder Include="Models\" />
+	<Folder Include="Controllers\" />
+	<Folder Include="Http\Client\" />
+	<Folder Include="Http\Request\" />
+	<Folder Include="Http\Response" />
+	<Folder Include="Exceptions" />
+	<Folder Include="Properties" />
+	<None Include="Moesif.Api.nuspec" />
+	<None Include="Moesif.Api.snk" />
+  </ItemGroup>
+  <ItemGroup>
+	  <PackageReference Include="System.Text.Json" Version="8.0.5" />
   </ItemGroup>
 </Project>

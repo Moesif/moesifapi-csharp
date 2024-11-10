@@ -3,7 +3,7 @@
  *
 
  */
-//  #define MOESIF_INSTRUMENT
+#define MOESIF_INSTRUMENT
 
 using System;
 using System.Collections.Generic;
@@ -178,14 +178,20 @@ namespace Moesif.Api.Controllers
 
             //validate and preprocess url
             string _queryUrl = ApiHelper.CleanUrl(_queryBuilder);
-
+#if MOESIF_INSTRUMENT
+            Console.WriteLine("_queryUrl");
+            Console.WriteLine(_queryUrl);
+#endif
             //append request with appropriate headers and parameters
             var _headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json; charset=utf-8" }
             };
             _headers.Add("X-Moesif-Application-Id", Configuration.ApplicationId);
-
+#if MOESIF_INSTRUMENT
+            Console.WriteLine("_headers");
+            Console.WriteLine(_headers);
+#endif
             //append body params
             var _body = ApiHelper.JsonSerialize(body);
 
