@@ -12,11 +12,11 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+// using System.Threading.Tasks;
 //using Newtonsoft.Json;
 //using Newtonsoft.Json.Converters;
 //using Newtonsoft.Json.Linq;
-using unirest_net.request;
+// using unirest_net.request;
 
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -28,14 +28,7 @@ namespace Moesif.Api
     {
         //DateTime format to use for parsing and converting dates
         public static string DateTimeFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss.FFFFFFFK";
-
-        /// <summary>
-        /// JSON Serialization of a given object.
-        /// </summary>
-        /// <param name="obj">The object to serialize into JSON</param>
-        /// <returns>The serialized Json string representation of the given object</returns>
-        /// 
-
+        
         public class DateTimeConverterUsingDateTimeFormat : JsonConverter<DateTime>
         {
             private readonly string _dateTimeFormat;
@@ -55,19 +48,32 @@ namespace Moesif.Api
                 writer.WriteStringValue(value.ToString(_dateTimeFormat));
             }
         }
-
+        
+        public static JsonSerializerOptions CommonOptions = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true,
+            WriteIndented = false, // Equivalent to Formatting.None
+            Converters = { new DateTimeConverterUsingDateTimeFormat(DateTimeFormat) }
+        };
+        
+        /// <summary>
+        /// JSON Serialization of a given object.
+        /// </summary>
+        /// <param name="obj">The object to serialize into JSON</param>
+        /// <returns>The serialized Json string representation of the given object</returns>
+        /// 
         public static string JsonSerialize(object obj)
         {
             if (null == obj)
                 return null;
 
-            var options = new JsonSerializerOptions
-            {
-                WriteIndented = false, // Equivalent to Formatting.None
-                Converters = { new DateTimeConverterUsingDateTimeFormat(DateTimeFormat) }
-            };
+            // var options = new JsonSerializerOptions
+            // {
+            //     WriteIndented = false, // Equivalent to Formatting.None
+            //     Converters = { new DateTimeConverterUsingDateTimeFormat(DateTimeFormat) }
+            // };
 
-            return JsonSerializer.Serialize(obj, options);
+            return JsonSerializer.Serialize(obj, CommonOptions);
 
             // return JsonSerializer.Serialize(obj, Formatting.None,
             //      new IsoDateTimeConverter() { DateTimeFormat = DateTimeFormat });
@@ -84,15 +90,15 @@ namespace Moesif.Api
             if (string.IsNullOrWhiteSpace(json))
                 return default(T);
 
-            var options = new JsonSerializerOptions
-            {
-                Converters =
-                {
-                    new DateTimeConverterUsingDateTimeFormat(DateTimeFormat) // Pass your date time format here
-                }
-            };
+            // var options = new JsonSerializerOptions
+            // {
+            //     Converters =
+            //     {
+            //         new DateTimeConverterUsingDateTimeFormat(DateTimeFormat) // Pass your date time format here
+            //     }
+            // };
 
-            T obj = JsonSerializer.Deserialize<T>(json, options);
+            T obj = JsonSerializer.Deserialize<T>(json, CommonOptions);
             return obj;    
 
             // return JsonSerializer.Deserialize<T>(json,
@@ -102,7 +108,7 @@ namespace Moesif.Api
         /// <summary>
         /// Replaces template parameters in the given url
         /// </summary>
-        /// <param name="queryUrl">The query url string to replace the template parameters</param>
+        /// <param name="queryBuilder">The query url string to replace the template parameters</param>
         /// <param name="parameters">The parameters to replace in the url</param>
         public static void AppendUrlWithTemplateParameters
             (StringBuilder queryBuilder, IEnumerable<KeyValuePair<string, object>> parameters)
@@ -139,7 +145,7 @@ namespace Moesif.Api
         /// <summary>
         /// Appends the given set of parameters to the given query string
         /// </summary>
-        /// <param name="queryUrl">The query url string to append the parameters</param>
+        /// <param name="queryBuilder">The query url string to append the parameters</param>
         /// <param name="parameters">The parameters to append</param>
         public static void AppendUrlWithQueryParameters
             (StringBuilder queryBuilder, IEnumerable<KeyValuePair<string, object>> parameters)
@@ -240,7 +246,7 @@ namespace Moesif.Api
             string parameters = index == -1 ? "" : url.Substring(index);
 
             //return process url
-            return string.Concat(protocol, query, parameters);;
+            return string.Concat(protocol, query, parameters);
         }
 
         /// <summary>
@@ -301,13 +307,12 @@ namespace Moesif.Api
                 keys[name] = value;
                 return keys;
             }
-            else if (value is JsonDocument)
+            else if (value is JsonElement jsonElement && jsonElement.ValueKind == JsonValueKind.Object)
             {
-                var valueAccept = (value as Newtonsoft.Json.Linq.JObject);
-                foreach (var property in valueAccept.Properties())
+                foreach (JsonProperty property in jsonElement.EnumerateObject())
                 {
                     string pKey = property.Name;
-                    object pValue = property.Value;
+                    JsonElement pValue = property.Value;
                     var fullSubName = name + '[' + pKey + ']';
                     PrepareFormFieldsFromObject(fullSubName, pValue, keys);
                 }
@@ -395,6 +400,34 @@ namespace Moesif.Api
             foreach (var kvp in dictionary2)
             {
                 dictionary[kvp.Key] = kvp.Value;
+            }
+        }
+        
+        public static void PopulateObject<T>(this string json, T target) where T : class
+        {
+            try
+            {
+                // var options = new JsonSerializerOptions
+                // {
+                //     PropertyNameCaseInsensitive = true
+                // };
+
+                var tempObject = JsonSerializer.Deserialize<T>(json, CommonOptions);
+                if (tempObject != null)
+                {
+                    var properties = typeof(T).GetProperties();
+                    foreach (var prop in properties)
+                    {
+                        if (prop.CanWrite)
+                        {
+                            prop.SetValue(target, prop.GetValue(tempObject));
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                // Ignoring deserialization errors
             }
         }
     }

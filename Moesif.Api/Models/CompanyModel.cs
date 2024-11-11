@@ -4,15 +4,17 @@
 
  */
 using System;
-using System.IO;
-using System.Collections.Generic;
+// using System.IO;
+// using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Moesif.Api;
+// using System.Linq;
+// using System.Text;
+// using System.Threading.Tasks;
+// using Newtonsoft.Json;
+// using Newtonsoft.Json.Converters;
+// using System.Text.Json;
+using System.Text.Json.Serialization;
+// using Moesif.Api;
 
 namespace Moesif.Api.Models
 {
@@ -30,7 +32,7 @@ namespace Moesif.Api.Models
         /// <summary>
         /// Time when request was made
         /// </summary>
-        [JsonProperty("modified_time")]
+        [JsonPropertyName("modified_time")]
         public DateTime ModifiedTime
         {
             get
@@ -47,7 +49,7 @@ namespace Moesif.Api.Models
         /// <summary>
         /// End user's auth/session token
         /// </summary>
-        [JsonProperty("session_token")]
+        [JsonPropertyName("session_token")]
         public string SessionToken
         {
             get
@@ -64,7 +66,7 @@ namespace Moesif.Api.Models
         /// <summary>
         /// End user's ip address
         /// </summary>
-        [JsonProperty("ip_address")]
+        [JsonPropertyName("ip_address")]
         public string IpAddress
         {
             get
@@ -81,7 +83,7 @@ namespace Moesif.Api.Models
         /// <summary>
         /// End user's user_id string from your app
         /// </summary>
-        [JsonProperty("company_id")]
+        [JsonPropertyName("company_id")]
         public string CompanyId
         {
             get
@@ -98,7 +100,7 @@ namespace Moesif.Api.Models
         /// <summary>
         /// End user's user_agent_string string from your app
         /// </summary>
-        [JsonProperty("company_domain")]
+        [JsonPropertyName("company_domain")]
         public string CompanyDomain
         {
             get
@@ -115,7 +117,7 @@ namespace Moesif.Api.Models
         /// <summary>
         /// Metadata from your app, see documentation
         /// </summary>
-        [JsonProperty("metadata")]
+        [JsonPropertyName("metadata")]
         public object Metadata
         {
             get
@@ -132,7 +134,7 @@ namespace Moesif.Api.Models
         /// <summary>
         /// Campaign object
         /// </summary>
-        [JsonProperty("campaign")]
+        [JsonPropertyName("campaign")]
         public CampaignModel Campaign 
         { 
             get 

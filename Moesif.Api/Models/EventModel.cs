@@ -4,15 +4,17 @@
 
  */
 using System;
-using System.IO;
-using System.Collections.Generic;
+// using System.IO;
+// using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Moesif.Api;
+// using System.Linq;
+// using System.Text;
+// using System.Threading.Tasks;
+// using Newtonsoft.Json;
+// using Newtonsoft.Json.Converters;
+// using System.Text.Json;
+using System.Text.Json.Serialization;
+// using Moesif.Api;
 
 namespace Moesif.Api.Models
 {
@@ -34,7 +36,7 @@ namespace Moesif.Api.Models
         /// <summary>
         /// API request object
         /// </summary>
-        [JsonProperty("request")]
+        [JsonPropertyName("request")]
         public EventRequestModel Request 
         { 
             get 
@@ -51,7 +53,7 @@ namespace Moesif.Api.Models
         /// <summary>
         /// API response Object
         /// </summary>
-        [JsonProperty("response")]
+        [JsonPropertyName("response")]
         public EventResponseModel Response 
         { 
             get 
@@ -68,7 +70,7 @@ namespace Moesif.Api.Models
         /// <summary>
         /// context.Request.User from Apim policy
         /// </summary>
-        [JsonProperty("context")]
+        [JsonPropertyName("context")]
         public ContextModel Context 
         { 
             get 
@@ -85,7 +87,7 @@ namespace Moesif.Api.Models
         /// <summary>
         /// End user's auth/session token
         /// </summary>
-        [JsonProperty("session_token")]
+        [JsonPropertyName("session_token")]
         public string SessionToken 
         { 
             get 
@@ -102,7 +104,7 @@ namespace Moesif.Api.Models
         /// <summary>
         /// comma separated list of tags, see documentation
         /// </summary>
-        [JsonProperty("tags")]
+        [JsonPropertyName("tags")]
         public string Tags 
         { 
             get 
@@ -119,7 +121,7 @@ namespace Moesif.Api.Models
         /// <summary>
         /// End user's user_id string from your app
         /// </summary>
-        [JsonProperty("user_id")]
+        [JsonPropertyName("user_id")]
         public string UserId 
         { 
             get 
@@ -136,7 +138,7 @@ namespace Moesif.Api.Models
         /// <summary>
         /// company_id string
         /// </summary>
-        [JsonProperty("company_id")]
+        [JsonPropertyName("company_id")]
         public string CompanyId
         {
             get
@@ -153,7 +155,7 @@ namespace Moesif.Api.Models
         /// <summary>
         /// Metadata from your app, see documentation
         /// </summary>
-        [JsonProperty("metadata")]
+        [JsonPropertyName("metadata")]
         public object Metadata
         {
             get 
@@ -170,7 +172,7 @@ namespace Moesif.Api.Models
         /// <summary>
         /// direction string
         /// </summary>
-        [JsonProperty("direction")]
+        [JsonPropertyName("direction")]
         public string Direction
         {
             get
@@ -187,7 +189,7 @@ namespace Moesif.Api.Models
         /// <summary>
         /// Weight of an API call
         /// </summary>
-        [JsonProperty("weight")]
+        [JsonPropertyName("weight")]
         public int Weight
         {
             get
@@ -201,7 +203,7 @@ namespace Moesif.Api.Models
             }
         }
 
-        [JsonProperty("blocked_by")]
+        [JsonPropertyName("blocked_by")]
         public string BlockedBy
         {
             get

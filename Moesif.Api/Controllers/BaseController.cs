@@ -10,6 +10,10 @@ using Moesif.Api.Exceptions;
 using System.IO;
 using System.Text;
 
+// using Microsoft.AspNetCore.Mvc;
+// using System.Net.Http;
+// using System.Threading.Tasks;
+
 namespace Moesif.Api.Controllers
 {
     public partial class BaseController
@@ -17,7 +21,7 @@ namespace Moesif.Api.Controllers
         #region shared http client instance
         private static object syncObject = new object();
         private static IHttpClient clientInstance = null;
-
+        
         public static IHttpClient ClientInstance
         {
             get
@@ -43,6 +47,13 @@ namespace Moesif.Api.Controllers
             }
         }
         #endregion shared http client instance
+        // protected readonly IHttpClientFactory _httpClientFactory;
+        //
+        // public BaseController(IHttpClientFactory httpClientFactory)
+        // {
+        //     _httpClientFactory = httpClientFactory;
+        // }
+        
 
         /// <summary>
         /// Validates the response against HTTP errors defined at the API level

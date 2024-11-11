@@ -4,15 +4,17 @@
 
  */
 using System;
-using System.IO;
-using System.Collections.Generic;
+// using System.IO;
+// using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Moesif.Api;
+// using System.Linq;
+// using System.Text;
+// using System.Threading.Tasks;
+// using Newtonsoft.Json;
+// using Newtonsoft.Json.Converters;
+// using System.Text.Json;
+using System.Text.Json.Serialization;
+// using Moesif.Api;
 
 namespace Moesif.Api.Models
 {
@@ -31,7 +33,7 @@ namespace Moesif.Api.Models
         /// <summary>
         /// the utm source
         /// </summary>
-        [JsonProperty("utm_source")]
+        [JsonPropertyName("utm_source")]
         public string UtmSource
         {
             get
@@ -48,7 +50,7 @@ namespace Moesif.Api.Models
         /// <summary>
         /// the utm medium
         /// </summary>
-        [JsonProperty("utm_medium")]
+        [JsonPropertyName("utm_medium")]
         public string UtmMedium
         {
             get
@@ -65,7 +67,7 @@ namespace Moesif.Api.Models
         /// <summary>
         /// the utm campaign
         /// </summary>
-        [JsonProperty("utm_campaign")]
+        [JsonPropertyName("utm_campaign")]
         public string UtmCampaign
         {
             get
@@ -82,7 +84,7 @@ namespace Moesif.Api.Models
         /// <summary>
         /// the utm term
         /// </summary>
-        [JsonProperty("utm_term")]
+        [JsonPropertyName("utm_term")]
         public string UtmTerm
         {
             get
@@ -99,7 +101,7 @@ namespace Moesif.Api.Models
         /// <summary>
         /// the utm Content
         /// </summary>
-        [JsonProperty("utm_content")]
+        [JsonPropertyName("utm_content")]
         public string UtmContent
         {
             get
@@ -116,7 +118,7 @@ namespace Moesif.Api.Models
         /// <summary>
         /// the referrer
         /// </summary>
-        [JsonProperty("referrer")]
+        [JsonPropertyName("referrer")]
         public string Referrer
         {
             get
@@ -133,7 +135,7 @@ namespace Moesif.Api.Models
         /// <summary>
         /// the referring domain
         /// </summary>
-        [JsonProperty("referring_domain")]
+        [JsonPropertyName("referring_domain")]
         public string ReferringDomain
         {
             get
@@ -150,7 +152,7 @@ namespace Moesif.Api.Models
         /// <summary>
         /// the gclid
         /// </summary>
-        [JsonProperty("gclid")]
+        [JsonPropertyName("gclid")]
         public string Gclid
         {
             get

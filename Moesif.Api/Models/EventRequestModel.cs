@@ -4,15 +4,17 @@
 
  */
 using System;
-using System.IO;
+// using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Moesif.Api;
+// using System.Linq;
+// using System.Text;
+// using System.Threading.Tasks;
+// using Newtonsoft.Json;
+// using Newtonsoft.Json.Converters;
+// using System.Text.Json;
+using System.Text.Json.Serialization;
+// using Moesif.Api;
 
 namespace Moesif.Api.Models
 {
@@ -31,7 +33,7 @@ namespace Moesif.Api.Models
         /// <summary>
         /// Time when request was made
         /// </summary>
-        [JsonProperty("time")]
+        [JsonPropertyName("time")]
         public DateTime Time 
         { 
             get 
@@ -48,7 +50,7 @@ namespace Moesif.Api.Models
         /// <summary>
         /// full uri of request such as https://www.example.com/my_path?param=1
         /// </summary>
-        [JsonProperty("uri")]
+        [JsonPropertyName("uri")]
         public string Uri 
         { 
             get 
@@ -65,7 +67,7 @@ namespace Moesif.Api.Models
         /// <summary>
         /// verb of the API request such as GET or POST
         /// </summary>
-        [JsonProperty("verb")]
+        [JsonPropertyName("verb")]
         public string Verb 
         { 
             get 
@@ -82,7 +84,7 @@ namespace Moesif.Api.Models
         /// <summary>
         /// Key/Value map of request headers
         /// </summary>
-        [JsonProperty("headers")]
+        [JsonPropertyName("headers")]
         public Dictionary<string, string> Headers 
         { 
             get 
@@ -99,7 +101,7 @@ namespace Moesif.Api.Models
         /// <summary>
         /// Optionally tag the call with your API or App version
         /// </summary>
-        [JsonProperty("api_version")]
+        [JsonPropertyName("api_version")]
         public string ApiVersion 
         { 
             get 
@@ -116,7 +118,7 @@ namespace Moesif.Api.Models
         /// <summary>
         /// IP Address of the client if known.
         /// </summary>
-        [JsonProperty("ip_address")]
+        [JsonPropertyName("ip_address")]
         public string IpAddress 
         { 
             get 
@@ -133,7 +135,7 @@ namespace Moesif.Api.Models
         /// <summary>
         /// Request body
         /// </summary>
-        [JsonProperty("body")]
+        [JsonPropertyName("body")]
         public object Body 
         { 
             get 
@@ -150,7 +152,7 @@ namespace Moesif.Api.Models
         /// <summary>
         /// Transfer Encoding of the body such as "base64", null value implies "json" transfer encoding.
         /// </summary>
-        [JsonProperty("transfer_encoding")]
+        [JsonPropertyName("transfer_encoding")]
         public string TransferEncoding
         {
             get

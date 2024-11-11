@@ -1,6 +1,8 @@
 using System;
 using System.ComponentModel;
-using Newtonsoft.Json;
+// using Newtonsoft.Json;
+// using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Moesif.Api.Models
 {
@@ -8,7 +10,7 @@ namespace Moesif.Api.Models
     {
         private ContextUserModel user;
 
-        [JsonProperty("user")]
+        [JsonPropertyName("user")]
         public ContextUserModel User
         {
             get
@@ -48,7 +50,7 @@ namespace Moesif.Api.Models
         private String firstName;
         private String lastName;
 
-        [JsonProperty("Id")]
+        [JsonPropertyName("Id")]
         public String Id
         {
             get
@@ -62,7 +64,7 @@ namespace Moesif.Api.Models
             }
         }
 
-        [JsonProperty("Email")]
+        [JsonPropertyName("Email")]
         public String Email
         {
             get
@@ -76,7 +78,7 @@ namespace Moesif.Api.Models
             }
         }
 
-        [JsonProperty("FirstName")]
+        [JsonPropertyName("FirstName")]
         public String FirstName
         {
             get
@@ -89,7 +91,7 @@ namespace Moesif.Api.Models
                 onPropertyChanged("FirstName");
             }
         }
-        [JsonProperty("LastName")]
+        [JsonPropertyName("LastName")]
         public String LastName
         {
             get
@@ -123,7 +125,8 @@ namespace Moesif.Api.Models
         {
             ContextUserModel m = null;
             if (!string.IsNullOrWhiteSpace(jsonStr))
-                m = JsonConvert.DeserializeObject<ContextUserModel>(jsonStr.Trim());
+                // m = JsonConvert.DeserializeObject<ContextUserModel>(jsonStr.Trim());
+                m = ApiHelper.JsonDeserialize<ContextUserModel>(jsonStr.Trim());
             return m;
         }
     }

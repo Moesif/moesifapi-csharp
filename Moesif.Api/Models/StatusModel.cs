@@ -4,15 +4,17 @@
 
  */
 using System;
-using System.IO;
-using System.Collections.Generic;
+// using System.IO;
+// using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Moesif.Api;
+// using System.Linq;
+// using System.Text;
+// using System.Threading.Tasks;
+// using Newtonsoft.Json;
+// using Newtonsoft.Json.Converters;
+// using System.Text.Json;
+using System.Text.Json.Serialization;
+// using Moesif.Api;
 
 namespace Moesif.Api.Models
 {
@@ -25,7 +27,7 @@ namespace Moesif.Api.Models
         /// <summary>
         /// Status of Call
         /// </summary>
-        [JsonProperty("status")]
+        [JsonPropertyName("status")]
         public bool Status 
         { 
             get 
@@ -42,7 +44,7 @@ namespace Moesif.Api.Models
         /// <summary>
         /// Location
         /// </summary>
-        [JsonProperty("region")]
+        [JsonPropertyName("region")]
         public string Region 
         { 
             get 

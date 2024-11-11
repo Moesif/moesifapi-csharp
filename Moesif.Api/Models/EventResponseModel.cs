@@ -4,15 +4,17 @@
 
  */
 using System;
-using System.IO;
+// using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Moesif.Api;
+// using System.Linq;
+// using System.Text;
+// using System.Threading.Tasks;
+// using Newtonsoft.Json;
+// using Newtonsoft.Json.Converters;
+// using System.Text.Json;
+using System.Text.Json.Serialization;
+// using Moesif.Api;
 
 namespace Moesif.Api.Models
 {
@@ -29,7 +31,7 @@ namespace Moesif.Api.Models
         /// <summary>
         /// Time when response received
         /// </summary>
-        [JsonProperty("time")]
+        [JsonPropertyName("time")]
         public DateTime Time 
         { 
             get 
@@ -46,7 +48,7 @@ namespace Moesif.Api.Models
         /// <summary>
         /// HTTP Status code such as 200
         /// </summary>
-        [JsonProperty("status")]
+        [JsonPropertyName("status")]
         public int Status 
         { 
             get 
@@ -63,7 +65,7 @@ namespace Moesif.Api.Models
         /// <summary>
         /// Key/Value map of response headers
         /// </summary>
-        [JsonProperty("headers")]
+        [JsonPropertyName("headers")]
         public Dictionary<string, string> Headers 
         { 
             get 
@@ -80,7 +82,7 @@ namespace Moesif.Api.Models
         /// <summary>
         /// Response body
         /// </summary>
-        [JsonProperty("body")]
+        [JsonPropertyName("body")]
         public object Body 
         { 
             get 
@@ -97,7 +99,7 @@ namespace Moesif.Api.Models
         /// <summary>
         /// IP Address from the response, such as the server IP Address
         /// </summary>
-        [JsonProperty("ip_address")]
+        [JsonPropertyName("ip_address")]
         public string IpAddress 
         { 
             get 
@@ -114,7 +116,7 @@ namespace Moesif.Api.Models
         /// <summary>
         /// Transfer Encoding of the body such as "base64", null value implies "json" transfer encoding.
         /// </summary>
-        [JsonProperty("transfer_encoding")]
+        [JsonPropertyName("transfer_encoding")]
         public string TransferEncoding
         {
             get

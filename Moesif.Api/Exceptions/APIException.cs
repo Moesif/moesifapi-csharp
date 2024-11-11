@@ -5,8 +5,10 @@
  */
 using System;
 using System.IO;
-using Newtonsoft.Json;
+// using Newtonsoft.Json;
+// using System.Text;
 using Moesif.Api.Http.Client;
+using Moesif.Api.Models;
 
 namespace Moesif.Api.Exceptions
 {
@@ -47,7 +49,11 @@ namespace Moesif.Api.Exceptions
                 var responseBody = reader.ReadToEnd();
                 if (!string.IsNullOrWhiteSpace(responseBody))
                 {
-                    try { JsonConvert.PopulateObject(responseBody, this); }
+                    try
+                    {
+                        // JsonConvert.PopulateObject(responseBody, this);
+                        ApiHelper.JsonDeserialize<EventResponseModel>(responseBody);
+                    }
                     catch { } //ignoring response body from deserailization
                 }
             }
