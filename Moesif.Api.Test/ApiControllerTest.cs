@@ -1,15 +1,10 @@
 using System;
 using Xunit;
 using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
 using System.Threading.Tasks;
-using Moesif.Api;
 using Moesif.Api.Controllers;
 using Moesif.Api.Models;
 using Moesif.Api.Exceptions;
-using Moesif.Api.Http.Client;
-using Moesif.Api.Test.Helpers;
 
 
 namespace Moesif.Api.Test
@@ -56,7 +51,7 @@ namespace Moesif.Api.Test
             var eventReq = new EventRequestModel()
             {
                 Time = DateTime.UtcNow.AddSeconds(-1),
-                Uri = "https://api.acmeinc.com/items/reviews/",
+                Uri = "https://api.acmeinc.com/items/reviews/?foo=bar&yes=true&no=1.23",
                 Verb = "PATCH",
                 ApiVersion = "1.1.0",
                 IpAddress = "61.48.220.123",
@@ -104,7 +99,10 @@ namespace Moesif.Api.Test
                 controller = ControllerTestBase.GetClient().Api;
                 rsp = await controller.CreateEventAsync(eventModel);
             }
-            catch (APIException) { rsp = null; };
+            catch (APIException ex) {
+                Console.WriteLine("Exception happened " + ex.ToString());
+                rsp = null;
+            };
 
             // Test response code
             Assert.NotEqual(null, rsp);
@@ -149,6 +147,8 @@ namespace Moesif.Api.Test
             {
                 controller = ControllerTestBase.GetClient().Api;
                 rsp = await controller.GetAppConfigAsync();
+                //Console.WriteLine("This is a debug message.");
+                //Console.WriteLine(rsp.Body);
             }
             catch (APIException) { rsp = null; };
 
@@ -355,12 +355,14 @@ namespace Moesif.Api.Test
         public async Task TestContextUserModel()
         {
             string jStr = @"{
-                'Id' : 'v1',
-                'Email' : 'v2',
-                'FirstName' : 'v3',
-                'LastName' : 'v4',
+                ""Id"" : ""v1"",
+                ""Email"" : ""v2"",
+                ""FirstName"" : ""v3"",
+                ""LastName"" : ""v4""
             }";
+            //Console.WriteLine("TestContextUserModel [1]");
             ContextUserModel m = ContextUserModel.deserialize(jStr);
+            //Console.WriteLine("TestContextUserModel [2]");
             Assert.Equal("v1", m.Id);
             Assert.Equal("v2", m.Email);
             Assert.Equal("v3", m.FirstName);

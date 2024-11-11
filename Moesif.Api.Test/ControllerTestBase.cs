@@ -31,7 +31,7 @@ namespace Moesif.Api.Test
         }
 
         // Singleton instance of client for all test classes
-        private static MoesifApiClient client;
+        private static MoesifApiClient client = null;
         private static object clientSync = new object();
 
         /// <summary>
