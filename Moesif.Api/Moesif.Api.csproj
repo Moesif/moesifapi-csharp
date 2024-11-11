@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-	<TargetFrameworks>net462</TargetFrameworks>
+	<TargetFrameworks>netstandard2.0;net462</TargetFrameworks>
 	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 	<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
@@ -11,7 +11,7 @@
     <AssemblyOriginatorKeyFile>Moesif.Api.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 <ItemGroup>
-		<PackageReference Include="Unirest-APIMATIC" Version="1.0.1.27" />
+		<PackageReference Include="Unirest-APIMATIC" Version="1.0.1.26" />
 </ItemGroup>
 <ItemGroup Condition="'$(TargetFramework)' == 'net462'">
 	<Reference Include="System" />
