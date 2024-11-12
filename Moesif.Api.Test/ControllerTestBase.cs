@@ -44,7 +44,8 @@ namespace Moesif.Api.Test
             {
                 if (client == null)
                 {
-                    client = new MoesifApiClient("Your Moesif Application Id", null, false);
+                    string moesifApplicationId = Environment.GetEnvironmentVariable("MOESIF_APPLICATION_ID") ?? "Your Moesif Application Id";
+                    client = new MoesifApiClient(moesifApplicationId, null, false);
                 }
                 return client;
             }
