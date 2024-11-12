@@ -135,7 +135,8 @@ namespace Moesif.Api
                 else
                     replaceValue = pair.Value.ToString();
 
-                replaceValue = Uri.EscapeUriString(replaceValue);
+                // replaceValue = Uri.EscapeUriString(replaceValue);
+                replaceValue = Uri.EscapeDataString(replaceValue);
 
                 //find the template parameter and replace it with its value
                 queryBuilder.Replace(string.Format("{{{0}}}", pair.Key), replaceValue);
