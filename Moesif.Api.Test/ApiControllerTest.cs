@@ -156,6 +156,26 @@ namespace Moesif.Api.Test
             Assert.NotEqual(null, rsp);
         }
 
+        /// Get Application Config
+        /// </summary>
+        [Fact]
+        public async Task TestGetGovRule()
+        {
+            Http.Response.HttpStringResponse rsp;
+            // Perform API call
+            try
+            {
+                controller = ControllerTestBase.GetClient().Api;
+                rsp = await controller.GetGovernanceRuleAsync();
+                //Console.WriteLine("This is a debug message.");
+                //Console.WriteLine(rsp.Body);
+            }
+            catch (APIException) { rsp = null; };
+
+            // Test response code
+            Assert.NotEqual(null, rsp);
+        }
+
         [Fact]
         public async Task TestUpdateUser()
         {
