@@ -11,11 +11,6 @@
     <AssemblyOriginatorKeyFile>Moesif.Api.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
-	<ItemGroup>
-<!--		<PackageReference Include="Newtonsoft.Json" Version="13.0.2" />-->
-<!--		<PackageReference Include="Unirest-APIMATIC" Version="1.0.1.26" />-->
-	</ItemGroup>
-
 <!--	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">-->
 <!--		<Reference Include="System" />-->
 <!--		<Reference Include="System.Net.Http" />-->
@@ -33,5 +28,13 @@
   </ItemGroup>
 <!--  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">-->
 <!--	<PackageReference Include="System.Text.Json" Version="8.0.5" />-->
+<!--  <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />-->
+<!--	<PackageReference Include="Unirest-APIMATIC" Version="1.0.1.26" />-->
 <!--  </ItemGroup>-->
+  <PropertyGroup>
+    <NuspecFile>Moesif.Api.nuspec</NuspecFile>
+    <NuspecProperties>$(NuspecProperties);configuration=$(Configuration)</NuspecProperties>
+    <NuspecBasePath>$(OutputPath)</NuspecBasePath>
+  </PropertyGroup>
+  
 </Project>
