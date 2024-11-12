@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Moesif.Api</id>
-    <version>2.0.9</version>
+    <version>3.0.1-a</version>
     <title>MoesifApi</title>
     <authors>Moesif</authors>
     <owners>Moesif</owners>
@@ -13,7 +13,7 @@
     <description>Log API Calls to Moesif API Analytics</description>
     <summary />
     <releaseNotes />
-	<copyright>Copyright 2023</copyright>
+	<copyright>Copyright 2024</copyright>
     <language>en-US</language>
 	  <tags>azure web app moesif API analytics insights debug debugging log logging apm performance monitor monitoring restful rest graphql ethereum web3 json-rpc soap net microsoft</tags>
 	  <dependencies>
@@ -29,7 +29,8 @@
   </metadata>
   <files>
 	<file src="bin\Release\netstandard2.0\Moesif.Api.dll" target="lib\netstandard2.0\Moesif.Api.dll" />
-	<file src="bin\Release\net45\Moesif.Api.dll" target="lib\net45\Moesif.Api.dll" />  
+	<file src="bin\Release\net45\Moesif.Api.dll" target="lib\net45\Moesif.Api.dll" />
+	<file src="bin\Release\net6.0\Moesif.Api.dll" target="lib\net6.0\Moesif.Api.dll" />
     <file src="..\README.md" target="readme.txt" />
     <file src="..\LICENSE" target="LICENSE" />
   </files>

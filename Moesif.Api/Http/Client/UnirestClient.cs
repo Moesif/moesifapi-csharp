@@ -34,7 +34,11 @@ namespace Moesif.Api.Http.Client
 
         private static string Version;
         // private readonly HttpClient _httpClient = null;
-        private static readonly UniHttp.HttpClient httpClient = new UniHttp.HttpClient();
+        private static UniHttp.HttpClientHandler handler = new UniHttp.HttpClientHandler
+        {
+            ServerCertificateCustomValidationCallback = UniHttp.HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+        };
+        private static readonly UniHttp.HttpClient httpClient = new UniHttp.HttpClient(handler);
 
         static UnirestClient() {
             SharedClient = new UnirestClient();
