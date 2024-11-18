@@ -1,14 +1,26 @@
 using System;
 using System.ComponentModel;
-using Newtonsoft.Json;
+using System.Diagnostics.CodeAnalysis;
+
+#if NET6_0_OR_GREATER
+    using System.Text.Json.Serialization;
+#else
+    using Newtonsoft.Json;
+#endif
 
 namespace Moesif.Api.Models
 {
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
     public class ContextModel : INotifyPropertyChanged
     {
         private ContextUserModel user;
 
+#if NET6_0_OR_GREATER
+        [JsonPropertyName("user")]
+#else
         [JsonProperty("user")]
+#endif
         public ContextUserModel User
         {
             get
@@ -41,6 +53,8 @@ namespace Moesif.Api.Models
     
     }
 
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
     public class ContextUserModel : INotifyPropertyChanged 
     {
         private String id;
@@ -48,7 +62,11 @@ namespace Moesif.Api.Models
         private String firstName;
         private String lastName;
 
+#if NET6_0_OR_GREATER
+        [JsonPropertyName("Id")]
+#else
         [JsonProperty("Id")]
+#endif
         public String Id
         {
             get
@@ -62,7 +80,11 @@ namespace Moesif.Api.Models
             }
         }
 
+#if NET6_0_OR_GREATER
+        [JsonPropertyName("Email")]
+#else
         [JsonProperty("Email")]
+#endif
         public String Email
         {
             get
@@ -76,7 +98,11 @@ namespace Moesif.Api.Models
             }
         }
 
+#if NET6_0_OR_GREATER
+        [JsonPropertyName("FirstName")]
+#else
         [JsonProperty("FirstName")]
+#endif
         public String FirstName
         {
             get
@@ -89,7 +115,12 @@ namespace Moesif.Api.Models
                 onPropertyChanged("FirstName");
             }
         }
+
+#if NET6_0_OR_GREATER
+        [JsonPropertyName("LastName")]
+#else
         [JsonProperty("LastName")]
+#endif
         public String LastName
         {
             get
@@ -121,10 +152,11 @@ namespace Moesif.Api.Models
 
         public static ContextUserModel deserialize(String jsonStr)
         {
-            ContextUserModel m = null;
-            if (!string.IsNullOrWhiteSpace(jsonStr))
-                m = JsonConvert.DeserializeObject<ContextUserModel>(jsonStr.Trim());
-            return m;
+//            ContextUserModel m = null;
+//            if (!string.IsNullOrWhiteSpace(jsonStr))
+//                m = JsonConvert.DeserializeObject<ContextUserModel>(jsonStr.Trim());
+//            return m;
+            return ApiHelper.JsonDeserialize<ContextUserModel>(jsonStr);
         }
     }
 }

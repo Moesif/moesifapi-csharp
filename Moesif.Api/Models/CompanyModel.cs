@@ -4,18 +4,27 @@
 
  */
 using System;
-using System.IO;
-using System.Collections.Generic;
+// using System.IO;
+// using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Moesif.Api;
+using System.Diagnostics.CodeAnalysis;
+//using System.Linq;
+//using System.Text;
+//using System.Threading.Tasks;
+//using Newtonsoft.Json;
+//using Newtonsoft.Json.Converters;
+//using Moesif.Api;
+
+#if NET6_0_OR_GREATER
+    using System.Text.Json.Serialization;
+#else
+     using Newtonsoft.Json;
+#endif
 
 namespace Moesif.Api.Models
 {
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
     public class CompanyModel : INotifyPropertyChanged
     {
         // These fields hold the values for the public properties.
@@ -30,7 +39,11 @@ namespace Moesif.Api.Models
         /// <summary>
         /// Time when request was made
         /// </summary>
+#if NET6_0_OR_GREATER
+        [JsonPropertyName("modified_time")]
+#else
         [JsonProperty("modified_time")]
+#endif
         public DateTime ModifiedTime
         {
             get
@@ -47,7 +60,11 @@ namespace Moesif.Api.Models
         /// <summary>
         /// End user's auth/session token
         /// </summary>
+#if NET6_0_OR_GREATER
+        [JsonPropertyName("session_token")]
+#else
         [JsonProperty("session_token")]
+#endif
         public string SessionToken
         {
             get
@@ -64,7 +81,11 @@ namespace Moesif.Api.Models
         /// <summary>
         /// End user's ip address
         /// </summary>
+#if NET6_0_OR_GREATER
+        [JsonPropertyName("ip_address")]
+#else
         [JsonProperty("ip_address")]
+#endif
         public string IpAddress
         {
             get
@@ -81,7 +102,11 @@ namespace Moesif.Api.Models
         /// <summary>
         /// End user's user_id string from your app
         /// </summary>
+#if NET6_0_OR_GREATER
+        [JsonPropertyName("company_id")]
+#else
         [JsonProperty("company_id")]
+#endif
         public string CompanyId
         {
             get
@@ -98,7 +123,11 @@ namespace Moesif.Api.Models
         /// <summary>
         /// End user's user_agent_string string from your app
         /// </summary>
+#if NET6_0_OR_GREATER
+        [JsonPropertyName("company_domain")]
+#else
         [JsonProperty("company_domain")]
+#endif
         public string CompanyDomain
         {
             get
@@ -115,7 +144,11 @@ namespace Moesif.Api.Models
         /// <summary>
         /// Metadata from your app, see documentation
         /// </summary>
+#if NET6_0_OR_GREATER
+        [JsonPropertyName("metadata")]
+#else
         [JsonProperty("metadata")]
+#endif
         public object Metadata
         {
             get
@@ -132,7 +165,11 @@ namespace Moesif.Api.Models
         /// <summary>
         /// Campaign object
         /// </summary>
+#if NET6_0_OR_GREATER
+        [JsonPropertyName("campaign")]
+#else
         [JsonProperty("campaign")]
+#endif
         public CampaignModel Campaign 
         { 
             get 

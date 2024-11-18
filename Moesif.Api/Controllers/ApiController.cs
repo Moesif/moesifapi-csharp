@@ -447,12 +447,18 @@ namespace Moesif.Api.Controllers
             //validate and preprocess url
             string _queryUrl = ApiHelper.CleanUrl(_queryBuilder);
 
+            Console.WriteLine("_queryUrl");
+            Console.WriteLine(_queryUrl);
+
             //append request with appropriate headers and parameters
             var _headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json; charset=utf-8" }
             };
             _headers.Add("X-Moesif-Application-Id", Configuration.ApplicationId);
+
+            Console.WriteLine("_headers");
+            Console.WriteLine(_headers);
 
             //append body params
             var _body = ApiHelper.JsonSerialize(body);

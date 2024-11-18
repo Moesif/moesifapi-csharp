@@ -7,12 +7,23 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Moesif.Api;
+//using System.Linq;
+//using System.Text;
+//using System.Threading.Tasks;
+//using Newtonsoft.Json;
+//using Newtonsoft.Json.Converters;
+//using Moesif.Api;
+
+#if NET6_0_OR_GREATER
+    using System.Text.Json.Serialization;
+#else
+     using System.Linq;
+     using System.Text;
+     using System.Threading.Tasks;
+     using Newtonsoft.Json;
+     using Newtonsoft.Json.Converters;
+//     using System.Text.Json;
+#endif
 
 namespace Moesif.Api.Models
 {
@@ -34,7 +45,11 @@ namespace Moesif.Api.Models
         /// <summary>
         /// API request object
         /// </summary>
+#if NET6_0_OR_GREATER
+        [JsonPropertyName("request")]
+#else
         [JsonProperty("request")]
+#endif
         public EventRequestModel Request 
         { 
             get 
@@ -51,7 +66,11 @@ namespace Moesif.Api.Models
         /// <summary>
         /// API response Object
         /// </summary>
+#if NET6_0_OR_GREATER
+        [JsonPropertyName("response")]
+#else
         [JsonProperty("response")]
+#endif
         public EventResponseModel Response 
         { 
             get 
@@ -68,7 +87,11 @@ namespace Moesif.Api.Models
         /// <summary>
         /// context.Request.User from Apim policy
         /// </summary>
+#if NET6_0_OR_GREATER
+        [JsonPropertyName("context")]
+#else
         [JsonProperty("context")]
+#endif
         public ContextModel Context 
         { 
             get 
@@ -85,7 +108,11 @@ namespace Moesif.Api.Models
         /// <summary>
         /// End user's auth/session token
         /// </summary>
+#if NET6_0_OR_GREATER
+        [JsonPropertyName("session_token")]
+#else
         [JsonProperty("session_token")]
+#endif
         public string SessionToken 
         { 
             get 
@@ -102,7 +129,11 @@ namespace Moesif.Api.Models
         /// <summary>
         /// comma separated list of tags, see documentation
         /// </summary>
+#if NET6_0_OR_GREATER
+        [JsonPropertyName("tags")]
+#else
         [JsonProperty("tags")]
+#endif
         public string Tags 
         { 
             get 
@@ -119,7 +150,11 @@ namespace Moesif.Api.Models
         /// <summary>
         /// End user's user_id string from your app
         /// </summary>
+#if NET6_0_OR_GREATER
+        [JsonPropertyName("user_id")]
+#else
         [JsonProperty("user_id")]
+#endif
         public string UserId 
         { 
             get 
@@ -136,7 +171,11 @@ namespace Moesif.Api.Models
         /// <summary>
         /// company_id string
         /// </summary>
+#if NET6_0_OR_GREATER
+        [JsonPropertyName("company_id")]
+#else
         [JsonProperty("company_id")]
+#endif
         public string CompanyId
         {
             get
@@ -153,7 +192,11 @@ namespace Moesif.Api.Models
         /// <summary>
         /// Metadata from your app, see documentation
         /// </summary>
+#if NET6_0_OR_GREATER
+        [JsonPropertyName("metadata")]
+#else
         [JsonProperty("metadata")]
+#endif
         public object Metadata
         {
             get 
@@ -170,7 +213,11 @@ namespace Moesif.Api.Models
         /// <summary>
         /// direction string
         /// </summary>
+#if NET6_0_OR_GREATER
+        [JsonPropertyName("direction")]
+#else
         [JsonProperty("direction")]
+#endif
         public string Direction
         {
             get
@@ -187,7 +234,11 @@ namespace Moesif.Api.Models
         /// <summary>
         /// Weight of an API call
         /// </summary>
+#if NET6_0_OR_GREATER
+        [JsonPropertyName("weight")]
+#else
         [JsonProperty("weight")]
+#endif
         public int Weight
         {
             get
@@ -201,7 +252,11 @@ namespace Moesif.Api.Models
             }
         }
 
+#if NET6_0_OR_GREATER
+        [JsonPropertyName("blocked_by")]
+#else
         [JsonProperty("blocked_by")]
+#endif
         public string BlockedBy
         {
             get

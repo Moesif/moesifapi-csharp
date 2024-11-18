@@ -12,11 +12,16 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
+#if NET6_0_OR_GREATER
+using System.Text.Json;
+using System.Text.Json.Serialization;
+#else
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using unirest_net.request;
+#endif
 
 namespace Moesif.Api
 {
@@ -25,6 +30,63 @@ namespace Moesif.Api
         //DateTime format to use for parsing and converting dates
         public static string DateTimeFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss.FFFFFFFK";
 
+#if NET6_0_OR_GREATER
+        public class DateTimeConverterUsingDateTimeFormat : JsonConverter<DateTime>
+        {
+            private readonly string _dateTimeFormat;
+
+            public DateTimeConverterUsingDateTimeFormat(string dateTimeFormat)
+            {
+                _dateTimeFormat = dateTimeFormat;
+            }
+
+            public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+            {
+                return DateTime.ParseExact(reader.GetString(), _dateTimeFormat, CultureInfo.InvariantCulture);
+            }
+
+
+            public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
+            {
+                writer.WriteStringValue(value.ToString(_dateTimeFormat));
+            }
+        }
+
+        public static JsonSerializerOptions CommonOptions = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true,
+            WriteIndented = false, // Equivalent to Formatting.None
+            Converters = { new DateTimeConverterUsingDateTimeFormat(DateTimeFormat) }
+        };
+
+        public static void PopulateObject<T>(this string json, T target) where T : class
+        {
+            try
+            {
+                // var options = new JsonSerializerOptions
+                // {
+                //     PropertyNameCaseInsensitive = true
+                // };
+
+                var tempObject = JsonSerializer.Deserialize<T>(json, CommonOptions);
+                if (tempObject != null)
+                {
+                    var properties = typeof(T).GetProperties();
+                    foreach (var prop in properties)
+                    {
+                        if (prop.CanWrite)
+                        {
+                            prop.SetValue(target, prop.GetValue(tempObject));
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                // Ignoring deserialization errors
+            }
+        }
+#endif
         /// <summary>
         /// JSON Serialization of a given object.
         /// </summary>
@@ -34,9 +96,12 @@ namespace Moesif.Api
         {
             if (null == obj)
                 return null;
-
+#if NET6_0_OR_GREATER
+            return JsonSerializer.Serialize(obj, CommonOptions);
+#else
             return JsonConvert.SerializeObject(obj, Formatting.None,
                  new IsoDateTimeConverter() { DateTimeFormat = DateTimeFormat });
+#endif
         }
 
         /// <summary>
@@ -49,15 +114,19 @@ namespace Moesif.Api
         {
             if (string.IsNullOrWhiteSpace(json))
                 return default(T);
-
+#if NET6_0_OR_GREATER
+            T obj = JsonSerializer.Deserialize<T>(json, CommonOptions);
+            return obj;
+#else
             return JsonConvert.DeserializeObject<T>(json,
                  new IsoDateTimeConverter() { DateTimeFormat = DateTimeFormat });
+#endif
         }
 
         /// <summary>
         /// Replaces template parameters in the given url
         /// </summary>
-        /// <param name="queryUrl">The query url string to replace the template parameters</param>
+        /// <param name="queryBuilder">The query url string to replace the template parameters</param>
         /// <param name="parameters">The parameters to replace in the url</param>
         public static void AppendUrlWithTemplateParameters
             (StringBuilder queryBuilder, IEnumerable<KeyValuePair<string, object>> parameters)
@@ -84,7 +153,8 @@ namespace Moesif.Api
                 else
                     replaceValue = pair.Value.ToString();
 
-                replaceValue = Uri.EscapeUriString(replaceValue);
+//                replaceValue = Uri.EscapeUriString(replaceValue);
+                replaceValue = Uri.EscapeDataString(replaceValue);
 
                 //find the template parameter and replace it with its value
                 queryBuilder.Replace(string.Format("{{{0}}}", pair.Key), replaceValue);
@@ -94,7 +164,7 @@ namespace Moesif.Api
         /// <summary>
         /// Appends the given set of parameters to the given query string
         /// </summary>
-        /// <param name="queryUrl">The query url string to append the parameters</param>
+        /// <param name="queryBuilder">The query url string to append the parameters</param>
         /// <param name="parameters">The parameters to append</param>
         public static void AppendUrlWithQueryParameters
             (StringBuilder queryBuilder, IEnumerable<KeyValuePair<string, object>> parameters)
@@ -195,11 +265,11 @@ namespace Moesif.Api
             string parameters = index == -1 ? "" : url.Substring(index);
 
             //return process url
-            return string.Concat(protocol, query, parameters);;
+            return string.Concat(protocol, query, parameters);
         }
 
         /// <summary>
-        /// Used for flattening a collection of objects into a string 
+        /// Used for flattening a collection of objects into a string
         /// </summary>
         /// <param name="array">Array of elements to flatten</param>
         /// <param name="fmt">Format string to use for array flattening</param>
@@ -256,6 +326,18 @@ namespace Moesif.Api
                 keys[name] = value;
                 return keys;
             }
+#if NET6_0_OR_GREATER
+            else if (value is JsonElement jsonElement && jsonElement.ValueKind == JsonValueKind.Object)
+            {
+                foreach (JsonProperty property in jsonElement.EnumerateObject())
+                {
+                    string pKey = property.Name;
+                    JsonElement pValue = property.Value;
+                    var fullSubName = name + '[' + pKey + ']';
+                    PrepareFormFieldsFromObject(fullSubName, pValue, keys);
+                }
+            }
+#else
             else if (value is JObject)
             {
                 var valueAccept = (value as Newtonsoft.Json.Linq.JObject);
@@ -267,6 +349,7 @@ namespace Moesif.Api
                     PrepareFormFieldsFromObject(fullSubName, pValue, keys);
                 }
             }
+#endif
             else if (value is IList)
             {
                 int i = 0;
@@ -280,7 +363,11 @@ namespace Moesif.Api
                     i++;
                 }
             }
+#if NET6_0_OR_GREATER
+            else if (value is JsonDocument)
+#else
             else if (value is JToken)
+#endif
             {
                 keys[name] = value.ToString();
             }
@@ -319,6 +406,17 @@ namespace Moesif.Api
             else if (!(value.GetType().Namespace.StartsWith("System")))
             {
                 //Custom object Iterate through its properties
+#if NET6_0_OR_GREATER
+                var properties = value.GetType().GetProperties();
+                foreach (var pInfo in properties)
+                {
+                    var jsonPropertyNameAttribute = pInfo.GetCustomAttribute<JsonPropertyNameAttribute>();
+                    var subName = jsonPropertyNameAttribute != null ? jsonPropertyNameAttribute.Name : pInfo.Name;
+                    string fullSubName = string.IsNullOrWhiteSpace(name) ? subName : name + '[' + subName + ']';
+                    var subValue = pInfo.GetValue(value, null);
+                    PrepareFormFieldsFromObject(fullSubName, subValue, keys);
+                }
+#else
                 var enumerator = value.GetType().GetProperties().GetEnumerator();
                 PropertyInfo pInfo = null;
                 var t = new JsonPropertyAttribute().GetType();
@@ -332,6 +430,7 @@ namespace Moesif.Api
                     var subValue = pInfo.GetValue(value, null);
                     PrepareFormFieldsFromObject(fullSubName, subValue, keys);
                 }
+#endif
             }
             else if (value is DateTime)
             {

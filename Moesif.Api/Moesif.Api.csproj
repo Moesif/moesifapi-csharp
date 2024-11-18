@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-	<TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
+	<TargetFrameworks>net45;net6.0</TargetFrameworks>
 	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 	<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
@@ -11,15 +11,26 @@
     <AssemblyOriginatorKeyFile>Moesif.Api.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
-		<PackageReference Include="Unirest-APIMATIC" Version="1.0.1.26" />
-	</ItemGroup>
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net6.0'">
+    <DefineConstants>NET6_0_OR_GREATER</DefineConstants>
+    <DefineConstants>NETCORE</DefineConstants>
+  </PropertyGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)' == 'net45'">
-		<Reference Include="System" />
-		<Reference Include="System.Net.Http" />
-	</ItemGroup>
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net45'">
+    <DefineConstants>NET451</DefineConstants>
+  </PropertyGroup>
+
+<!--	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">-->
+<!--		<Reference Include="System" />-->
+<!--		<Reference Include="System.Net.Http" />-->
+<!--	</ItemGroup>-->
+    <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
+         <Reference Include="System" /> 
+         <Reference Include="System.Net.Http" /> 
+        <Reference Include="Newtonsoft.Json" Version="13.0.1" />
+        <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.7" />
+        <PackageReference Include="Unirest-APIMATIC" Version="1.0.1.26" />
+    </ItemGroup>
     <ItemGroup>
 	    <Folder Include="Models\" />
 	    <Folder Include="Controllers\" />
@@ -31,4 +42,18 @@
     <None Include="Moesif.Api.nuspec" />
     <None Include="Moesif.Api.snk" />
   </ItemGroup>
+    <ItemGroup>
+<!--      <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />-->
+    </ItemGroup>
+<!--  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">-->
+<!--	<PackageReference Include="System.Text.Json" Version="8.0.5" />-->
+<!--  <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />-->
+<!--	<PackageReference Include="Unirest-APIMATIC" Version="1.0.1.26" />-->
+<!--  </ItemGroup>-->
+  <PropertyGroup>
+    <NuspecFile>Moesif.Api.nuspec</NuspecFile>
+    <NuspecProperties>$(NuspecProperties);configuration=$(Configuration)</NuspecProperties>
+    <NuspecBasePath>$(OutputPath)</NuspecBasePath>
+  </PropertyGroup>
+
 </Project>

@@ -5,8 +5,14 @@
  */
 using System;
 using System.IO;
-using Newtonsoft.Json;
+
 using Moesif.Api.Http.Client;
+using Moesif.Api.Models;
+
+#if NET6_0_OR_GREATER
+#else
+    using Newtonsoft.Json;
+#endif
 
 namespace Moesif.Api.Exceptions
 {
@@ -47,7 +53,13 @@ namespace Moesif.Api.Exceptions
                 var responseBody = reader.ReadToEnd();
                 if (!string.IsNullOrWhiteSpace(responseBody))
                 {
-                    try { JsonConvert.PopulateObject(responseBody, this); }
+                    try {
+#if NET6_0_OR_GREATER
+                        ApiHelper.JsonDeserialize<EventResponseModel>(responseBody);
+#else
+                        JsonConvert.PopulateObject(responseBody, this);
+#endif
+                    }
                     catch { } //ignoring response body from deserailization
                 }
             }

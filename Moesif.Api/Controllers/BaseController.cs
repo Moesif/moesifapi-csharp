@@ -4,11 +4,19 @@
 
  */
 using System;
+using System.IO;
+using System.Text;
 using Moesif.Api.Http.Client;
 using Moesif.Api.Http.Response;
 using Moesif.Api.Exceptions;
-using System.IO;
-using System.Text;
+
+#if NET6_0_OR_GREATER
+    using System.Text.Json.Serialization;
+#else
+//    using Microsoft.AspNetCore.Mvc;
+    using System.Net.Http;
+    using System.Threading.Tasks;
+#endif
 
 namespace Moesif.Api.Controllers
 {
@@ -43,6 +51,14 @@ namespace Moesif.Api.Controllers
             }
         }
         #endregion shared http client instance
+//#if NET451
+//         protected readonly IHttpClientFactory _httpClientFactory;
+//
+//         public BaseController(IHttpClientFactory httpClientFactory)
+//         {
+//             _httpClientFactory = httpClientFactory;
+//         }
+//#endif
 
         /// <summary>
         /// Validates the response against HTTP errors defined at the API level
@@ -71,4 +87,4 @@ namespace Moesif.Api.Controllers
             }
         }
     }
-} 
+}
