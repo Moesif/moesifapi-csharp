@@ -31,7 +31,7 @@ namespace Moesif.Api.Test
         }
 
         // Singleton instance of client for all test classes
-        private static MoesifApiClient client;
+        private static MoesifApiClient client = null;
         private static object clientSync = new object();
 
         /// <summary>
@@ -44,7 +44,8 @@ namespace Moesif.Api.Test
             {
                 if (client == null)
                 {
-                    client = new MoesifApiClient("Your Moesif Application Id", null, false);
+                    string moesifApplicationId = Environment.GetEnvironmentVariable("MOESIF_APPLICATION_ID") ?? "<Your-Moesif-Application-Id>";
+                    client = new MoesifApiClient(moesifApplicationId, null, false);
                 }
                 return client;
             }

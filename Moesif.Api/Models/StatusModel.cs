@@ -4,15 +4,26 @@
 
  */
 using System;
-using System.IO;
-using System.Collections.Generic;
+// using System.IO;
+// using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Moesif.Api;
+//using System.Linq;
+//using System.Text;
+//using System.Threading.Tasks;
+//using Newtonsoft.Json;
+//using Newtonsoft.Json.Converters;
+//using Moesif.Api;
+
+#if NET6_0_OR_GREATER
+    using System.Text.Json.Serialization;
+#else
+     using System.Linq;
+     using System.Text;
+     using System.Threading.Tasks;
+     using Newtonsoft.Json;
+     using Newtonsoft.Json.Converters;
+//     using System.Text.Json;
+#endif
 
 namespace Moesif.Api.Models
 {
@@ -25,7 +36,11 @@ namespace Moesif.Api.Models
         /// <summary>
         /// Status of Call
         /// </summary>
+#if NET6_0_OR_GREATER
+        [JsonPropertyName("status")]
+#else
         [JsonProperty("status")]
+#endif
         public bool Status 
         { 
             get 
@@ -42,7 +57,11 @@ namespace Moesif.Api.Models
         /// <summary>
         /// Location
         /// </summary>
+#if NET6_0_OR_GREATER
+        [JsonPropertyName("region")]
+#else
         [JsonProperty("region")]
+#endif
         public string Region 
         { 
             get 

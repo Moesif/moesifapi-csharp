@@ -7,12 +7,23 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Moesif.Api;
+//using System.Linq;
+//using System.Text;
+//using System.Threading.Tasks;
+//using Newtonsoft.Json;
+//using Newtonsoft.Json.Converters;
+//using Moesif.Api;
+
+#if NET6_0_OR_GREATER
+    using System.Text.Json.Serialization;
+#else
+     using System.Linq;
+     using System.Text;
+     using System.Threading.Tasks;
+     using Newtonsoft.Json;
+     using Newtonsoft.Json.Converters;
+//     using System.Text.Json;
+#endif
 
 namespace Moesif.Api.Models
 {
@@ -29,7 +40,11 @@ namespace Moesif.Api.Models
         /// <summary>
         /// Time when response received
         /// </summary>
+#if NET6_0_OR_GREATER
+        [JsonPropertyName("time")]
+#else
         [JsonProperty("time")]
+#endif
         public DateTime Time 
         { 
             get 
@@ -46,7 +61,11 @@ namespace Moesif.Api.Models
         /// <summary>
         /// HTTP Status code such as 200
         /// </summary>
+#if NET6_0_OR_GREATER
+        [JsonPropertyName("status")]
+#else
         [JsonProperty("status")]
+#endif
         public int Status 
         { 
             get 
@@ -63,7 +82,11 @@ namespace Moesif.Api.Models
         /// <summary>
         /// Key/Value map of response headers
         /// </summary>
+#if NET6_0_OR_GREATER
+        [JsonPropertyName("headers")]
+#else
         [JsonProperty("headers")]
+#endif
         public Dictionary<string, string> Headers 
         { 
             get 
@@ -80,7 +103,11 @@ namespace Moesif.Api.Models
         /// <summary>
         /// Response body
         /// </summary>
+#if NET6_0_OR_GREATER
+        [JsonPropertyName("body")]
+#else
         [JsonProperty("body")]
+#endif
         public object Body 
         { 
             get 
@@ -97,7 +124,11 @@ namespace Moesif.Api.Models
         /// <summary>
         /// IP Address from the response, such as the server IP Address
         /// </summary>
+#if NET6_0_OR_GREATER
+        [JsonPropertyName("ip_address")]
+#else
         [JsonProperty("ip_address")]
+#endif
         public string IpAddress 
         { 
             get 
@@ -114,7 +145,11 @@ namespace Moesif.Api.Models
         /// <summary>
         /// Transfer Encoding of the body such as "base64", null value implies "json" transfer encoding.
         /// </summary>
+#if NET6_0_OR_GREATER
+        [JsonPropertyName("transfer_encoding")]
+#else
         [JsonProperty("transfer_encoding")]
+#endif
         public string TransferEncoding
         {
             get

@@ -7,12 +7,23 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Moesif.Api;
+//using System.Linq;
+//using System.Text;
+//using System.Threading.Tasks;
+//using Newtonsoft.Json;
+//using Newtonsoft.Json.Converters;
+//using Moesif.Api;
+
+#if NET6_0_OR_GREATER
+    using System.Text.Json.Serialization;
+#else
+     using System.Linq;
+     using System.Text;
+     using System.Threading.Tasks;
+     using Newtonsoft.Json;
+     using Newtonsoft.Json.Converters;
+//     using System.Text.Json;
+#endif
 
 namespace Moesif.Api.Models
 {
@@ -31,7 +42,11 @@ namespace Moesif.Api.Models
         /// <summary>
         /// the utm source
         /// </summary>
+#if NET6_0_OR_GREATER
+        [JsonPropertyName("utm_source")]
+#else
         [JsonProperty("utm_source")]
+#endif
         public string UtmSource
         {
             get
@@ -48,7 +63,11 @@ namespace Moesif.Api.Models
         /// <summary>
         /// the utm medium
         /// </summary>
+#if NET6_0_OR_GREATER
+        [JsonPropertyName("utm_medium")]
+#else
         [JsonProperty("utm_medium")]
+#endif
         public string UtmMedium
         {
             get
@@ -65,7 +84,11 @@ namespace Moesif.Api.Models
         /// <summary>
         /// the utm campaign
         /// </summary>
+#if NET6_0_OR_GREATER
+        [JsonPropertyName("utm_campaign")]
+#else
         [JsonProperty("utm_campaign")]
+#endif
         public string UtmCampaign
         {
             get
@@ -82,7 +105,11 @@ namespace Moesif.Api.Models
         /// <summary>
         /// the utm term
         /// </summary>
+#if NET6_0_OR_GREATER
+        [JsonPropertyName("utm_term")]
+#else
         [JsonProperty("utm_term")]
+#endif
         public string UtmTerm
         {
             get
@@ -99,7 +126,11 @@ namespace Moesif.Api.Models
         /// <summary>
         /// the utm Content
         /// </summary>
+#if NET6_0_OR_GREATER
+        [JsonPropertyName("utm_content")]
+#else
         [JsonProperty("utm_content")]
+#endif
         public string UtmContent
         {
             get
@@ -116,7 +147,11 @@ namespace Moesif.Api.Models
         /// <summary>
         /// the referrer
         /// </summary>
+#if NET6_0_OR_GREATER
+        [JsonPropertyName("referrer")]
+#else
         [JsonProperty("referrer")]
+#endif
         public string Referrer
         {
             get
@@ -133,7 +168,11 @@ namespace Moesif.Api.Models
         /// <summary>
         /// the referring domain
         /// </summary>
+#if NET6_0_OR_GREATER
+        [JsonPropertyName("referring_domain")]
+#else
         [JsonProperty("referring_domain")]
+#endif
         public string ReferringDomain
         {
             get
@@ -150,7 +189,11 @@ namespace Moesif.Api.Models
         /// <summary>
         /// the gclid
         /// </summary>
+#if NET6_0_OR_GREATER
+        [JsonPropertyName("gclid")]
+#else
         [JsonProperty("gclid")]
+#endif
         public string Gclid
         {
             get
