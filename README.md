@@ -16,6 +16,13 @@ Install the Nuget Package:
 	Install-Package Moesif.Api
 ```
 
+## Versions & Target Frameworks.
+| Version   | Target Framework |
+| --------- | ------------------- |
+|  3.1.0 or above | .NET45 / .NET6 or above |
+|  2.0.9 or below | .NET Core 2 or below |
+
+
 ## How to Use:
 
 Your Moesif Application Id can be found in the [_Moesif Portal_](https://www.moesif.com/).
