@@ -3,7 +3,7 @@
  *
 
  */
-//  #define MOESIF_INSTRUMENT
+#define MOESIF_INSTRUMENT
 
 using System;
 using System.Collections.Generic;
@@ -130,12 +130,30 @@ namespace Moesif.Api.Controllers
                 executeReq = stopwatch.ElapsedMilliseconds;
                 stopwatch.Stop();
                 Console.WriteLine("Current UTC time BEFORE CreateEventAsync return: " + DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+                string strHeader = string.Concat(
+                            "CreateEventAsync,",
+                            "prepareReqUrlQueryHeaders,",
+                            "prepareReqBody,",
+                            "prepareReq,",
+                            "executeReq"
+                            );
+                string strTimes = string.Concat(
+                            $"{prepareReqUrlQueryHeaders + prepareReqBody + prepareReq + executeReq + stopwatch.ElapsedMilliseconds},",
+                            $"{prepareReqUrlQueryHeaders},",
+                            $"{prepareReqBody},",
+                            $"{prepareReq},",
+                            $"{executeReq}"
+                            );
                 Console.WriteLine($@"
-                            Exiting CreateEventAsync with time: {prepareReqUrlQueryHeaders + prepareReqBody + prepareReq + executeReq + stopwatch.ElapsedMilliseconds} ms
-                            prepareReqUrlQueryHeaders took: {prepareReqUrlQueryHeaders} ms
-                            prepareReqBody took: {prepareReqBody} ms
-                            prepareReq took: {prepareReq} ms
-                            executeReq took: {executeReq} ms");
+                    {strHeader}
+                    {strTimes}
+                ");
+                // Console.WriteLine($@"
+                //             Exiting CreateEventAsync with time: {prepareReqUrlQueryHeaders + prepareReqBody + prepareReq + executeReq + stopwatch.ElapsedMilliseconds} ms
+                //             prepareReqUrlQueryHeaders took: {prepareReqUrlQueryHeaders} ms
+                //             prepareReqBody took: {prepareReqBody} ms
+                //             prepareReq took: {prepareReq} ms
+                //             executeReq took: {executeReq} ms");
 #endif
                 return new Dictionary<string, string>();
             }
