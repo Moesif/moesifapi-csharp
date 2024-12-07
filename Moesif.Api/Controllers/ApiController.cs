@@ -3,7 +3,7 @@
  *
 
  */
-//  #define MOESIF_INSTRUMENT
+// #define MOESIF_INSTRUMENT
 
 using System;
 using System.Collections.Generic;
@@ -82,7 +82,7 @@ namespace Moesif.Api.Controllers
             long prepareReq = 0;
             long executeReq = 0;
 #endif
-            //the base uri for api requestss
+            //the base uri for api requests
             string _baseUri = Configuration.BaseUri;
 
             //prepare query string for API call
@@ -90,10 +90,10 @@ namespace Moesif.Api.Controllers
             _queryBuilder.Append("/v1/events");
 
 
-            //validate and preprocess url
+            //validate and preprocess url : REVIEW why it is not build / verified early
             string _queryUrl = ApiHelper.CleanUrl(_queryBuilder);
 
-            //append request with appropriate headers and parameters
+            //append request with appropriate headers and parameters : REVIEW is this constant? if so, create early?
             var _headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json; charset=utf-8" }
@@ -130,12 +130,30 @@ namespace Moesif.Api.Controllers
                 executeReq = stopwatch.ElapsedMilliseconds;
                 stopwatch.Stop();
                 Console.WriteLine("Current UTC time BEFORE CreateEventAsync return: " + DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+                string strHeader = string.Concat(
+                            "CreateEventAsync,",
+                            "prepareReqUrlQueryHeaders,",
+                            "prepareReqBody,",
+                            "prepareReq,",
+                            "executeReq"
+                            );
+                string strTimes = string.Concat(
+                            $"{prepareReqUrlQueryHeaders + prepareReqBody + prepareReq + executeReq + stopwatch.ElapsedMilliseconds},",
+                            $"{prepareReqUrlQueryHeaders},",
+                            $"{prepareReqBody},",
+                            $"{prepareReq},",
+                            $"{executeReq}"
+                            );
                 Console.WriteLine($@"
-                            Exiting CreateEventAsync with time: {prepareReqUrlQueryHeaders + prepareReqBody + prepareReq + executeReq + stopwatch.ElapsedMilliseconds} ms
-                            prepareReqUrlQueryHeaders took: {prepareReqUrlQueryHeaders} ms
-                            prepareReqBody took: {prepareReqBody} ms
-                            prepareReq took: {prepareReq} ms
-                            executeReq took: {executeReq} ms");
+                    {strHeader}
+                    {strTimes}
+                ");
+                // Console.WriteLine($@"
+                //             Exiting CreateEventAsync with time: {prepareReqUrlQueryHeaders + prepareReqBody + prepareReq + executeReq + stopwatch.ElapsedMilliseconds} ms
+                //             prepareReqUrlQueryHeaders took: {prepareReqUrlQueryHeaders} ms
+                //             prepareReqBody took: {prepareReqBody} ms
+                //             prepareReq took: {prepareReq} ms
+                //             executeReq took: {executeReq} ms");
 #endif
                 return new Dictionary<string, string>();
             }

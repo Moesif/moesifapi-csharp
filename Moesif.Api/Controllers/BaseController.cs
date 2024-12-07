@@ -6,6 +6,7 @@
 using System;
 using System.IO;
 using System.Text;
+using System.Net.Http;
 using Moesif.Api.Http.Client;
 using Moesif.Api.Http.Response;
 using Moesif.Api.Exceptions;
@@ -24,6 +25,7 @@ namespace Moesif.Api.Controllers
     {
         #region shared http client instance
         private static object syncObject = new object();
+        // private static IHttpClient clientInstance = null;
         private static IHttpClient clientInstance = null;
 
         public static IHttpClient ClientInstance
@@ -34,7 +36,9 @@ namespace Moesif.Api.Controllers
                 {
                     if(null == clientInstance)
                     {
+                        // REVIEW : replace unirestClient with new 2024 IHTTP Client for .net6 / netframework461
                         clientInstance = new UnirestClient();
+                        // clientInstance = new HttpClient();
                     }
                     return clientInstance;
                 }
