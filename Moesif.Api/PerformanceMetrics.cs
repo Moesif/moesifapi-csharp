@@ -7,65 +7,76 @@ namespace Moesif.Api
 {
     public class PerformanceMetrics
     {
-        private static readonly Dictionary<string, List<long>> Metrics = new Dictionary<string, List<long>>();
-        private static readonly Stopwatch Stopwatch = new Stopwatch();
+        private readonly Dictionary<string, long> metrics = new Dictionary<string, long>();
+        private readonly Stopwatch stopwatch = new Stopwatch();
+        private readonly bool logStage;
+        private readonly string functionName;
+        private string stageName = "";
 
-        public static void StartMeasurement(string stageName)
+
+        // logStg flag is useful when we're printing the metrics at the end of invoke method.
+        // if set to true, it will keep logging stage name when start is called, thereby
+        // making it easy to determine if call timeout and what stage even if metrics are not printed
+        // because invoke function never completes due to timeout.
+        // It should be set to false mostly if goal is to collect metrics only.
+        public PerformanceMetrics(string name, bool logStg=false)
         {
-            Stopwatch.Restart();
+            this.functionName = name;
+            this.logStage = logStg;
         }
 
-        public static void StopMeasurement(string stageName)
+        public void Start(string stgName)
         {
-            Stopwatch.Stop();
-            if (Metrics.ContainsKey(stageName))
+            this.stageName = stgName;
+
+            // This is needed only if lambda or function is timing out before final metrics is printed.
+            if (this.logStage)
             {
-                Metrics[stageName].Add(Stopwatch.ElapsedMilliseconds);
+                var dtStr = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff");
+                Console.WriteLine($"[{dtStr}] CheckIn: {functionName} / {stageName}");
             }
-            else
-            {
-                Metrics[stageName] = new List<long> { Stopwatch.ElapsedMilliseconds };
-            }
+
+            stopwatch.Restart();
         }
 
-        public static void PrintMetrics(Action<string> logger)
+        public void Stop()
         {
-            logger("Performance Metrics:");
-            foreach (var metric in Metrics)
+            stopwatch.Stop();
+            metrics[stageName] = stopwatch.ElapsedMilliseconds;
+        }
+
+        public void StopPreviousStartNew(string newStageName)
+        {
+            // Stop the previous stage's metrics
+            Stop();
+            
+            // Start new stage
+            Start(newStageName);
+        }
+
+        public void PrintMetrics(Action<string> logger, string msg="")
+        {
+            // Stop previous stopwatch if it's not been stopped.
+            stopwatch.Stop();
+            
+            // Short circuit, return early if no metrics logged.
+            if (metrics.Count == 0 || logger == null)
             {
-                string result = string.Join(",", metric.Value);
-                logger($"{metric.Key}");
-                logger(result);
-                // logger($"  Count: {metric.Value.Count}");
-                // logger($"  Total: {metric.Value.Sum()}ms");
-                // logger($"  Average: {metric.Value.Average():F2}ms");
-                // logger($"  Min: {metric.Value.Min()}ms");
-                // logger($"  Max: {metric.Value.Max()}ms");
+                return;
             }
+
+            if (!string.IsNullOrEmpty(msg))
+            {
+                logger("Performance Metrics:");
+            }
+
+            var stages = string.Join(",", metrics.Keys);
+            var values = string.Join(",", metrics.Values);
+            var total = metrics.Values.Sum();
+            var header = $"{functionName},{stages}";
+            var result = $"{total},{values}";
+            logger(header);
+            logger(result);
         }
     }
 }
-
-// Usage example
-// class Program
-// {
-//     static void Main(string[] args)
-//     {
-//         Moesif.Api.PerformanceMetrics.StartMeasurement("Stage 1");
-//         // Stage 1 code
-//         System.Threading.Thread.Sleep(100);
-//         Moesif.Api.PerformanceMetrics.StopMeasurement("Stage 1");
-//
-//         Moesif.Api.PerformanceMetrics.StartMeasurement("Stage 2");
-//         // Stage 2 code
-//         System.Threading.Thread.Sleep(200);
-//         Moesif.Api.PerformanceMetrics.StopMeasurement("Stage 2");
-//
-//         Moesif.Api.PerformanceMetrics.StartMeasurement("Stage 3");
-//         // Stage 3 code
-//         System.Threading.Thread.Sleep(150);
-//         Moesif.Api.PerformanceMetrics.StopMeasurement("Stage 3");
-//
-//         Moesif.Api.PerformanceMetrics.PrintMetrics();
-//     }
-// }

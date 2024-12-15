@@ -1,3 +1,5 @@
+#define MOESIF_INSTRUMENT
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,7 +8,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using Moesif.Api;
 using Moesif.Api.Http.Request;
 using Moesif.Api.Http.Response;
 
@@ -48,6 +49,15 @@ namespace Moesif.Api.Http.Client
             Version = Assembly.GetExecutingAssembly().FullName;
         }
 
+        public static void InitClientDefaults(UniHttp.HttpClient client, string baseUrl)
+        {
+            client.BaseAddress = new Uri(baseUrl);
+            client.DefaultRequestHeaders.Add("content-type", "application/json; charset=utf-8");
+            client.DefaultRequestHeaders.Add("X-Moesif-Application-Id", Configuration.ApplicationId);
+            // Add other default headers as needed
+            // Set timeout, retries.
+        }
+
         #region Execute methods
 
         // public HttpResponse ExecuteAsString(HttpRequest request)
@@ -82,21 +92,54 @@ namespace Moesif.Api.Http.Client
         //     return Task.Factory.StartNew(() => ExecuteAsString(request));
         // }
         //
-        public async Task<HttpResponse> ExecuteAsStringAsync(HttpRequest request)
+        public async Task<HttpResponse> ExecuteAsStringAsync(HttpRequest request, bool waitForResponse = true)
         {
+            HttpStringResponse httpResponse;
+#if MOESIF_INSTRUMENT
+            var logStage = true;
+            var perfMetrics = new PerformanceMetrics("ExecuteAsStringAsync", logStage);
+            perfMetrics.Start("raiseOnBefore");
+            Console.WriteLine($"ExecuteAsStringAsync / waitForResponse = {waitForResponse}");
+#endif
             raiseOnBeforeHttpRequestEvent(request);
 
-            var response = await ExecuteRequestAsync(request);
-            var stringResponse = await response.Content.ReadAsStringAsync();
+#if MOESIF_INSTRUMENT
+            perfMetrics.StopPreviousStartNew("ExecuteRequestAsync");            
+#endif
 
-            var httpResponse = new HttpStringResponse
+            if (waitForResponse)
             {
-                Headers = response.Headers.ToDictionary(h => h.Key, h => string.Join(",", h.Value)),
-                Body = stringResponse,
-                StatusCode = (int)response.StatusCode
-            };
+                var response = await ExecuteRequestAsync(request);
+#if MOESIF_INSTRUMENT
+                perfMetrics.StopPreviousStartNew("ReadAsStringAsync");            
+#endif
+                var stringResponse = await response.Content.ReadAsStringAsync();
+                httpResponse = new HttpStringResponse
+                {
+                    Headers = response.Headers.ToDictionary(h => h.Key, h => string.Join(",", h.Value)),
+                    Body = stringResponse,
+                    StatusCode = (int)response.StatusCode
+                };
+            }
+            else
+            {
+                ExecuteRequestAsync(request);
+#if MOESIF_INSTRUMENT
+                perfMetrics.StopPreviousStartNew("ReadAsStringAsync");            
+#endif
+                httpResponse  = new HttpStringResponse();
+            }
+
+#if MOESIF_INSTRUMENT
+            perfMetrics.StopPreviousStartNew("raiseOnAfter");            
+#endif
 
             raiseOnAfterHttpResponseEvent(httpResponse);
+
+#if MOESIF_INSTRUMENT
+            perfMetrics.Stop();
+            perfMetrics.PrintMetrics(Console.WriteLine);
+#endif
             return httpResponse;
         }
 
@@ -449,7 +492,7 @@ namespace Moesif.Api.Http.Client
             return response;
         }
 
-        public Task<HttpResponse> ExecuteAsStringAsync(HttpRequest request)
+        public Task<HttpResponse> ExecuteAsStringAsync(HttpRequest request, bool waitForResponse = true)
         {
             return Task.Factory.StartNew(() => ExecuteAsString(request));
         }
