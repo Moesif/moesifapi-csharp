@@ -47,12 +47,13 @@ namespace Moesif.Api.Http.Client
         static UnirestClient() {
             SharedClient = new UnirestClient();
             Version = Assembly.GetExecutingAssembly().FullName;
+            InitClientDefaults(httpClient, Configuration.BaseUri);
         }
 
         public static void InitClientDefaults(UniHttp.HttpClient client, string baseUrl)
         {
             client.BaseAddress = new Uri(baseUrl);
-            client.DefaultRequestHeaders.Add("content-type", "application/json; charset=utf-8");
+            client.DefaultRequestHeaders.Add("ContentType", "application/json; charset=utf-8");
             client.DefaultRequestHeaders.Add("X-Moesif-Application-Id", Configuration.ApplicationId);
             // Add other default headers as needed
             // Set timeout, retries.

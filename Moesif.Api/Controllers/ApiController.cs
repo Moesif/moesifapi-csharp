@@ -54,6 +54,14 @@ namespace Moesif.Api.Controllers
                     if (null == instance)
                     {
                         instance = new ApiController();
+                        configUrl       = ApiHelper.CleanUrl(new StringBuilder(Configuration.BaseUri).Append("/v1/config"));
+                        rulesUrl        = ApiHelper.CleanUrl(new StringBuilder(Configuration.BaseUri).Append("/v1/rules"));
+                        eventUrl        = ApiHelper.CleanUrl(new StringBuilder(Configuration.BaseUri).Append("/v1/events"));
+                        eventBatchUrl   = ApiHelper.CleanUrl(new StringBuilder(Configuration.BaseUri).Append("/v1/events/batch"));
+                        companyUrl      = ApiHelper.CleanUrl(new StringBuilder(Configuration.BaseUri).Append("/v1/companies"));
+                        companyBatchUrl = ApiHelper.CleanUrl(new StringBuilder(Configuration.BaseUri).Append("/v1/companies/batch"));
+                        userUrl         = ApiHelper.CleanUrl(new StringBuilder(Configuration.BaseUri).Append("/v1/users"));
+                        userBatchUrl    = ApiHelper.CleanUrl(new StringBuilder(Configuration.BaseUri).Append("/v1/users/batch"));
                     }
                 }
                 return instance;
@@ -87,16 +95,18 @@ namespace Moesif.Api.Controllers
             var perfMetrics = new PerformanceMetrics("CreateEventAsync", logStage);
             perfMetrics.Start("prepareReqUrlQueryHeaders");
 #endif
-            //the base uri for api requests
-            string _baseUri = Configuration.BaseUri;
-
-            //prepare query string for API call
-            StringBuilder _queryBuilder = new StringBuilder(_baseUri);
-            _queryBuilder.Append("/v1/events");
-
-
-            //validate and preprocess url : REVIEW why it is not build / verified early
-            string _queryUrl = ApiHelper.CleanUrl(_queryBuilder);
+            // //the base uri for api requests
+            // string _baseUri = Configuration.BaseUri;
+            //
+            // //prepare query string for API call
+            // StringBuilder _queryBuilder = new StringBuilder(_baseUri);
+            // _queryBuilder.Append("/v1/events");
+            //
+            //
+            // //validate and preprocess url : REVIEW why it is not build / verified early
+            // string _queryUrl = ApiHelper.CleanUrl(_queryBuilder);
+            
+            string _queryUrl = ApiController.eventUrl;
 
             //append request with appropriate headers and parameters : REVIEW is this constant? if so, create early?
             var _headers = new Dictionary<string, string>()
@@ -166,15 +176,17 @@ namespace Moesif.Api.Controllers
         /// <return>Returns the void response from the API call</return>
         public async Task UpdateUserAsync(UserModel body)
         {
-            //the base uri for api requestss
-            string _baseUri = Configuration.BaseUri;
-
-            //prepare query string for API call
-            StringBuilder _queryBuilder = new StringBuilder(_baseUri);
-            _queryBuilder.Append("/v1/users");
-
-            //validate and preprocess url
-            string _queryUrl = ApiHelper.CleanUrl(_queryBuilder);
+            // //the base uri for api requestss
+            // string _baseUri = Configuration.BaseUri;
+            //
+            // //prepare query string for API call
+            // StringBuilder _queryBuilder = new StringBuilder(_baseUri);
+            // _queryBuilder.Append("/v1/users");
+            //
+            // //validate and preprocess url
+            // string _queryUrl = ApiHelper.CleanUrl(_queryBuilder);
+            
+            string _queryUrl = ApiController.userUrl;
 
             //append request with appropriate headers and parameters
             var _headers = new Dictionary<string, string>()
@@ -215,15 +227,17 @@ namespace Moesif.Api.Controllers
         /// <return>Returns the void response from the API call</return>
         public async Task UpdateUsersBatchAsync(List<UserModel> body)
         {
-            //the base uri for api requestss
-            string _baseUri = Configuration.BaseUri;
-
-            //prepare query string for API call
-            StringBuilder _queryBuilder = new StringBuilder(_baseUri);
-            _queryBuilder.Append("/v1/users/batch");
-
-            //validate and preprocess url
-            string _queryUrl = ApiHelper.CleanUrl(_queryBuilder);
+            // //the base uri for api requestss
+            // string _baseUri = Configuration.BaseUri;
+            //
+            // //prepare query string for API call
+            // StringBuilder _queryBuilder = new StringBuilder(_baseUri);
+            // _queryBuilder.Append("/v1/users/batch");
+            //
+            // //validate and preprocess url
+            // string _queryUrl = ApiHelper.CleanUrl(_queryBuilder);
+            
+            string _queryUrl = ApiController.userBatchUrl;
 
             //append request with appropriate headers and parameters
             var _headers = new Dictionary<string, string>()
@@ -264,12 +278,14 @@ namespace Moesif.Api.Controllers
         /// <return>Returns the void response from the API call</return>
         public async Task<Dictionary<string, string>> CreateEventsBatchAsync(List<EventModel> body)
         {
-            //the base uri for api requestss
-            string _baseUri = Configuration.BaseUri;
-
-            //prepare query string for API call
-            StringBuilder _queryBuilder = new StringBuilder(_baseUri);
-            _queryBuilder.Append("/v1/events/batch");
+            // //the base uri for api requestss
+            // string _baseUri = Configuration.BaseUri;
+            //
+            // //prepare query string for API call
+            // StringBuilder _queryBuilder = new StringBuilder(_baseUri);
+            // _queryBuilder.Append("/v1/events/batch");
+            
+            string _queryUrl = ApiController.eventBatchUrl;
 
             if (Configuration.Debug)
             {
@@ -291,8 +307,8 @@ namespace Moesif.Api.Controllers
             }
 
 
-            //validate and preprocess url
-            string _queryUrl = ApiHelper.CleanUrl(_queryBuilder);
+            // //validate and preprocess url
+            // string _queryUrl = ApiHelper.CleanUrl(_queryBuilder);
 
             //append request with appropriate headers and parameters
             var _headers = new Dictionary<string, string>()
@@ -340,15 +356,16 @@ namespace Moesif.Api.Controllers
         /// <return>Returns the void response from the API call</return>
         public async Task<HttpStringResponse> GetAppConfigAsync()
         {
-            //the base uri for api requestss
-            string _baseUri = Configuration.BaseUri;
-
-            //prepare query string for API call
-            StringBuilder _queryBuilder = new StringBuilder(_baseUri);
-            _queryBuilder.Append("/v1/config");
-
-            //validate and preprocess url
-            string _queryUrl = ApiHelper.CleanUrl(_queryBuilder);
+            // //the base uri for api requestss
+            // string _baseUri = Configuration.BaseUri;
+            //
+            // //prepare query string for API call
+            // StringBuilder _queryBuilder = new StringBuilder(_baseUri);
+            // _queryBuilder.Append("/v1/config");
+            //
+            // //validate and preprocess url
+            // string _queryUrl = ApiHelper.CleanUrl(_queryBuilder);
+            string _queryUrl = ApiController.configUrl;
 
             //append request with appropriate headers and parameters
             var _headers = new Dictionary<string, string>()
@@ -387,15 +404,16 @@ namespace Moesif.Api.Controllers
         /// <return>Returns the void response from the API call</return>
         public async Task<HttpStringResponse> GetGovernanceRuleAsync()
         {
-            //the base uri for api requestss
-            string _baseUri = Configuration.BaseUri;
-
-            //prepare query string for API call
-            StringBuilder _queryBuilder = new StringBuilder(_baseUri);
-            _queryBuilder.Append("/v1/rules");
-
-            //validate and preprocess url
-            string _queryUrl = ApiHelper.CleanUrl(_queryBuilder);
+            // //the base uri for api requestss
+            // string _baseUri = Configuration.BaseUri;
+            //
+            // //prepare query string for API call
+            // StringBuilder _queryBuilder = new StringBuilder(_baseUri);
+            // _queryBuilder.Append("/v1/rules");
+            //
+            // //validate and preprocess url
+            // string _queryUrl = ApiHelper.CleanUrl(_queryBuilder);
+            string _queryUrl = ApiController.rulesUrl;
 
             //append request with appropriate headers and parameters
             var _headers = new Dictionary<string, string>()
@@ -434,15 +452,16 @@ namespace Moesif.Api.Controllers
         /// <return>Returns the void response from the API call</return>
         public async Task UpdateCompanyAsync(CompanyModel body)
         {
-            //the base uri for api requestss
-            string _baseUri = Configuration.BaseUri;
-
-            //prepare query string for API call
-            StringBuilder _queryBuilder = new StringBuilder(_baseUri);
-            _queryBuilder.Append("/v1/companies");
-
-            //validate and preprocess url
-            string _queryUrl = ApiHelper.CleanUrl(_queryBuilder);
+            // //the base uri for api requestss
+            // string _baseUri = Configuration.BaseUri;
+            //
+            // //prepare query string for API call
+            // StringBuilder _queryBuilder = new StringBuilder(_baseUri);
+            // _queryBuilder.Append("/v1/companies");
+            //
+            // //validate and preprocess url
+            // string _queryUrl = ApiHelper.CleanUrl(_queryBuilder);
+            string _queryUrl = ApiController.companyUrl;
 #if MOESIF_INSTRUMENT
             Console.WriteLine("_queryUrl");
             Console.WriteLine(_queryUrl);
@@ -489,15 +508,17 @@ namespace Moesif.Api.Controllers
         /// <return>Returns the void response from the API call</return>
         public async Task UpdateCompaniesBatchAsync(List<CompanyModel> body)
         {
-            //the base uri for api requestss
-            string _baseUri = Configuration.BaseUri;
-
-            //prepare query string for API call
-            StringBuilder _queryBuilder = new StringBuilder(_baseUri);
-            _queryBuilder.Append("/v1/companies/batch");
-
-            //validate and preprocess url
-            string _queryUrl = ApiHelper.CleanUrl(_queryBuilder);
+            // //the base uri for api requestss
+            // string _baseUri = Configuration.BaseUri;
+            //
+            // //prepare query string for API call
+            // StringBuilder _queryBuilder = new StringBuilder(_baseUri);
+            // _queryBuilder.Append("/v1/companies/batch");
+            //
+            // //validate and preprocess url
+            // string _queryUrl = ApiHelper.CleanUrl(_queryBuilder);
+            
+            string _queryUrl = ApiController.companyBatchUrl;
 
             //append request with appropriate headers and parameters
             var _headers = new Dictionary<string, string>()
