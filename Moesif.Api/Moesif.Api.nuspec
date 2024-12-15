@@ -6,6 +6,7 @@
     <title>MoesifApi</title>
     <authors>Moesif</authors>
     <owners>Moesif</owners>
+	<copyright>Copyright 2024</copyright>
     <license type="expression">Apache-2.0</license>
     <projectUrl>https://www.moesif.com</projectUrl>
     <iconUrl>https://cdn.moesif.com/images/icon.png</iconUrl>
@@ -14,7 +15,6 @@
     <description>Log API Calls to Moesif API Analytics</description>
     <summary />
     <releaseNotes />
-	<copyright>Copyright 2024</copyright>
     <language>en-US</language>
 	  <tags>azure web app moesif API analytics insights debug debugging log logging apm performance monitor monitoring restful rest graphql ethereum web3 json-rpc soap net microsoft</tags>
 	  <dependencies>

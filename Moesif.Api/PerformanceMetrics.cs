@@ -7,6 +7,8 @@ namespace Moesif.Api
 {
     public class PerformanceMetrics
     {
+        public delegate void LogAction(string message);
+
         private readonly Dictionary<string, long> metrics = new Dictionary<string, long>();
         private readonly Stopwatch stopwatch = new Stopwatch();
         private readonly bool logStage;
@@ -54,29 +56,56 @@ namespace Moesif.Api
             Start(newStageName);
         }
 
-        public void PrintMetrics(Action<string> logger, string msg="")
+        private Tuple<string, string> GetMetrics(string prefix="")
         {
             // Stop previous stopwatch if it's not been stopped.
             stopwatch.Stop();
-            
-            // Short circuit, return early if no metrics logged.
-            if (metrics.Count == 0 || logger == null)
-            {
-                return;
-            }
-
-            if (!string.IsNullOrEmpty(msg))
-            {
-                logger("Performance Metrics:");
-            }
 
             var stages = string.Join(",", metrics.Keys);
             var values = string.Join(",", metrics.Values);
             var total = metrics.Values.Sum();
-            var header = $"{functionName},{stages}";
-            var result = $"{total},{values}";
-            logger(header);
-            logger(result);
+            var header = $"{prefix} {functionName},{stages}";
+            var result = $"{prefix} {total},{values}";
+
+            return Tuple.Create(header, result);
         }
+
+        public void PrintMetrics(LogAction logAction, string prefix="")
+        {
+            // Short circuit, return early if no metrics logged.
+            if (metrics.Count == 0 || logAction == null)
+            {
+                return;
+            }
+
+            if (!string.IsNullOrEmpty(prefix))
+            {
+                logAction("Performance Metrics:");
+            }
+
+            var result = GetMetrics(prefix);
+             logAction($@"
+                 {result.Item1}
+                 {result.Item2}
+             ");
+        }
+
+//        public void PrintMetrics(ILogger logger, string prefix = "")
+//        {
+//            // Short circuit, return early if no metrics logged.
+//            if (metrics.Count == 0 || logger == null)
+//            {
+//                return;
+//            }
+//
+//            if (!string.IsNullOrEmpty(prefix))
+//            {
+//                logger.LogError("Performance Metrics:"); // Use appropriate logging level
+//            }
+//
+//            var result = GetMetrics(prefix);
+//            logger.LogError(result.Item1);
+//            logger.LogError(result.Item2);
+//        }
     }
 }

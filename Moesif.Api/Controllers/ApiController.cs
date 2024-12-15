@@ -128,34 +128,8 @@ namespace Moesif.Api.Controllers
                 ClientInstance.ExecuteAsStringAsync(_request, waitForResponse); // FINDME : REVIEW
 #if MOESIF_INSTRUMENT
                 //await Task.Run(async () => Task.Delay(2000));
-                Console.WriteLine("Current UTC time AFTER executeAsStringAsync: " + DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                 perfMetrics.Stop();
-                Console.WriteLine("Current UTC time BEFORE CreateEventAsync return: " + DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff"));
-                // string strHeader = string.Concat(
-                //             "CreateEventAsync,",
-                //             "prepareReqUrlQueryHeaders,",
-                //             "prepareReqBody,",
-                //             "prepareReq,",
-                //             "executeReq"
-                //             );
-                // string strTimes = string.Concat(
-                //             $"{prepareReqUrlQueryHeaders + prepareReqBody + prepareReq + executeReq + stopwatch.ElapsedMilliseconds},",
-                //             $"{prepareReqUrlQueryHeaders},",
-                //             $"{prepareReqBody},",
-                //             $"{prepareReq},",
-                //             $"{executeReq}"
-                //             );
-                // Console.WriteLine($@"
-                //     {strHeader}
-                //     {strTimes}
-                // ");
                 perfMetrics.PrintMetrics(Console.WriteLine);
-                // Console.WriteLine($@"
-                //             Exiting CreateEventAsync with time: {prepareReqUrlQueryHeaders + prepareReqBody + prepareReq + executeReq + stopwatch.ElapsedMilliseconds} ms
-                //             prepareReqUrlQueryHeaders took: {prepareReqUrlQueryHeaders} ms
-                //             prepareReqBody took: {prepareReqBody} ms
-                //             prepareReq took: {prepareReq} ms
-                //             executeReq took: {executeReq} ms");
 #endif
                 return new Dictionary<string, string>();
             }
