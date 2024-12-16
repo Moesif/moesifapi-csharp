@@ -26,6 +26,7 @@ namespace Moesif.Api.Controllers
         #region shared http client instance
         private static object syncObject = new object();
         // private static IHttpClient clientInstance = null;
+        // private static string queryUrl = "/health/probe";
         private static IHttpClient clientInstance = null;
 
         public static IHttpClient ClientInstance

@@ -9,14 +9,14 @@ namespace Moesif.Api.Http.Client
     public interface IHttpClient
     {
         /// <summary>
-        /// Event raised before an Http request is sent over the network
+        /// Event raised before a Http request is sent over the network
         /// This event can be used for logging, request modification, appending
         /// additional headers etc.
         /// </summary>
         event OnBeforeHttpRequestEventHandler OnBeforeHttpRequestEvent;
 
         /// <summary>
-        /// Event raised after an Http response is recieved from the network.
+        /// Event raised after a Http response is received from the network.
         /// This event can be used for logging, response modification, extracting
         /// additional information etc.
         /// </summary>
@@ -40,8 +40,9 @@ namespace Moesif.Api.Http.Client
         /// Execute a given HttpRequest to get async string response back
         /// </summary>
         /// <param name="request">The given HttpRequest to execute</param>
+        /// <param name="waitForResponse">Wait for the response if true</param>
         /// <returns> HttpResponse containing raw information</returns>
-        Task<HttpResponse> ExecuteAsStringAsync(HttpRequest request);
+        Task<HttpResponse> ExecuteAsStringAsync(HttpRequest request, bool waitForResponse = true);
 
         /// <summary>
         /// Execute a given HttpRequest to get async binary response back
@@ -86,7 +87,7 @@ namespace Moesif.Api.Http.Client
         HttpRequest Patch(string queryUrl);
 
         /// <summary>
-        /// Create a simple HTTP GET request given relavent parameters
+        /// Create a simple HTTP GET request given relevant parameters
         /// </summary>
         /// <param name="queryUrl">Url the request should be sent to</param>
         /// <param name="headers">HTTP headers that should be included</param>
@@ -96,7 +97,7 @@ namespace Moesif.Api.Http.Client
         HttpRequest Get(string queryUrl, Dictionary<string, string> headers, string username = null, string password = null);
 
         /// <summary>
-        ///  Create a simple HTTP POST request given relavent parameters
+        ///  Create a simple HTTP POST request given relevant parameters
         /// </summary>
         /// <param name="queryUrl">Url the request should be sent to</param>
         /// <param name="headers">HTTP headers that should be included</param>
@@ -108,7 +109,7 @@ namespace Moesif.Api.Http.Client
            string username = null, string password = null);
 
         /// <summary>
-        /// Create a simple HTTP POST with a body request given relavent parameters
+        /// Create a simple HTTP POST with a body request given relevant parameters
         /// </summary>
         /// <param name="queryUrl">Url the request should be sent to</param>
         /// <param name="headers">HTTP headers that should be included</param>
@@ -120,7 +121,7 @@ namespace Moesif.Api.Http.Client
             string username = null, string password = null);
 
         /// <summary>
-        ///  Create a simple HTTP PUT request given relavent parameters
+        ///  Create a simple HTTP PUT request given relevant parameters
         /// </summary>
         /// <param name="queryUrl">Url the request should be sent to</param>
         /// <param name="headers">HTTP headers that should be included</param>
@@ -132,7 +133,7 @@ namespace Moesif.Api.Http.Client
             string username = null, string password = null);
 
         /// <summary>
-        /// Create a simple HTTP PUT with a body request given relavent parameters
+        /// Create a simple HTTP PUT with a body request given relevant parameters
         /// </summary>
         /// <param name="queryUrl">Url the request should be sent to</param>
         /// <param name="headers">HTTP headers that should be included</param>
@@ -144,7 +145,7 @@ namespace Moesif.Api.Http.Client
             string username = null, string password = null);
 
         /// <summary>
-        ///  Create a simple HTTP PATCH request given relavent parameters
+        ///  Create a simple HTTP PATCH request given relevant parameters
         /// </summary>
         /// <param name="queryUrl">Url the request should be sent to</param>
         /// <param name="headers">HTTP headers that should be included</param>
@@ -156,7 +157,7 @@ namespace Moesif.Api.Http.Client
             string username = null, string password = null);
 
         /// <summary>
-        /// Create a simple HTTP Patch with a body request given relavent parameters
+        /// Create a simple HTTP Patch with a body request given relevant parameters
         /// </summary>
         /// <param name="queryUrl">Url the request should be sent to</param>
         /// <param name="headers">HTTP headers that should be included</param>
@@ -168,7 +169,7 @@ namespace Moesif.Api.Http.Client
             string username = null, string password = null);
 
         /// <summary>
-        ///  Create a simple HTTP DELETE request given relavent parameters
+        ///  Create a simple HTTP DELETE request given relevant parameters
         /// </summary>
         /// <param name="queryUrl">Url the request should be sent to</param>
         /// <param name="headers">HTTP headers that should be included</param>
@@ -180,7 +181,7 @@ namespace Moesif.Api.Http.Client
             string username = null, string password = null);
 
         /// <summary>
-        /// Create a simple HTTP Delete with a body request given relavent parameters
+        /// Create a simple HTTP Delete with a body request given relevant parameters
         /// </summary>
         /// <param name="queryUrl">Url the request should be sent to</param>
         /// <param name="headers">HTTP headers that should be included</param>

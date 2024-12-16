@@ -27,6 +27,7 @@ namespace Moesif.Api.Controllers
         //private static variables for the singleton pattern
         private static object syncObject = new object();
         private static HealthController instance = null;
+        public static string _queryurl;
 
         /// <summary>
         /// Singleton pattern implementation
@@ -40,6 +41,7 @@ namespace Moesif.Api.Controllers
                     if (null == instance)
                     {
                         instance = new HealthController();
+                        _queryurl = ApiHelper.CleanUrl(new StringBuilder(Configuration.BaseUri).Append("/health/probe"));
                     }
                 }
                 return instance;
@@ -65,16 +67,16 @@ namespace Moesif.Api.Controllers
         /// <return>Returns the ModelsStatusModel response from the API call</return>
         public async Task<StatusModel> GetHealthProbeAsync()
         {
-            //the base uri for api requestss
-            string _baseUri = Configuration.BaseUri;
-
-            //prepare query string for API call
-            StringBuilder _queryBuilder = new StringBuilder(_baseUri);
-            _queryBuilder.Append("/health/probe");
-
-
-            //validate and preprocess url
-            string _queryUrl = ApiHelper.CleanUrl(_queryBuilder);
+            // //the base uri for api requestss
+            // string _baseUri = Configuration.BaseUri;
+            //
+            // //prepare query string for API call
+            // StringBuilder _queryBuilder = new StringBuilder(_baseUri);
+            // _queryBuilder.Append("/health/probe");
+            //
+            //
+            // //validate and preprocess url
+            // string _queryUrl = ApiHelper.CleanUrl(_queryBuilder);
 
             //append request with appropriate headers and parameters
             var _headers = new Dictionary<string,string>()
@@ -84,7 +86,7 @@ namespace Moesif.Api.Controllers
             _headers.Add("X-Moesif-Application-Id", Configuration.ApplicationId);
 
             //prepare the API call request to fetch the response
-            HttpRequest _request = ClientInstance.Get(_queryUrl,_headers);
+            HttpRequest _request = ClientInstance.Get(HealthController._queryurl,_headers);
 
             //invoke request and get response
             HttpStringResponse _response = (HttpStringResponse) await ClientInstance.ExecuteAsStringAsync(_request);
