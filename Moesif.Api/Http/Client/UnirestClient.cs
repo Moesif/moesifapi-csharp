@@ -13,27 +13,14 @@ using Moesif.Api.Http.Response;
 
 #if NET6_0_OR_GREATER
 
-// using unirest_net.http;
-// using UniHttpRequest = unirest_net.request.HttpRequest;
 using UniHttp = System.Net.Http;
 using HttpRequestMessage = System.Net.Http.HttpRequestMessage;
 using HttpResponseMessage = System.Net.Http.HttpResponseMessage;
-// using System.Net.Http;
-
-// dotnet add package Microsoft.Extensions.Http
-// using Microsoft.Extensions.Http;
 
 namespace Moesif.Api.Http.Client
 {
     public class UnirestClient: IHttpClient
     {
-        // private readonly IHttpClientFactory _httpClientFactory;
-        //
-        // public UnirestClient(IHttpClientFactory httpClientFactory)
-        // {
-        //     _httpClientFactory = httpClientFactory;
-        // }
-
         public static IHttpClient SharedClient { get; set; }
 
         private static string Version;
@@ -88,11 +75,6 @@ namespace Moesif.Api.Http.Client
             }
         }
 
-        // public Task<HttpResponse> ExecuteAsStringAsync(HttpRequest request)
-        // {
-        //     return Task.Factory.StartNew(() => ExecuteAsString(request));
-        // }
-        //
         public async Task<HttpResponse> ExecuteAsStringAsync(HttpRequest request, bool waitForResponse = true)
         {
             HttpStringResponse httpResponse;
@@ -144,18 +126,6 @@ namespace Moesif.Api.Http.Client
             return httpResponse;
         }
 
-        // public HttpResponse ExecuteAsBinary(HttpRequest request)
-        // {
-        //     //raise the on before request event
-        //     raiseOnBeforeHttpRequestEvent(request);
-        //
-        //     UniHttpRequest uniRequest = ConvertRequest(request);
-        //     HttpResponse response = ConvertResponse(uniRequest.asBinary());
-        //
-        //     //raise the on after response event
-        //     raiseOnAfterHttpResponseEvent(response);
-        //     return response;
-        // }
         public HttpResponse ExecuteAsBinary(HttpRequest request)
         {
             try
@@ -169,11 +139,6 @@ namespace Moesif.Api.Http.Client
                 throw ae.InnerException;
             }
         }
-        //
-        // public Task<HttpResponse> ExecuteAsBinaryAsync(HttpRequest request)
-        // {
-        //     return Task.Factory.StartNew(() => ExecuteAsString(request));
-        // }
         public async Task<HttpResponse> ExecuteAsBinaryAsync(HttpRequest request)
         {
             raiseOnBeforeHttpRequestEvent(request);
@@ -250,21 +215,11 @@ namespace Moesif.Api.Http.Client
         public event OnBeforeHttpRequestEventHandler OnBeforeHttpRequestEvent;
         public event OnAfterHttpResponseEventHandler OnAfterHttpResponseEvent;
 
-        // private void raiseOnBeforeHttpRequestEvent(HttpRequest request)
-        // {
-        //     if ((null != OnBeforeHttpRequestEvent) && (null != request))
-        //         OnBeforeHttpRequestEvent(this, request);
-        // }
         private void raiseOnBeforeHttpRequestEvent(HttpRequest request)
         {
             OnBeforeHttpRequestEvent?.Invoke(this, request);
         }
 
-        // private void raiseOnAfterHttpResponseEvent(HttpResponse response)
-        // {
-        //     if ((null != OnAfterHttpResponseEvent) && (null != response))
-        //         OnAfterHttpResponseEvent(this, response);
-        // }
         private void raiseOnAfterHttpResponseEvent(HttpResponse response)
         {
             OnAfterHttpResponseEvent?.Invoke(this, response);
@@ -365,88 +320,6 @@ namespace Moesif.Api.Http.Client
                 _ => throw new ArgumentOutOfRangeException("Unkown method" + method.ToString())
             };
         }
-
-        // private static UniHttpRequest ConvertRequest(HttpRequest request)
-        // {
-        //     var uniMethod = ConvertHttpMethod(request.HttpMethod);
-        //     var queryUrl = request.QueryUrl;
-        //
-        //     //instantiate unirest request object
-        //     HttpRequest uniRequest = new HttpRequest(uniMethod,queryUrl);
-        //     uniRequest.TimeOut = TimeSpan.FromSeconds(10);
-        //
-        //     //set request payload
-        //     if (request.Body != null)
-        //     {
-        //         uniRequest.body(request.Body);
-        //     }
-        //     else if (request.FormParameters != null)
-        //     {
-        //         if (request.FormParameters.Any(p => p.Value is Stream || p.Value is FileStreamInfo))
-        //         {
-        //             //multipart
-        //             foreach (var kvp in request.FormParameters)
-        //             {
-        //                 if (kvp.Value is FileStreamInfo){
-        //                     var fileInfo = (FileStreamInfo) kvp.Value;
-        //                     uniRequest.field(kvp.Key, fileInfo.FileStream, fileInfo.FileName, fileInfo.ContentType);
-        //                     continue;
-        //                 }
-        //                 uniRequest.field(kvp.Key,kvp.Value);
-        //             }
-        //         }
-        //         else
-        //         {
-        //             //URL Encode params
-        //             var paramsString = string.Join("&",
-        //                 request.FormParameters.Select(kvp =>
-        //                 string.Format("{0}={1}", Uri.EscapeDataString(kvp.Key), Uri.EscapeDataString(kvp.Value.ToString()))));
-        //             uniRequest.body(paramsString);
-        //             uniRequest.header("Content-Type", "application/x-www-form-urlencoded");
-        //         }
-        //     }
-        //
-        //     //set request headers
-        //     Dictionary<string, Object> headers = request.Headers.ToDictionary(item=> item.Key,item=> (Object) item.Value);
-        //     uniRequest.headers(headers);
-        //     if (Configuration.UserAgentString != null)
-        //     {
-        //         uniRequest.header("user-agent", Configuration.UserAgentString);
-        //     }
-        //     else
-        //     {
-        //         uniRequest.header("user-agent", "moesifapi-csharp/" + Version);
-        //     }
-        //
-        //     //Set basic auth credentials if any
-        //     if (!string.IsNullOrWhiteSpace(request.Username))
-        //     {
-        //         uniRequest.basicAuth(request.Username, request.Password);
-        //     }
-        //
-        //     return uniRequest;
-        // }
-        //
-        // private static HttpResponse ConvertResponse(HttpResponse<Stream> binaryResponse)
-        // {
-        //     return new HttpResponse
-        //     {
-        //         Headers = binaryResponse.Headers,
-        //         RawBody = binaryResponse.Body,
-        //         StatusCode = binaryResponse.Code
-        //     };
-        // }
-        //
-        // private static HttpResponse ConvertResponse(HttpResponse<string> stringResponse)
-        // {
-        //     return new HttpStringResponse
-        //     {
-        //         Headers = stringResponse.Headers,
-        //         RawBody = stringResponse.Raw,
-        //         Body = stringResponse.Body,
-        //         StatusCode = stringResponse.Code
-        //     };
-        // }
 
         #endregion
     }
